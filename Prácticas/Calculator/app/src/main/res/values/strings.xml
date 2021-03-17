@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Calculator</string>
+    <string name="text_ins">Introduce un valor en los campos y pulsa el botón para sumarlos</string>
+    <string name="input_hint_x">Introduzca X</string>
+    <string name="input_hint_y">Introduzca Y</string>
+    <string name="sumar">Sumar</string>
+    <string name="texto_resultado">El resultado es...</string>
+    <string name="volver_a_sumar">Volver a Sumar</string>
+</resources>
