@@ -6,12 +6,26 @@
     android:layout_height="match_parent"
     tools:context=".ui.home.HomeFragment">
 
-    <TextView
+    <Button
+        android:id="@+id/buttonDemo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="328dp"
-        android:text="XXXXXXXXXXXXXXXXXX"
+        android:layout_marginStart="84dp"
+        android:layout_marginTop="72dp"
+        android:text="Empezar Demo"
+        app:layout_constraintStart_toStartOf="@+id/textViewDemo"
+        app:layout_constraintTop_toBottomOf="@+id/textViewDemo" />
+
+    <TextView
+        android:id="@+id/textViewDemo"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="180dp"
+        android:text="Pulsa el botón para iniciar la demo de uso de una plantilla de Tier Maker"
+        android:textSize="22sp"
+        android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

@@ -12,6 +12,7 @@ import androidx.navigation.Navigation;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import es.ucm.fdi.tieryourlikes.R;
@@ -32,7 +33,15 @@ public class HomeFragment extends Fragment {
 
         root = inflater.inflate(R.layout.home_fragment, container, false);
 
-        Toast.makeText(getActivity(), "Hola", Toast.LENGTH_SHORT);
+
+        Button button = root.findViewById(R.id.buttonDemo);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Navegar al fragmento con la demo del tier maker
+                Navigation.findNavController(root).navigate(R.id.templateFragment);
+            }
+        });
 
         return root;
     }

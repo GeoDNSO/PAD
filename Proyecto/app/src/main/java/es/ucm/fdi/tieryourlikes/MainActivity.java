@@ -20,6 +20,8 @@ import android.view.View;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
+import es.ucm.fdi.tieryourlikes.utilities.AppDrawable;
+
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration; //Configuración de la barra superior
@@ -43,12 +45,11 @@ public class MainActivity extends AppCompatActivity {
         app.setMenu(drawerNavigationView.getMenu());
         app.setBottomNavigationView(bottomNavView);
         app.setMainActivity(this);
-
     }
 
 
     private void setGlobalVariables() {
-        //TODO
+        AppDrawable.setResources(getResources());
     }
 
 
@@ -84,7 +85,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDestinationChanged(@NonNull NavController controller, @NonNull NavDestination destination, @Nullable Bundle arguments) {
                 int dest_id = destination.getId();
-                if(dest_id == R.id.loginFragment || dest_id == R.id.registerFragment){
+                if(dest_id == R.id.loginFragment || dest_id == R.id.registerFragment ||
+                        dest_id == R.id.templateFragment){
+
                     bottomNavView.setVisibility(View.GONE);
                 }
                 else{
