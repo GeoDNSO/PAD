@@ -22,16 +22,15 @@ import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
-    private AppBarConfiguration appBarConfiguration;
-    private NavController appNavController;
-    private BottomNavigationView bottomNavView;
-    private DrawerLayout drawerLayout;
-    private NavigationView drawerNavigationView;
+    private AppBarConfiguration appBarConfiguration; //Configuración de la barra superior
+    private NavController appNavController; //Elemento que contiene el grafo de fragmentos de la aplicación
+    private BottomNavigationView bottomNavView; //Menu inferior de la aplicacion
+    private DrawerLayout drawerLayout; // Layout que se muestra al pinchar en el menu de 3 rayas de arriba a la izquierda
+    private NavigationView drawerNavigationView; //Menu de 3 rayas de arriba a la izquierda
     //private NavigationView rightSideNavView; //Se usará para un buscador???
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //Thread.sleep(300); //Para añadir un pequeño delay antes del splash screen
         setTheme(R.style.Theme_TierYourLikes);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
