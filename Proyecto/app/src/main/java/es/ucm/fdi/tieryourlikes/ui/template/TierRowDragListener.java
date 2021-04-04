@@ -28,6 +28,12 @@ public class TierRowDragListener implements View.OnDragListener {
         ViewGroup owner = (ViewGroup) view.getParent();
         FlexboxLayout container = (FlexboxLayout) v;
 
+        /*
+        if(((FlexboxLayout) v).getChildCount() > 0){
+            return true;
+        }
+        */
+
         switch (event.getAction()) {
             case DragEvent.ACTION_DRAG_STARTED:
                 // do nothing
