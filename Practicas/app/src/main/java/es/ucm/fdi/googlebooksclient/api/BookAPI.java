@@ -48,7 +48,7 @@ public class BookAPI {
 
             is = urlConnection.getInputStream();
             String contentAsString = convertIsToString(is);
-            Log.i("BOOK_API", "String devuelto: " + is);
+            //Log.i("BOOK_API", "String devuelto: " + is);
             return  contentAsString;
         } catch (IOException e) {
             e.printStackTrace();

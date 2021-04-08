@@ -97,6 +97,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void updateBooksResultList(List<BookInfo> bookInfos){
+        if(bookInfos == null || bookInfos.isEmpty())
+            return;
         resultsTitle.setVisibility(View.VISIBLE);
         bookListAdapter = new BookListAdapter(bookInfos);
         recyclerView.setAdapter(bookListAdapter);
