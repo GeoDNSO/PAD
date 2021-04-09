@@ -17,13 +17,20 @@ import es.ucm.fdi.googlebooksclient.Utils;
 
 public class BookAPI {
 
+    //CUANDO NO HAY RESULTADO --> "totalItems": 0
+
     final String MAX_RESULTS = "40";
     final String API_BOOK_URL = "https://www.googleapis.com/books/v1/volumes?q=%s&" +
             "printType=%s&maxResults=%s";
 
+    final String API_BOOK_URL_2 = "https://www.googleapis.com/books/v1/volumes?q=%s&" +
+            "printType=%s&maxResults=%s&startIndex=%s";
+
     final int READ_TIMEOUT = 10000;
     final int CONNECT_TIMEOUT = 15000;
     final String GET_METHOD = "GET";
+
+    private int i = 0;
 
 
     public List<BookInfo> getBookInfoJson(String queryString, String printType){
@@ -52,7 +59,7 @@ public class BookAPI {
 
             is = urlConnection.getInputStream();
             String contentAsString = convertIsToString(is);
-            //Log.i("BOOK_API", "String devuelto: " + is);
+
             return  BookInfo.fromJsonResponse(contentAsString);
         } catch (IOException | JSONException e) {
             e.printStackTrace();
@@ -75,6 +82,10 @@ public class BookAPI {
             return null;
         }
         return builder.toString();
+    }
+
+    public void newSearch(){
+        i = 0;
     }
 
 }

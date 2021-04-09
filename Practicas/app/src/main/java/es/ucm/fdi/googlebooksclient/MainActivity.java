@@ -3,6 +3,7 @@ package es.ucm.fdi.googlebooksclient;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.widget.NestedScrollView;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.Loader;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -22,16 +24,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import es.ucm.fdi.googlebooksclient.api.BookLoader;
+import es.ucm.fdi.googlebooksclient.api.BookLoaderCallbacks;
 
 public class MainActivity extends AppCompatActivity {
 
     public static int BOOK_LOADER_ID = 1;
 
     //Elementos de la Vista
+    private NestedScrollView nestedScrollView;
     private TextView resultsTitle;
     private EditText etTitle;
     private EditText etAuthor;
     private RadioGroup radioGroup;
+    private ProgressBar progressBar;
+    private TextView tvNoResults;
 
     //Variables que usará MainActivity
     private BookLoaderCallbacks bookLoaderCallbacks;
@@ -45,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
         initUI();
 
-        bookLoaderCallbacks = new BookLoaderCallbacks();
+        bookLoaderCallbacks = new BookLoaderCallbacks(this);
         LoaderManager loaderManager = LoaderManager.getInstance(this);
         if(loaderManager.getLoader(BOOK_LOADER_ID) != null){
             loaderManager.initLoader(BOOK_LOADER_ID,null, bookLoaderCallbacks);
@@ -67,11 +73,35 @@ public class MainActivity extends AppCompatActivity {
         etTitle = findViewById(R.id.editTextBook);
         radioGroup = findViewById(R.id.radioGroup);
         recyclerView = findViewById(R.id.recyclerView);
+        progressBar = findViewById(R.id.mainActivityProgressBar);
+        tvNoResults = findViewById(R.id.tvNoResults);
+        nestedScrollView = findViewById(R.id.mainActivityNSV);
 
         resultsTitle.setVisibility(View.GONE);
+
+        nestedScrollView.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+            if(scrollY == v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight()){
+                LoaderManager.getInstance(MainActivity.this).getLoader(BOOK_LOADER_ID).startLoading();
+            }
+        });
+    }
+
+    public void updateBooksResultList(List<BookInfo> bookInfos){
+        if(bookInfos == null || bookInfos.isEmpty())
+            return;
+        resultsTitle.setVisibility(View.VISIBLE);
+
+        bookListAdapter.setBookInfoList(bookInfos);
+        bookListAdapter.notifyDataSetChanged();
+        //recyclerView.setAdapter(bookListAdapter);
+        //progressBar.setVisibility(View.GONE);
     }
 
     public void searchBooks(View view){
+
+        //Resetear la lista para poder ver la progressBar
+        bookListAdapter.setBookInfoList(new ArrayList<>());
+        bookListAdapter.notifyDataSetChanged();
 
         //Conseguir el radioButton seleccionado
         RadioButton radioButton = findViewById(radioGroup.getCheckedRadioButtonId());
@@ -96,37 +126,7 @@ public class MainActivity extends AppCompatActivity {
                 .restartLoader(BOOK_LOADER_ID, queryBundle, bookLoaderCallbacks);
     }
 
-    public void updateBooksResultList(List<BookInfo> bookInfos){
-        if(bookInfos == null || bookInfos.isEmpty())
-            return;
-        resultsTitle.setVisibility(View.VISIBLE);
-
-        bookListAdapter.setBookInfoList(bookInfos);
-        bookListAdapter.notifyDataSetChanged();
-        //recyclerView.setAdapter(bookListAdapter);
-    }
-
-
-    public class BookLoaderCallbacks implements LoaderManager.LoaderCallbacks<List<BookInfo>> {
-        public static final String EXTRA_QUERY = "EXTRA_QUERY";
-        public static final String EXTRA_PRINT_TYPE = "EXTRA_PRINT_TYPE";
-
-        @NonNull
-        @Override
-        public Loader<List<BookInfo>> onCreateLoader(int id, @Nullable Bundle args) {
-            return new BookLoader(MainActivity.this, args.getString(EXTRA_QUERY), args.getString(EXTRA_PRINT_TYPE));
-        }
-
-        @Override
-        public void onLoadFinished(@NonNull Loader<List<BookInfo>> loader, List<BookInfo> data) {
-            updateBooksResultList((data));
-        }
-
-        @Override
-        public void onLoaderReset(@NonNull Loader<List<BookInfo>> loader) {
-
-        }
-
-
+    public void setProgressBarVisibility(int visibility){
+        this.progressBar.setVisibility(visibility);
     }
 }

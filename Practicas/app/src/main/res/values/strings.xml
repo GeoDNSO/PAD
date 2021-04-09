@@ -9,4 +9,5 @@
     <string name="magazines">magazines</string>
     <string name="results_title">Results</string>
     <string name="url_text">URL del Libro</string>
+    <string name="no_results_info">No Results Found</string>
 </resources>
