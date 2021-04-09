@@ -18,6 +18,10 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.ViewHo
         this.bookInfoList = bookInfoList;
     }
 
+    public void setBookInfoList(List<BookInfo> bookInfoList) {
+        this.bookInfoList = bookInfoList;
+    }
+
     @NonNull
     @Override
     public BookListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

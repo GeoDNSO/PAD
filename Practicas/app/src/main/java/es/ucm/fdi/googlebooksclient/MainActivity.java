@@ -100,8 +100,10 @@ public class MainActivity extends AppCompatActivity {
         if(bookInfos == null || bookInfos.isEmpty())
             return;
         resultsTitle.setVisibility(View.VISIBLE);
-        bookListAdapter = new BookListAdapter(bookInfos);
-        recyclerView.setAdapter(bookListAdapter);
+
+        bookListAdapter.setBookInfoList(bookInfos);
+        bookListAdapter.notifyDataSetChanged();
+        //recyclerView.setAdapter(bookListAdapter);
     }
 
 
