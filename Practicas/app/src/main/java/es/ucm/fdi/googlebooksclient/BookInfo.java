@@ -69,28 +69,30 @@ public class BookInfo {
 
     public static BookInfo toBook(JSONObject jsonObject) throws MalformedURLException {
         String title = null;
+        String authors = null;
+        URL infoLink = null;
+
+        //Para evitar errores con los JSON...
         try {
             title = jsonObject.getJSONObject("volumeInfo").getString("title");
         } catch (JSONException e) {
             //e.printStackTrace();
             title = "Sin Título";
         }
-        String authors = null;
         try {
             authors = jsonObject.getJSONObject("volumeInfo").getString("authors");
         } catch (JSONException e) {
             //e.printStackTrace();
             authors = "Sin Autores";
         }
-        URL infoLink = null;
         try {
             String url = jsonObject.getJSONObject("volumeInfo").getString("infoLink");
-            //url = Utils.jsonUrlCorrector(url);
             infoLink = new URL(url);
         } catch (JSONException e) {
             //e.printStackTrace();
             infoLink = new URL("https://http.cat/404");
         }
+
         return new BookInfo(title, authors, infoLink);
     }
 

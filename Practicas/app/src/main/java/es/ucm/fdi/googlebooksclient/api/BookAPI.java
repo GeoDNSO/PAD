@@ -1,5 +1,6 @@
 package es.ucm.fdi.googlebooksclient.api;
 
+import android.net.Uri;
 import android.util.Log;
 
 import org.json.JSONException;
@@ -10,7 +11,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 
 import es.ucm.fdi.googlebooksclient.BookInfo;
@@ -18,14 +18,19 @@ import es.ucm.fdi.googlebooksclient.Utils;
 
 public class BookAPI {
 
+    private final String QUERY_PARAM = "q";
+    private final String PRINT_TYPE_PARAM = "printType";
+    private final String MAX_RESULTS_PARAM = "maxResults";
+    private final String START_INDEX_PARAM = "startIndex";
+
     //CUANDO NO HAY RESULTADO --> "totalItems": 0
 
     final int MAX_RESULTS = 4;
-    final String API_BOOK_URL = "https://www.googleapis.com/books/v1/volumes?q=%s&" +
-            "printType=%s&maxResults=%s";
 
-    final String API_BOOK_URL_2 = "https://www.googleapis.com/books/v1/volumes?q=%s&" +
+    final String API_BOOK_URL = "https://www.googleapis.com/books/v1/volumes?q=%s&" +
             "printType=%s&maxResults=%s&startIndex=%s";
+
+    final String API_BOOK_URL_2 = "https://www.googleapis.com/books/v1/volumes?";
 
     final int READ_TIMEOUT = 10000;
     final int CONNECT_TIMEOUT = 15000;
@@ -36,18 +41,26 @@ public class BookAPI {
 
     public List<BookInfo> getBookInfoJson(String queryString, String printType){
 
-        //String requestURL = String.format(API_BOOK_URL, queryString, printType, MAX_RESULTS);
-        String requestURL = String.format(API_BOOK_URL_2, queryString, printType, MAX_RESULTS, i);
+        //String requestURL = String.format(API_BOOK_URL, queryString, printType, MAX_RESULTS, i);
+
+
+        Uri builtURI = Uri.parse(API_BOOK_URL_2).buildUpon()
+                .appendQueryParameter(QUERY_PARAM, queryString)
+                .appendQueryParameter(MAX_RESULTS_PARAM, String.valueOf(MAX_RESULTS))
+                .appendQueryParameter(PRINT_TYPE_PARAM, printType)
+                .appendQueryParameter(START_INDEX_PARAM, String.valueOf(i))
+                .build();
+
         i += MAX_RESULTS + 1;
 
-        Log.i("BOOK_API", "Se enviará una petición a la URL: " + requestURL);
+        Log.i("BOOK_API", "Se enviará una petición a la URL: " + builtURI.toString());
 
         URL url = null;
         InputStream is = null;
         HttpURLConnection urlConnection = null;
 
         try {
-            url = new URL(requestURL);
+            url = new URL(builtURI.toString());
 
             /* Open a connection to that URL. */
             urlConnection = (HttpURLConnection) url.openConnection();
@@ -62,8 +75,6 @@ public class BookAPI {
 
             is = urlConnection.getInputStream();
             String contentAsString = convertIsToString(is);
-
-
 
             return  BookInfo.fromJsonResponse(contentAsString);
         } catch (IOException | JSONException e) {

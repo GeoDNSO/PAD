@@ -9,6 +9,9 @@ import androidx.loader.content.Loader;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -16,6 +19,7 @@ import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONException;
 
@@ -89,8 +93,14 @@ public class MainActivity extends AppCompatActivity {
 
     public void updateBooksResultList(List<BookInfo> bookInfos){
         resultsTitle.setVisibility(View.VISIBLE);
+
         if(bookInfos == null || bookInfos.isEmpty()){
-            tvNoResults.setVisibility(View.VISIBLE);
+            //Para que cuando llegue a la ultima búsqueda no aparezca el texto de "No hay resultados"...
+            if(bookListAdapter.getItemCount() <= 0){
+                tvNoResults.setVisibility(View.VISIBLE);
+            }else{
+                Toast.makeText(this, "No more results", Toast.LENGTH_SHORT).show();
+            }
             return;
         }
 
@@ -100,10 +110,18 @@ public class MainActivity extends AppCompatActivity {
 
     public void searchBooks(View view){
 
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        if(networkInfo == null || !networkInfo.isConnected()){
+            Toast.makeText(this, "No Network Available", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         //Resetear la lista para poder ver la progressBar
         bookListAdapter.clearList();
         bookListAdapter.notifyDataSetChanged();
 
+        //No resutalados se oculta
         tvNoResults.setVisibility(View.GONE);
 
         //Conseguir el radioButton seleccionado
@@ -125,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
         queryBundle.putString(BookLoaderCallbacks.EXTRA_QUERY, queryString);
         queryBundle.putString(BookLoaderCallbacks.EXTRA_PRINT_TYPE, printType);
 
+        //Empezar la actividad del Loader
         LoaderManager.getInstance(this)
                 .restartLoader(BOOK_LOADER_ID, queryBundle, bookLoaderCallbacks);
     }
