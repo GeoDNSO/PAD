@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
             if(bookListAdapter.getItemCount() <= 0){
                 tvNoResults.setVisibility(View.VISIBLE);
             }else{
-                Toast.makeText(this, "No more results", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "No more results left", Toast.LENGTH_SHORT).show();
             }
             return;
         }
