@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
             loaderManager.initLoader(BOOK_LOADER_ID,null, bookLoaderCallbacks);
         }
 
-        bookListAdapter = new BookListAdapter(new ArrayList<>());
+        bookListAdapter = new BookListAdapter(this, new ArrayList<>());
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -81,27 +81,30 @@ public class MainActivity extends AppCompatActivity {
 
         nestedScrollView.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
             if(scrollY == v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight()){
+                progressBar.setVisibility(View.VISIBLE);
                 LoaderManager.getInstance(MainActivity.this).getLoader(BOOK_LOADER_ID).startLoading();
             }
         });
     }
 
     public void updateBooksResultList(List<BookInfo> bookInfos){
-        if(bookInfos == null || bookInfos.isEmpty())
-            return;
         resultsTitle.setVisibility(View.VISIBLE);
+        if(bookInfos == null || bookInfos.isEmpty()){
+            tvNoResults.setVisibility(View.VISIBLE);
+            return;
+        }
 
         bookListAdapter.setBookInfoList(bookInfos);
         bookListAdapter.notifyDataSetChanged();
-        //recyclerView.setAdapter(bookListAdapter);
-        //progressBar.setVisibility(View.GONE);
     }
 
     public void searchBooks(View view){
 
         //Resetear la lista para poder ver la progressBar
-        bookListAdapter.setBookInfoList(new ArrayList<>());
+        bookListAdapter.clearList();
         bookListAdapter.notifyDataSetChanged();
+
+        tvNoResults.setVisibility(View.GONE);
 
         //Conseguir el radioButton seleccionado
         RadioButton radioButton = findViewById(radioGroup.getCheckedRadioButtonId());

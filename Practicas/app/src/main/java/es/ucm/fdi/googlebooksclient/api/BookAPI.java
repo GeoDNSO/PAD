@@ -10,6 +10,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 import es.ucm.fdi.googlebooksclient.BookInfo;
@@ -19,7 +20,7 @@ public class BookAPI {
 
     //CUANDO NO HAY RESULTADO --> "totalItems": 0
 
-    final String MAX_RESULTS = "40";
+    final int MAX_RESULTS = 4;
     final String API_BOOK_URL = "https://www.googleapis.com/books/v1/volumes?q=%s&" +
             "printType=%s&maxResults=%s";
 
@@ -35,7 +36,9 @@ public class BookAPI {
 
     public List<BookInfo> getBookInfoJson(String queryString, String printType){
 
-        String requestURL = String.format(API_BOOK_URL, queryString, printType, MAX_RESULTS);
+        //String requestURL = String.format(API_BOOK_URL, queryString, printType, MAX_RESULTS);
+        String requestURL = String.format(API_BOOK_URL_2, queryString, printType, MAX_RESULTS, i);
+        i += MAX_RESULTS + 1;
 
         Log.i("BOOK_API", "Se enviará una petición a la URL: " + requestURL);
 
@@ -59,6 +62,8 @@ public class BookAPI {
 
             is = urlConnection.getInputStream();
             String contentAsString = convertIsToString(is);
+
+
 
             return  BookInfo.fromJsonResponse(contentAsString);
         } catch (IOException | JSONException e) {

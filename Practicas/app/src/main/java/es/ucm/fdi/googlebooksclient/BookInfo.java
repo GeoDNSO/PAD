@@ -49,7 +49,12 @@ public class BookInfo {
         if(jsonStringList == null)
             return null;
 
-        JSONArray data = new JSONObject(jsonStringList).getJSONArray("items");
+        JSONObject jsonObject = new JSONObject(jsonStringList);
+        int o = jsonObject.getInt("totalItems");
+        if(o == 0)
+            return null;
+
+        JSONArray data = jsonObject.getJSONArray("items");
         List<BookInfo> bookInfoList = new ArrayList<>();
 
         for(int i = 0; i < data.length(); ++i){
