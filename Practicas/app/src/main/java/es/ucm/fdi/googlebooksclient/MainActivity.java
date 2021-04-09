@@ -105,31 +105,26 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public class BookLoaderCallbacks implements LoaderManager.LoaderCallbacks<String> {
+    public class BookLoaderCallbacks implements LoaderManager.LoaderCallbacks<List<BookInfo>> {
         public static final String EXTRA_QUERY = "EXTRA_QUERY";
         public static final String EXTRA_PRINT_TYPE = "EXTRA_PRINT_TYPE";
 
         @NonNull
         @Override
-        public Loader<String> onCreateLoader(int id, @Nullable Bundle args) {
+        public Loader<List<BookInfo>> onCreateLoader(int id, @Nullable Bundle args) {
             return new BookLoader(MainActivity.this, args.getString(EXTRA_QUERY), args.getString(EXTRA_PRINT_TYPE));
         }
 
         @Override
-        public void onLoadFinished(@NonNull Loader<String> loader, String data) {
-            try {
-                updateBooksResultList(BookInfo.fromJsonResponse(data));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
+        public void onLoadFinished(@NonNull Loader<List<BookInfo>> loader, List<BookInfo> data) {
+            updateBooksResultList((data));
         }
 
         @Override
-        public void onLoaderReset(@NonNull Loader<String> loader) {
+        public void onLoaderReset(@NonNull Loader<List<BookInfo>> loader) {
 
         }
+
 
     }
 }

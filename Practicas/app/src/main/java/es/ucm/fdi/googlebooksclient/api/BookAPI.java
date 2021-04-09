@@ -2,13 +2,17 @@ package es.ucm.fdi.googlebooksclient.api;
 
 import android.util.Log;
 
+import org.json.JSONException;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.List;
 
+import es.ucm.fdi.googlebooksclient.BookInfo;
 import es.ucm.fdi.googlebooksclient.Utils;
 
 public class BookAPI {
@@ -22,7 +26,7 @@ public class BookAPI {
     final String GET_METHOD = "GET";
 
 
-    public String getBookInfoJson(String queryString, String printType){
+    public List<BookInfo> getBookInfoJson(String queryString, String printType){
 
         String requestURL = String.format(API_BOOK_URL, queryString, printType, MAX_RESULTS);
 
@@ -49,8 +53,8 @@ public class BookAPI {
             is = urlConnection.getInputStream();
             String contentAsString = convertIsToString(is);
             //Log.i("BOOK_API", "String devuelto: " + is);
-            return  contentAsString;
-        } catch (IOException e) {
+            return  BookInfo.fromJsonResponse(contentAsString);
+        } catch (IOException | JSONException e) {
             e.printStackTrace();
         }finally {
             urlConnection.disconnect();

@@ -6,7 +6,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.loader.content.AsyncTaskLoader;
 
-public class BookLoader extends AsyncTaskLoader<String> {
+import java.util.List;
+
+import es.ucm.fdi.googlebooksclient.BookInfo;
+
+public class BookLoader extends AsyncTaskLoader<List<BookInfo>> {
     private String queryString;
     private String printType;
 
@@ -18,7 +22,7 @@ public class BookLoader extends AsyncTaskLoader<String> {
 
     @Nullable
     @Override
-    public String loadInBackground() {
+    public List<BookInfo> loadInBackground() {
         return new BookAPI().getBookInfoJson(queryString, printType);
     }
 
