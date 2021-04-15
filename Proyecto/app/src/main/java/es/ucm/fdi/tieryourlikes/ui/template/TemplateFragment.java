@@ -63,8 +63,16 @@ public class TemplateFragment extends Fragment {
         int numberOfElements = 20;
         for(int i = 0; i < numberOfElements; i++){
             ImageView imageView = new ImageView(getContext());
-            imageView.setImageResource(R.drawable.ic_baseline_tag_faces_24);
+            if(i % 2 == 0){
+                imageView.setImageResource(R.drawable.ic_baseline_tag_faces_24);
+            }else{
+                imageView.setImageResource(R.drawable.ic_baseline_search_24);
+            }
+
             imageView.setOnTouchListener(new TierElementTouchListener());
+            imageView.setOnDragListener(new TierElementDragListener());
+
+            imageView.bringToFront();
             flexboxLayout.addView(imageView);
         }
 

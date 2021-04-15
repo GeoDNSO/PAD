@@ -25,12 +25,16 @@ public class TierElementDragListener implements View.OnDragListener{
 
         int i = -1;
 
+        if(container.getChildCount() == 0){
+            return true;
+        }
+
         switch (event.getAction()) {
             case DragEvent.ACTION_DRAG_STARTED:
                 // do nothing
                 break;
             case DragEvent.ACTION_DRAG_ENTERED:
-                v.setBackgroundResource(active_background);
+                container.setBackgroundResource(active_background);
 
                 owner.removeView(view);
                 view.setAlpha(0.5f);
@@ -44,7 +48,7 @@ public class TierElementDragListener implements View.OnDragListener{
                 break;
             case DragEvent.ACTION_DRAG_EXITED:
                 view.setAlpha(1);
-                v.setBackgroundResource(normal_background);
+                container.setBackgroundResource(normal_background);
                 break;
             case DragEvent.ACTION_DROP:
                 // Dropped, reassign View to ViewGroup
@@ -58,7 +62,7 @@ public class TierElementDragListener implements View.OnDragListener{
                 break;
             case DragEvent.ACTION_DRAG_ENDED:
                 view.setAlpha(1);
-                v.setBackgroundResource(normal_background);
+                container.setBackgroundResource(normal_background);
             default:
                 break;
         }
