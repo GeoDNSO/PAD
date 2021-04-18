@@ -1,4 +1,4 @@
-package es.ucm.fdi.tieryourlikes.ui.template;
+package es.ucm.fdi.tieryourlikes.ui.template.listeners;
 
 import android.content.ClipData;
 import android.view.MotionEvent;
