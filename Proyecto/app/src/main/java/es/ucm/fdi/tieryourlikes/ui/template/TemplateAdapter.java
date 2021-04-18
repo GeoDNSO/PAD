@@ -15,6 +15,7 @@ import java.util.List;
 
 import es.ucm.fdi.tieryourlikes.R;
 import es.ucm.fdi.tieryourlikes.model.TierRow;
+import es.ucm.fdi.tieryourlikes.ui.template.listeners.TierRowDragListener;
 
 public class TemplateAdapter extends RecyclerView.Adapter<TemplateAdapter.ViewHolder> {
 

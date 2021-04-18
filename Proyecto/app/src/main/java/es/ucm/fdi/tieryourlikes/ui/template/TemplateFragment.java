@@ -22,6 +22,9 @@ import java.util.List;
 
 import es.ucm.fdi.tieryourlikes.R;
 import es.ucm.fdi.tieryourlikes.model.TierRow;
+import es.ucm.fdi.tieryourlikes.ui.template.listeners.TierElementDragListener;
+import es.ucm.fdi.tieryourlikes.ui.template.listeners.TierElementTouchListener;
+import es.ucm.fdi.tieryourlikes.ui.template.listeners.TierRowDragListener;
 
 public class TemplateFragment extends Fragment {
 
