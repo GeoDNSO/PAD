@@ -6,9 +6,10 @@ import database
 from dotenv import load_dotenv
 
 from user.userModule import userModule
+from template.templateModule import templateModule
+from tiers_done.tierDoneModule import tiersDoneModule
 
 from pprint import pprint
-import time
 
 USERNAME = ""
 PASSWORD = ""
@@ -41,7 +42,9 @@ app.config['MONGO_URI']=MONGO_DB_URL
 database.mongo.init_app(app)
 
 app.register_blueprint(userModule)
+app.register_blueprint(templateModule)
+app.register_blueprint(tiersDoneModule)
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=5000, debug=True, threaded=True)
