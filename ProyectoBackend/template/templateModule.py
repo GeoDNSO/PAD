@@ -72,15 +72,17 @@ def listTemplates():
     except:
         page = 1
         limit = 1
-
+    print("Args: ", request.args)
     custom_args = request.args.copy()
     custom_args.pop(constants.PAGINATION_PAGE)
     custom_args.pop(constants.PAGINATION_LIMIT)
-
+    print("Custom args: ", custom_args)
     try:
         #cursor = templateUtils.templateListCursor(mongo=mongo, args=request.args)
         cursor = mongo.db.templates.find(custom_args).skip((page-1)*limit).limit(limit)
         templateList = templateUtils.listFromCursor(cursor)
+        print("Lista")
+        print(templateList)
        
         response = jsonify({
             "elements": len(templateList),
