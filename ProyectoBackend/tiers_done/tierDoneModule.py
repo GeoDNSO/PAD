@@ -18,11 +18,37 @@ tiersDoneModule = Blueprint("tiersDoneModule", __name__)
 
 #{_id: ObjectId("60819b04a76afa43846700d5")}
 
+
+@tiersDoneModule.route('/createTierDone/', methods=['POST'])
+def createTierDone():
+    json_data = request.get_json()
+    
+    tierDone = TierDone(json=json_data)
+
+    try:
+        tierDoneDict = tierDone.to_dict()
+        tierDoneDict.pop(constants.DB_ID_KEY)#Para no usar un ID incorrecto creado por defecto
+
+        id = mongo.db.tiers_done.insert_one(tierDoneDict).inserted_id
+
+        
+        tierDoneDict[constants.DB_ID_KEY] = str(id) #Devolvemos el id correcto
+       
+        response = jsonify(tierDoneDict)
+        response.status_code = 200 # OK
+
+        return response
+    except errors.PyMongoError as e:
+        print("Error PyMongo: ", repr(e))
+        response = jsonify({"error": "Error al crear un tier"})
+        response.status_code = 400
+        return response
+
 @tiersDoneModule.route('/getTierDone/<id>', methods=['GET'])
 def getTierDone(id):
     try:
 
-        tierDoneJSON = mongo.db.tiers_done.find_one({constants.DB_TEMPLATE_ID: ObjectId(id)})
+        tierDoneJSON = mongo.db.tiers_done.find_one({constants.DB_ID_KEY: ObjectId(id)})
         tierDone = TierDone(json=tierDoneJSON)
         print(tierDone.to_dict())
        
@@ -33,8 +59,8 @@ def getTierDone(id):
     except errors.PyMongoError as e:
         print("Error PyMongo: ", repr(e))
         response = jsonify({"error": "Error al buscar el template"})
+        response.status_code = 400
         return response
-
 
 @tiersDoneModule.route('/listTiersDone/', methods=['GET'])
 def listTiersDone():
@@ -65,4 +91,5 @@ def listTiersDone():
     except errors.PyMongoError as e:
         print("Error PyMongo: ", repr(e))
         response = jsonify({"error": "Error al buscar la lista de templates"})
+        response.status_code = 400
         return response

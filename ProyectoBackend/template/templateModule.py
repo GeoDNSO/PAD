@@ -11,21 +11,44 @@ from .Template import Template
 from . import templateUtils
 
 import constants
-
+from bson.objectid import ObjectId
 
 from pprint import pprint
 
 templateModule = Blueprint("templateModule", __name__)
 
-#Si fuese necsario otro tipo de filtro, usar metodo get con args y quitar request.get_json() para evitar error 400
-@templateModule.route('/getTemplate/', methods=['POST'])
-def getTemplate():
+@templateModule.route('/createTemplate/', methods=['POST'])
+def createTemplate():
     json_data = request.get_json()
-
-    templateTitle = json_data[constants.DB_TITLE_KEY]
+    
+    template = Template(json=json_data)
 
     try:
-        templateJSON = mongo.db.templates.find_one({constants.DB_TITLE_KEY: templateTitle})
+        templateDict = template.to_dict()
+        templateDict.pop(constants.DB_TEMPLATE_ID)#Para no usar un ID incorrecto creado por defecto
+
+        id = mongo.db.templates.insert_one(templateDict).inserted_id
+
+        
+        templateDict[constants.DB_TEMPLATE_ID] = str(id) #Devolvemos el id correcto
+       
+        response = jsonify(templateDict)
+        response.status_code = 200 # OK
+
+        return response
+    except errors.PyMongoError as e:
+        print("Error PyMongo: ", repr(e))
+        response = jsonify({"error": "Error al crear el template"})
+        response.status_code = 400
+        return response
+
+
+
+@templateModule.route('/getTemplate/<id>', methods=['GET'])
+def getTemplate(id):
+    
+    try:
+        templateJSON = mongo.db.templates.find_one({constants.DB_ID_KEY: ObjectId(id)})
         template = Template(json=templateJSON)
        
         response = jsonify(template.to_dict())
@@ -35,6 +58,7 @@ def getTemplate():
     except errors.PyMongoError as e:
         print("Error PyMongo: ", repr(e))
         response = jsonify({"error": "Error al buscar el template"})
+        response.status_code = 400
         return response
 
 @templateModule.route('/listTemplates/', methods=['GET'])
@@ -67,4 +91,5 @@ def listTemplates():
     except errors.PyMongoError as e:
         print("Error PyMongo: ", repr(e))
         response = jsonify({"error": "Error al buscar la lista de templates"})
+        response.status_code = 400
         return response

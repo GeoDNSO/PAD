@@ -59,7 +59,7 @@ def registerUser():
         id = mongo.db.users.insert_one(user.to_dict()).inserted_id
 
         userDict = user.to_dict()
-        userDict['id'] = str(id)
+        userDict[constants.DB_USER_ID_KEY] = str(id)
 
         response = jsonify(userDict)
         response.status_code = 201 # 201 = Creado con éxito
@@ -68,6 +68,7 @@ def registerUser():
     except errors.PyMongoError as e:
         print("Error PyMongo: ", repr(e))
         response = jsonify({"error": "Error al crear usuario"})
+        response.status_code = 400
         return response
       
 @userModule.route('/getUser/', methods=['POST'])
@@ -87,6 +88,7 @@ def getUser():
     except errors.PyMongoError as e:
         print("Error PyMongo: ", repr(e))
         response = jsonify({"error": "Error al hacer login del usuario"})
+        response.status_code = 400
         return response
 
 @userModule.errorhandler(404)
