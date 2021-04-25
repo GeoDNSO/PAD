@@ -73,11 +73,14 @@ public class HomeFragment extends Fragment {
                     Toast.makeText(getActivity(), "Hubo un error:" + listApiResponse.getError(), Toast.LENGTH_SHORT).show();
                     return;
                 }
+
+
                 Gson gson = new GsonBuilder()
-                        .registerTypeAdapter(Template.class, new TemplateSerializer())
+                        .registerTypeAdapter(Template.class, new TemplateSerializer()) //MIrar clase TemplateSerializer que es quien lo convierte a JSON
                         .setPrettyPrinting()
                         .create();
-                String pretty = gson.toJson(listApiResponse.getObject().toString());
+
+                String pretty = gson.toJson(listApiResponse.getObject());
                 Log.d("PRETTY", "onChanged: " + pretty);
                 tvPrueba.setText(pretty);
             }
