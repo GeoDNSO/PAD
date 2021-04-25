@@ -39,7 +39,7 @@ public class TemplateAdapter extends RecyclerView.Adapter<TemplateAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull TemplateAdapter.ViewHolder holder, int position) {
         TierRow tierRow = list.get(position);
-        holder.tvTierRow.setText(tierRow.getTierName());
+        holder.tvTierRow.setText(tierRow.getRowName());
     }
 
     @Override

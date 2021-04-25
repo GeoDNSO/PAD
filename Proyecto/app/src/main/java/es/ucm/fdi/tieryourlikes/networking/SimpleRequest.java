@@ -1,10 +1,8 @@
-package com.example.App.models.dao;
+package es.ucm.fdi.tieryourlikes.networking;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-
-import com.example.App.utilities.AppConstants;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -18,6 +16,7 @@ import java.net.SocketAddress;
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
+import es.ucm.fdi.tieryourlikes.AppConstants;
 import okhttp3.Call;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -25,13 +24,12 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class    SimpleRequest {
-
+public class SimpleRequest {
 
     private static final String DIR_PROTOCOL = "http";
     private static final String IP_ADDRESS = "10.0.2.2";
     private static final int PORT = 5000;
-    private static final int TTL_SECONDS = 30;
+    private static final int TTL_SECONDS = 18;
     private static final int TTL_MSECONDS = 3000;
     private static final String SERVER_URL = DIR_PROTOCOL + "://" + IP_ADDRESS + ":" + PORT;
 
@@ -41,6 +39,10 @@ public class    SimpleRequest {
     public SimpleRequest(){
         finished = false;
         response = null;
+    }
+
+    public static String getServerUrl() {
+        return SERVER_URL;
     }
 
     public String getResponse(){
@@ -57,7 +59,6 @@ public class    SimpleRequest {
 
         return  call;
     }
-
 
     public Request buildRequest(String postBodyString, String method, String route) {
 
@@ -86,7 +87,6 @@ public class    SimpleRequest {
 
         return request;
     }
-
 
     //https://stackoverflow.com/questions/25805580/how-to-quickly-check-if-url-server-is-available
     public static boolean isServerReachable(Context context) {
@@ -138,7 +138,7 @@ public class    SimpleRequest {
             return false;
         }
         try {
-            SimpleRequest.this.response = response.body().string();
+            this.response = response.body().string();
             JSONObject jsonResponse = new JSONObject(this.response);
             return jsonResponse.get("exito").equals("true");
         } catch (JSONException | IOException e) {
