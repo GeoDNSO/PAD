@@ -91,6 +91,29 @@ def getUser():
         response.status_code = 400
         return response
 
+     
+@userModule.route('/getUserStats/', methods=['GET'])
+def getUserStats():
+
+    username = request.args[constants.DB_USERNAME_KEY]
+
+    try:
+        templates_count = mongo.db.templates.find({constants.DB_CREATOR_USERNAME_KEY: username}).count()
+        tiers_count = mongo.db.tiers_done.find({constants.DB_CREATOR_USERNAME_KEY: username}).count()      
+       
+        response = jsonify({
+            constants.DB_TEMPLATE_COUNT: templates_count,
+            constants.DB_TIERS_COUNT: tiers_count,
+        })
+        response.status_code = 200 # OK
+
+        return response
+    except errors.PyMongoError as e:
+        print("Error PyMongo: ", repr(e))
+        response = jsonify({"error": "Error al buscar los datos del usuario"})
+        response.status_code = 400
+        return response
+
 @userModule.errorhandler(404)
 def not_found(error=None):
     message = {

@@ -1,12 +1,16 @@
 package es.ucm.fdi.tieryourlikes.networking;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
@@ -18,7 +22,9 @@ import java.util.concurrent.TimeUnit;
 
 import es.ucm.fdi.tieryourlikes.AppConstants;
 import okhttp3.Call;
+import okhttp3.Headers;
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -87,6 +93,61 @@ public class SimpleRequest {
 
         return request;
     }
+
+    public static byte[] imageToBytes(String imagePath){
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inPreferredConfig = Bitmap.Config.RGB_565;
+        // Read BitMap by file path
+        Bitmap bitmap = BitmapFactory.decodeFile(imagePath, options);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+
+        return stream.toByteArray();
+    }
+
+    public Request buildRequest(String postBodyString, String[] filesPath, String method, String route) {
+
+        MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
+        RequestBody body = RequestBody.create(postBodyString, mediaType);
+
+        Request request = null;
+
+        //TODO MIRAR SI HACE FALTA ELPOST BODY STRING O SI PIDER TODOS LOS DATOS EN EL REQUEST
+        //RequestBody
+        MultipartBody.Builder requestBodyBuilder = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("n_images", ""+filesPath.length)
+                .addFormDataPart("member_id", postBodyString);
+
+        for(int i = 0; i < filesPath.length; ++i){
+            byte[] byteArray = imageToBytes(filesPath[i]);
+            requestBodyBuilder.addFormDataPart("image_"+i, "img_" + i + ".jpg", RequestBody.create(MediaType.parse("image/*jpg"), byteArray));
+        }
+
+
+
+
+        if(method.equals(AppConstants.METHOD_GET)){
+            request = new Request.Builder()
+                    .get()
+                    .url(SERVER_URL + route)//Ej http://10.0.0.2:5000/login
+                    .header("Accept", "application/json")
+                    .header("Content-Type", "application/json")
+                    .header("Connection", "close")
+                    .build();
+        }else{
+            request = new Request.Builder()
+                    .method(method, body)
+                    .url(SERVER_URL + route)//Ej http://10.0.0.2:5000/login
+                    .header("Accept", "application/json")
+                    .header("Content-Type", "application/json")
+                    .header("Connection", "close")
+                    .build();
+        }
+
+        return request;
+    }
+
 
     //https://stackoverflow.com/questions/25805580/how-to-quickly-check-if-url-server-is-available
     public static boolean isServerReachable(Context context) {

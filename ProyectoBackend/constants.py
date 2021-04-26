@@ -15,6 +15,10 @@ DB_ROW_NAME_KEY = "row_name"
 DB_IMAGE_URL_KEY = "image_urls"
 DB_TEMPLATE_ID = "template_id" # Para poder buscar plantillas por id
 
+#Constantes para el envio de otros datos
+DB_TEMPLATE_COUNT = "templates_count"
+DB_TIERS_COUNT = "tiers_count"
+
 PAGINATION_PAGE = "page"
 PAGINATION_LIMIT = "limit"
 DEAFULT_LIMIT = 1

@@ -79,13 +79,9 @@ public class HomeViewModel extends ViewModel {
                     public void accept(Throwable throwable) throws Exception {
                         Log.d("A", "JAJAJAJA ERROR");
                         throwable.printStackTrace();
-                        try {
-                            ApiResponse<List<Template>> apiResponse = new ApiResponse<>(null, ResponseStatus.ERROR, throwable.getMessage());
-                            pruebaAPIResponse2.setValue(apiResponse);
-                        } catch (Exception e) {
-                            ApiResponse<List<Template>> apiResponse = new ApiResponse<>(null, ResponseStatus.ERROR, e.getMessage());
-                            pruebaAPIResponse2.setValue(apiResponse);
-                        }
+
+                        ApiResponse<List<Template>> apiResponse = new ApiResponse<>(null, ResponseStatus.ERROR, throwable.getMessage());
+                        pruebaAPIResponse2.setValue(apiResponse);
                     }
                 }, new Action() {
                     @Override
