@@ -96,5 +96,6 @@
     <string name="delete_comment">Borrar</string>
     <string name="description">Descripción</string>
     <string name="geolocation">Geolocalización</string>
+    <string name="menu_creations_text">Creaciones</string>
 
 </resources>

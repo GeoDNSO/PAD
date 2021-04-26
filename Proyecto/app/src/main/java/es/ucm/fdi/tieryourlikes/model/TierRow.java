@@ -4,27 +4,27 @@ import java.util.List;
 
 public class TierRow {
 
-    String tierName;
-    List<String> images;
+    String row_name;
+    List<String> image_urls;
 
     public TierRow(String tierName, List<String> images) {
-        this.tierName = tierName;
-        this.images = images;
+        this.row_name = tierName;
+        this.image_urls = images;
     }
 
-    public String getTierName() {
-        return tierName;
+    public String getRowName() {
+        return row_name;
     }
 
-    public void setTierName(String tierName) {
-        this.tierName = tierName;
+    public void setRowName(String row_name) {
+        this.row_name = row_name;
     }
 
-    public List<String> getImages() {
-        return images;
+    public List<String> getImageUrls() {
+        return image_urls;
     }
 
-    public void setImages(List<String> images) {
-        this.images = images;
+    public void setImageUrls(List<String> image_urls) {
+        this.image_urls = image_urls;
     }
 }
