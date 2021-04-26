@@ -40,4 +40,9 @@
         android:name="es.ucm.fdi.tieryourlikes.ui.creations.CreationsFragment"
         android:label="creations_fragment"
         tools:layout="@layout/creations_fragment" />
+    <fragment
+        android:id="@+id/tierFragment"
+        android:name="es.ucm.fdi.tieryourlikes.ui.tier.TierFragment"
+        android:label="tier_fragment"
+        tools:layout="@layout/tier_fragment" />
 </navigation>
