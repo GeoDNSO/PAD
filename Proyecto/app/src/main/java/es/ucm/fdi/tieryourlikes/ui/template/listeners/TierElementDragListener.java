@@ -8,9 +8,10 @@ import android.view.ViewGroup;
 import com.google.android.flexbox.FlexboxLayout;
 
 import es.ucm.fdi.tieryourlikes.R;
+import es.ucm.fdi.tieryourlikes.utilities.CustomFlexboxLayout;
 
 public class TierElementDragListener implements View.OnDragListener{
-    
+
 
     @Override
     public boolean onDrag(View v, DragEvent event) {
@@ -30,7 +31,7 @@ public class TierElementDragListener implements View.OnDragListener{
         View view = (View) event.getLocalState();
         ViewGroup owner = (ViewGroup) view.getParent();
 
-        FlexboxLayout container = (FlexboxLayout) v.getParent();
+        CustomFlexboxLayout container = (CustomFlexboxLayout) v.getParent();
 
         int i = -1;
 
@@ -51,7 +52,8 @@ public class TierElementDragListener implements View.OnDragListener{
 
 
                 i = container.indexOfChild(v);
-                container.addView(view, i);
+                //container.addView(view, i);
+                ((CustomFlexboxLayout)container).addView(view, data);
 
                 view.setVisibility(View.VISIBLE);
 
@@ -66,7 +68,8 @@ public class TierElementDragListener implements View.OnDragListener{
                 owner.removeView(view);
 
                 i = container.indexOfChild(v);
-                container.addView(view, i);
+                //container.addView(view, i);
+                ((CustomFlexboxLayout)container).addView(view, data);
 
                 view.setVisibility(View.VISIBLE);
                 break;

@@ -46,7 +46,7 @@ public class CustomFlexboxLayout extends FlexboxLayout {
 
 
         this.indexDeleted = i;
-        tierRow.getImageUrls().remove(i-1);
+        //tierRow.getImageUrls().remove(i-1);
 
         super.removeView(view);
     }
@@ -54,8 +54,10 @@ public class CustomFlexboxLayout extends FlexboxLayout {
     public void removeView(View view, String data) {
         Log.d(TAG, "removeView: Se va a borrar " + data + " de " + tierRow.getRowName());
         //int i = this.indexOfChild(view);
+        boolean a = true;
         //this.indexDeleted = i;
-        tierRow.getImageUrls().remove(data);
+        if(data != null)
+            a = tierRow.getImageUrls().remove(data);
         super.removeView(view);
     }
 
@@ -63,14 +65,14 @@ public class CustomFlexboxLayout extends FlexboxLayout {
         Log.d(TAG, "addView: Se va a añadir " + data + " a " + tierRow.getRowName());
         if(data != null){
             tierRow.getImageUrls().add(data);
-            indexAdded = tierRow.getImageUrls().size();
+            //indexAdded = tierRow.getImageUrls().size();
         }
 
         super.addView(child);
     }
 
     public void addView(View child, int index, String data) {
-        Log.d(TAG, "addView: Se va a añadir " + data + " a " + tierRow.getRowName());
+        Log.d(TAG, "addView: Se va a añadir (index "+ index+") " + data + " a " + tierRow.getRowName());
         if(index == -1)
             return;
         if(data != null){

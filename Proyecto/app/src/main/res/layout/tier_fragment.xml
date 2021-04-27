@@ -10,13 +10,19 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <Button
+            android:id="@+id/tierPrueba"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Info"/>
+
         <!--Layout Contenedor del FlexBox para poder ajustarse a un tamaño minimo -->
         <LinearLayout
             android:layout_width="match_parent"
             android:minHeight="@dimen/tier_row_images"
             android:layout_height="wrap_content">
 
-            <com.google.android.flexbox.FlexboxLayout
+            <es.ucm.fdi.tieryourlikes.utilities.CustomFlexboxLayout
                 android:id="@+id/tierFlexContainer"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -32,7 +38,7 @@
                     android:scaleType="fitXY"
                     android:visibility="gone"/>
 
-            </com.google.android.flexbox.FlexboxLayout>
+            </es.ucm.fdi.tieryourlikes.utilities.CustomFlexboxLayout>
 
         </LinearLayout>
 

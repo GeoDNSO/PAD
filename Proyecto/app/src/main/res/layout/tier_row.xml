@@ -18,13 +18,13 @@
         android:layout_weight="0.2"
         android:background="@color/white" />
 
-    <com.google.android.flexbox.FlexboxLayout
+    <es.ucm.fdi.tieryourlikes.utilities.CustomFlexboxLayout
         android:id="@+id/tierRowFlexBoxLayout"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="0.8"
         app:flexWrap="wrap"
         android:background="@drawable/tier_row_normal_background">
-    </com.google.android.flexbox.FlexboxLayout>
+    </es.ucm.fdi.tieryourlikes.utilities.CustomFlexboxLayout>
 
 </LinearLayout>

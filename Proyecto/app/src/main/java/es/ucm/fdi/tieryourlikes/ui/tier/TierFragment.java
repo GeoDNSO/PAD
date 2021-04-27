@@ -15,9 +15,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -37,6 +39,7 @@ import es.ucm.fdi.tieryourlikes.ui.template.listeners.TierElementDragListener;
 import es.ucm.fdi.tieryourlikes.ui.template.listeners.TierElementTouchListener;
 import es.ucm.fdi.tieryourlikes.ui.template.listeners.TierRowDragListener;
 import es.ucm.fdi.tieryourlikes.utilities.AppUtils;
+import es.ucm.fdi.tieryourlikes.utilities.CustomFlexboxLayout;
 import okhttp3.internal.Util;
 
 public class TierFragment extends Fragment {
@@ -48,7 +51,7 @@ public class TierFragment extends Fragment {
     private Tier tier;
 
     private RecyclerView recyclerView;
-    private FlexboxLayout flexboxContainer;
+    private CustomFlexboxLayout flexboxContainer;
     private TemplateAdapter templateAdapter;
 
     public static TierFragment newInstance() {
@@ -71,8 +74,24 @@ public class TierFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(templateAdapter);
 
+        butonPruebConfig();
+
 
         return root;
+    }
+
+    private void butonPruebConfig() {
+        Button button = root.findViewById(R.id.tierPrueba);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                flexboxContainer.getTierRow();
+
+                Log.d("BUTON_TIER_RESULT", flexboxContainer.getTierRow().toString());
+                for(TierRow tierRow : tier.getTierRows())
+                    Log.d("BUTON_TIER_RESULT", tierRow.toString());
+            }
+        });
     }
 
     private void initUI() {
@@ -92,6 +111,7 @@ public class TierFragment extends Fragment {
         //Preparar y configurar el contenedor desde el que se van a mover las imagenes
         flexboxContainer.setOnDragListener(new TierRowDragListener());
         List<String> list = this.template.getContainer();
+        flexboxContainer.setTierRow(new TierRow("Container", list));
         for(String images : list){
             ImageView imageView = new ImageView(getContext());
 
@@ -111,7 +131,7 @@ public class TierFragment extends Fragment {
 
 
             imageView.setOnTouchListener(new TierElementTouchListener(images));
-            imageView.setOnDragListener(new TierElementDragListener());
+            //imageView.setOnDragListener(new TierElementDragListener());
             imageView.bringToFront();
 
             flexboxContainer.addView(imageView);
@@ -125,7 +145,6 @@ public class TierFragment extends Fragment {
         container.add("https://static.wixstatic.com/media/a7dee3_4c558736f7b243329c59427d855d278c~mv2.jpg/v1/fill/w_1000,h_1000,al_c,q_90/a7dee3_4c558736f7b243329c59427d855d278c~mv2.jpg");
         container.add("https://www.eluniversal.com.mx/sites/default/files/2016/09/07/manzana.jpg");
         container.add("https://naranjasvitaminadas.com/wp-content/uploads/2018/10/naranja-valenciana-vitaminada.png");
-        container.add("https://e00-expansion.uecdn.es/assets/multimedia/imagenes/2019/06/27/15616371314021.jpg");
         container.add("https://e00-expansion.uecdn.es/assets/multimedia/imagenes/2019/06/27/15616371314021.jpg");
         container.add("https://mk0lanoticiapwmx1x6a.kinstacdn.com/wp-content/uploads/2020/08/5-razones-para-comer-sandia-todos-los-dias.jpg");
         List<String> tierRowsString = new ArrayList<>();

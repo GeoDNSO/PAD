@@ -42,7 +42,7 @@ public class TemplateAdapter extends RecyclerView.Adapter<TemplateAdapter.ViewHo
     public void onBindViewHolder(@NonNull TemplateAdapter.ViewHolder holder, int position) {
         TierRow tierRow = list.get(position);
         holder.tvTierRow.setText(tierRow.getRowName());
-        //holder.flexboxLayout.setTierRow(tierRow);
+        holder.flexboxLayout.setTierRow(tierRow);
     }
 
     @Override
@@ -53,7 +53,7 @@ public class TemplateAdapter extends RecyclerView.Adapter<TemplateAdapter.ViewHo
     class ViewHolder extends RecyclerView.ViewHolder {
 
         private TextView tvTierRow;
-        private FlexboxLayout flexboxLayout;
+        private CustomFlexboxLayout flexboxLayout;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

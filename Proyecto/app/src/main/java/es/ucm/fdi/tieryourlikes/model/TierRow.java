@@ -35,4 +35,12 @@ public class TierRow {
     public void setImageUrls(List<String> image_urls) {
         this.image_urls = image_urls;
     }
+
+    @Override
+    public String toString() {
+        return "TierRow{" +
+                "row_name='" + row_name + '\'' +
+                ", image_urls=" + image_urls +
+                '}';
+    }
 }

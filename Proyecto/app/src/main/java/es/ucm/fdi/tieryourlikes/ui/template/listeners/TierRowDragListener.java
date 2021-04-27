@@ -17,6 +17,8 @@ import es.ucm.fdi.tieryourlikes.utilities.CustomFlexboxLayout;
 
 public class TierRowDragListener implements View.OnDragListener {
 
+    private ViewGroup lastOwner;
+
     public TierRowDragListener() {
     }
 
@@ -24,10 +26,10 @@ public class TierRowDragListener implements View.OnDragListener {
     public boolean onDrag(View v, DragEvent event) {
         int action = event.getAction();
 
-        String uri = "";
+        String data = null;
         if(event.getClipData() != null){
-            uri = event.getClipData().getItemAt(0).getText().toString();
-            Log.d("DragElement", uri);
+            data = event.getClipData().getItemAt(0).getText().toString();
+            Log.d("DragElement", data);
         }
 
         //IDs de los recursos usados para cambiar el fondo según se deje la elemento encima o no
@@ -37,7 +39,7 @@ public class TierRowDragListener implements View.OnDragListener {
         //Vistas y Layouts envueltos en el evento de arrastre
         View view = (View) event.getLocalState();
         ViewGroup owner = (ViewGroup) view.getParent();
-        FlexboxLayout container = (FlexboxLayout) v;
+        CustomFlexboxLayout container = (CustomFlexboxLayout) v;
 
 
         switch (event.getAction()) {
@@ -49,8 +51,11 @@ public class TierRowDragListener implements View.OnDragListener {
 
                 view.setAlpha(0.5f);
 
-                owner.removeView(view);
-                container.addView(view);
+                lastOwner=owner;
+                //owner.removeView(view);
+                //((CustomFlexboxLayout)owner).removeView(view, data);
+                //container.addView(view);
+                //((CustomFlexboxLayout)container).addView(view, data);
                 view.setVisibility(View.VISIBLE);
                 break;
             case DragEvent.ACTION_DRAG_EXITED:
@@ -60,8 +65,11 @@ public class TierRowDragListener implements View.OnDragListener {
             case DragEvent.ACTION_DROP:
                 // Dropped, reassign View to ViewGroup
                 view.setAlpha(1);
-                owner.removeView(view);
-                container.addView(view);
+                //owner.removeView(view);
+                ((CustomFlexboxLayout)owner).removeView(view, data);
+                //((CustomFlexboxLayout)lastOwner).removeView(view, data);
+                //container.addView(view);
+                ((CustomFlexboxLayout)container).addView(view, data);
                 view.setVisibility(View.VISIBLE);
                 break;
             case DragEvent.ACTION_DRAG_ENDED:
