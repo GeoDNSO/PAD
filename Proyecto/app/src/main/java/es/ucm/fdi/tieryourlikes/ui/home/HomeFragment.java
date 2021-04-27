@@ -57,7 +57,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //Navegar al fragmento con la demo del tier maker
-                Navigation.findNavController(root).navigate(R.id.templateFragment);
+                Navigation.findNavController(root).navigate(R.id.tierFragment);
             }
         });
 

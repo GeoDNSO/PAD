@@ -2,6 +2,7 @@ package es.ucm.fdi.tieryourlikes.ui.template.listeners;
 
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.DragEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,12 +13,19 @@ import com.google.android.flexbox.FlexboxLayout;
 
 import es.ucm.fdi.tieryourlikes.R;
 import es.ucm.fdi.tieryourlikes.utilities.AppDrawable;
+import es.ucm.fdi.tieryourlikes.utilities.CustomFlexboxLayout;
 
 public class TierRowDragListener implements View.OnDragListener {
 
     @Override
     public boolean onDrag(View v, DragEvent event) {
         int action = event.getAction();
+
+        String uri = "";
+        if(event.getClipData() != null){
+            uri = event.getClipData().getItemAt(0).getText().toString();
+            Log.d("DragElement", uri);
+        }
 
         //IDs de los recursos usados para cambiar el fondo según se deje la elemento encima o no
         int normal_background = R.drawable.tier_row_normal_background;
@@ -28,11 +36,6 @@ public class TierRowDragListener implements View.OnDragListener {
         ViewGroup owner = (ViewGroup) view.getParent();
         FlexboxLayout container = (FlexboxLayout) v;
 
-        /*
-        if(((FlexboxLayout) v).getChildCount() > 0){
-            return true;
-        }
-        */
 
         switch (event.getAction()) {
             case DragEvent.ACTION_DRAG_STARTED:
@@ -42,6 +45,7 @@ public class TierRowDragListener implements View.OnDragListener {
                 v.setBackgroundResource(active_background);
 
                 view.setAlpha(0.5f);
+
                 owner.removeView(view);
                 container.addView(view);
                 view.setVisibility(View.VISIBLE);

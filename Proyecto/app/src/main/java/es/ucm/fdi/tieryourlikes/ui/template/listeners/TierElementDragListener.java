@@ -1,5 +1,6 @@
 package es.ucm.fdi.tieryourlikes.ui.template.listeners;
 
+import android.util.Log;
 import android.view.DragEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,12 @@ public class TierElementDragListener implements View.OnDragListener{
     @Override
     public boolean onDrag(View v, DragEvent event) {
         int action = event.getAction();
+
+        String data = "";
+        if(event.getClipData() != null){
+            data = event.getClipData().getItemAt(0).getText().toString();
+            Log.d("DragElement", data);
+        }
 
         //IDs de los recursos usados para cambiar el fondo según se deje la elemento encima o no
         int normal_background = R.drawable.tier_row_normal_background;
@@ -37,6 +44,7 @@ public class TierElementDragListener implements View.OnDragListener{
                 container.setBackgroundResource(active_background);
 
                 owner.removeView(view);
+
                 view.setAlpha(0.5f);
 
 

@@ -1,5 +1,6 @@
 package es.ucm.fdi.tieryourlikes.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TierRow {
@@ -10,6 +11,13 @@ public class TierRow {
     public TierRow(String tierName, List<String> images) {
         this.row_name = tierName;
         this.image_urls = images;
+    }
+
+    public static List<TierRow> getListFromString(List<String> tierListString){
+        List<TierRow> tierRowList = new ArrayList<>();
+        for(String title : tierListString)
+            tierRowList.add(new TierRow(title, new ArrayList<>()));
+        return tierRowList;
     }
 
     public String getRowName() {

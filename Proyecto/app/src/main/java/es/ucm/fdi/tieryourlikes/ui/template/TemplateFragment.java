@@ -72,7 +72,7 @@ public class TemplateFragment extends Fragment {
                 imageView.setImageResource(R.drawable.ic_baseline_search_24);
             }
 
-            imageView.setOnTouchListener(new TierElementTouchListener());
+            imageView.setOnTouchListener(new TierElementTouchListener("vacio"));
             imageView.setOnDragListener(new TierElementDragListener());
 
             imageView.bringToFront();
