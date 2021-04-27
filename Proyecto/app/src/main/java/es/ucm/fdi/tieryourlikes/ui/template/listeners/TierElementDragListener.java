@@ -10,6 +10,8 @@ import com.google.android.flexbox.FlexboxLayout;
 import es.ucm.fdi.tieryourlikes.R;
 
 public class TierElementDragListener implements View.OnDragListener{
+    
+
     @Override
     public boolean onDrag(View v, DragEvent event) {
         int action = event.getAction();

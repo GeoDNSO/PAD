@@ -17,6 +17,9 @@ import es.ucm.fdi.tieryourlikes.utilities.CustomFlexboxLayout;
 
 public class TierRowDragListener implements View.OnDragListener {
 
+    public TierRowDragListener() {
+    }
+
     @Override
     public boolean onDrag(View v, DragEvent event) {
         int action = event.getAction();
