@@ -14,7 +14,9 @@
 
     <!--Strings para las funciones de la app-->
     <string name="app_login">Login</string>
+    <string name="app_logeate">Logeate aquí!</string>
     <string name="app_register">Registrarse</string>
+    <string name="app_registrate">Registrate aquí!</string>
     <string name="app_logout">Logout</string>
     <string name="app_list_user_admin">Lista de Usuarios</string>
     <string name="app_delete_user">Eliminar Usuario</string>
@@ -30,6 +32,7 @@
     <string name="app_user_surname">Apellidos</string>
     <string name="app_already_login"><u>¿Ya estás registrado? Inicia sesión aquí</u></string>
     <string name="app_new_login"><u>¿No tienes una cuenta? Registrate aquí</u></string>
+    <string name="app_name_required">Required*</string>
 
 
     <!--Strings para los mensajes de error o informacion a la hora de registrarse/ hacer login-->
