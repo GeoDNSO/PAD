@@ -104,7 +104,6 @@ public class HomeFragment extends Fragment {
                     return;
                 }
 
-
                 Gson gson = new GsonBuilder()
                         .registerTypeAdapter(Template.class, new TemplateSerializer()) //MIrar clase TemplateSerializer que es quien lo convierte a JSON
                         .setPrettyPrinting()

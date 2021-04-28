@@ -97,5 +97,10 @@
     <string name="description">Descripción</string>
     <string name="geolocation">Geolocalización</string>
     <string name="menu_creations_text">Creaciones</string>
+    <string name="save_tier">Guardar Tier</string>
+    <string name="saved_tier_message">El Tier se ha guardado en la Galería</string>
+    <string name="error_saved_tier_message">Se produjo un error al guardar la imagen</string>
+    <string name="error_upload_tier_message">Error al subir el Tier a la Base de Datos</string>
+    <string name="ok_upload_tier_message">El Tier se subió a la BD correctamente</string>
 
 </resources>

@@ -52,23 +52,27 @@ public class TierRowDragListener implements View.OnDragListener {
                 view.setAlpha(0.5f);
 
                 lastOwner=owner;
-                //owner.removeView(view);
+
                 //((CustomFlexboxLayout)owner).removeView(view, data);
-                //container.addView(view);
+
                 //((CustomFlexboxLayout)container).addView(view, data);
+
                 view.setVisibility(View.VISIBLE);
                 break;
             case DragEvent.ACTION_DRAG_EXITED:
                 view.setAlpha(1);
                 v.setBackgroundResource(normal_background);
+
+
                 break;
             case DragEvent.ACTION_DROP:
                 // Dropped, reassign View to ViewGroup
                 view.setAlpha(1);
-                //owner.removeView(view);
+
                 ((CustomFlexboxLayout)owner).removeView(view, data);
+
                 //((CustomFlexboxLayout)lastOwner).removeView(view, data);
-                //container.addView(view);
+
                 ((CustomFlexboxLayout)container).addView(view, data);
                 view.setVisibility(View.VISIBLE);
                 break;

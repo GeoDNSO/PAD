@@ -1,8 +1,10 @@
 package es.ucm.fdi.tieryourlikes.ui.tier;
 
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -12,25 +14,36 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.flexbox.FlexboxLayout;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
+import es.ucm.fdi.tieryourlikes.App;
+import es.ucm.fdi.tieryourlikes.AppConstants;
+import es.ucm.fdi.tieryourlikes.MediaManager;
 import es.ucm.fdi.tieryourlikes.R;
+import es.ucm.fdi.tieryourlikes.model.ApiResponse;
+import es.ucm.fdi.tieryourlikes.model.ResponseStatus;
 import es.ucm.fdi.tieryourlikes.model.Template;
 import es.ucm.fdi.tieryourlikes.model.Tier;
 import es.ucm.fdi.tieryourlikes.model.TierRow;
@@ -62,8 +75,11 @@ public class TierFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         root =  inflater.inflate(R.layout.tier_fragment, container, false);
-        
+        mViewModel = new ViewModelProvider(this).get(TierViewModel.class);
+
+        setHasOptionsMenu(true);
         initUI();
+        observers();
 
         defaultTierAndTemplate();//Crear template y tier de ejemplo
         fillContainer();
@@ -78,6 +94,20 @@ public class TierFragment extends Fragment {
 
 
         return root;
+    }
+
+    private void observers() {
+        mViewModel.getMlvTierResponse().observe(getViewLifecycleOwner(), new Observer<ApiResponse<Tier>>() {
+            @Override
+            public void onChanged(ApiResponse<Tier> tierApiResponse) {
+                Context context = TierFragment.this.getContext();
+                if(tierApiResponse.getResponseStatus() == ResponseStatus.ERROR){
+                    Toast.makeText(context, context.getString(R.string.error_upload_tier_message), Toast.LENGTH_LONG).show();
+                    return;
+                }
+                Toast.makeText(context, context.getString(R.string.ok_upload_tier_message), Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     private void butonPruebConfig() {
@@ -162,4 +192,25 @@ public class TierFragment extends Fragment {
         this.tier = tier;
     }
 
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.tier_fragment_menu, menu);
+
+        MenuItem saveTierItem = menu.findItem(R.id.save_tier_item);
+
+        saveTierItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                recyclerView.setDrawingCacheEnabled(true);
+                Bitmap tierBitmap = recyclerView.getDrawingCache();
+                App.getInstance().saveTierImage(TierFragment.this.getContext(), tierBitmap);
+
+                mViewModel.uploadTier(tier);
+
+                return true;
+            }
+        });
+
+    }
 }
