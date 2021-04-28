@@ -6,42 +6,175 @@
     android:layout_height="match_parent"
     tools:context=".ui.template.TemplateFragment">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        >
 
-        <!--Layout Contenedor del FlexBox para poder ajustarse a un tamaño minimo -->
-        <LinearLayout
+        <TextView
+            android:id="@+id/textView"
             android:layout_width="match_parent"
-            android:minHeight="@dimen/tier_row_images"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="20dp"
+            android:textSize="24sp"
+            android:text="@string/template_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <com.google.android.flexbox.FlexboxLayout
-                android:id="@+id/activityMainFlexBox"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/blue"
-                app:flexWrap="wrap">
+        <EditText
+            android:id="@+id/template_editText_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:autofillHints=""
+            android:hint="@string/edit_text_template_name"
+            android:inputType="textPersonName"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
 
-                <ImageView
-                    android:layout_width="@dimen/tier_row_images"
-                    android:layout_height="@dimen/tier_row_images"
-                    android:src="@drawable/ic_baseline_tag_faces_24"
-                    android:visibility="gone"/>
+        <TextView
+            android:id="@+id/template_textView_category"
+            android:layout_width="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="20dp"
+            android:textSize="24sp"
+            android:text="@string/tab_category"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/template_editText_name" />
 
-            </com.google.android.flexbox.FlexboxLayout>
+        <EditText
+            android:id="@+id/template_editText_category"
+            android:layout_width="match_parent"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:textAllCaps="false"
+            android:layout_marginTop="10dp"
+            android:hint="@string/template_name_category"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/template_textView_category"
+            android:autofillHints=""
+            android:inputType="textPersonName" />
 
-        </LinearLayout>
+        <TextView
+            android:id="@+id/template_textView_cover_photo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="20dp"
+            android:textSize="24sp"
+            android:text="@string/cover_photo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/template_editText_category"/>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/tierMakerRecyclerView"
+        <ImageView
+            android:id="@+id/template_imageView_cover_photo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/template_textView_cover_photo"
+            android:contentDescription="@string/template_imageView" />
+
+        <Button
+            android:id="@+id/template_button_cover_photo"
+            android:layout_width="match_parent"
+            android:text="@string/add_photo"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/template_imageView_cover_photo"/>
+
+        <TextView
+            android:id="@+id/template_textView_images_photo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="20dp"
+            android:textSize="24sp"
+            android:text="@string/images_photo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/template_button_cover_photo"/>
+
+        <HorizontalScrollView
+            android:id="@+id/template_scrollView_images_photo"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/common_google_signin_btn_text_light_default"
-            tools:listitem="@layout/tier_row">
-        </androidx.recyclerview.widget.RecyclerView>
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/template_textView_images_photo">
 
-    </LinearLayout>
+            <LinearLayout
+                android:id="@+id/template_linearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" />
+        </HorizontalScrollView>
+
+        <Button
+            android:id="@+id/template_button_images_photo"
+            android:layout_width="match_parent"
+            android:text="@string/add_images"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/template_scrollView_images_photo"/>
+
+        <TextView
+            android:id="@+id/template_textView_row_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="20dp"
+            android:textSize="24sp"
+            android:text="@string/template_row_label"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/template_button_images_photo"/>
+
+        <LinearLayout
+            android:id="@+id/template_expandable_list_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/template_textView_row_label"/>
+
+        <Button
+            android:id="@+id/template_button_add_label"
+            android:layout_width="match_parent"
+            android:text="@string/add_row"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/template_expandable_list_view"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.core.widget.NestedScrollView>
