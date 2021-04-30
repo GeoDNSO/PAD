@@ -1,6 +1,7 @@
 package es.ucm.fdi.tieryourlikes.ui.template;
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import java.util.List;
 import es.ucm.fdi.tieryourlikes.R;
 import es.ucm.fdi.tieryourlikes.model.TierRow;
 import es.ucm.fdi.tieryourlikes.ui.template.listeners.TierRowDragListener;
+import es.ucm.fdi.tieryourlikes.utilities.CustomFlexboxLayout;
 
 public class TemplateAdapter extends RecyclerView.Adapter<TemplateAdapter.ViewHolder> {
 
@@ -40,6 +42,7 @@ public class TemplateAdapter extends RecyclerView.Adapter<TemplateAdapter.ViewHo
     public void onBindViewHolder(@NonNull TemplateAdapter.ViewHolder holder, int position) {
         TierRow tierRow = list.get(position);
         holder.tvTierRow.setText(tierRow.getRowName());
+        holder.flexboxLayout.setTierRow(tierRow);
     }
 
     @Override
@@ -50,11 +53,10 @@ public class TemplateAdapter extends RecyclerView.Adapter<TemplateAdapter.ViewHo
     class ViewHolder extends RecyclerView.ViewHolder {
 
         private TextView tvTierRow;
-        private FlexboxLayout flexboxLayout;
+        private CustomFlexboxLayout flexboxLayout;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-
             tvTierRow = itemView.findViewById(R.id.tvTierRow);
             flexboxLayout = itemView.findViewById(R.id.tierRowFlexBoxLayout);
 

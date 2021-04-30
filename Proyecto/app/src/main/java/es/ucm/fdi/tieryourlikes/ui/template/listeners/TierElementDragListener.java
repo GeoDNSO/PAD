@@ -1,5 +1,6 @@
 package es.ucm.fdi.tieryourlikes.ui.template.listeners;
 
+import android.util.Log;
 import android.view.DragEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,11 +8,20 @@ import android.view.ViewGroup;
 import com.google.android.flexbox.FlexboxLayout;
 
 import es.ucm.fdi.tieryourlikes.R;
+import es.ucm.fdi.tieryourlikes.utilities.CustomFlexboxLayout;
 
 public class TierElementDragListener implements View.OnDragListener{
+
+
     @Override
     public boolean onDrag(View v, DragEvent event) {
         int action = event.getAction();
+
+        String data = "";
+        if(event.getClipData() != null){
+            data = event.getClipData().getItemAt(0).getText().toString();
+            Log.d("DragElement", data);
+        }
 
         //IDs de los recursos usados para cambiar el fondo según se deje la elemento encima o no
         int normal_background = R.drawable.tier_row_normal_background;
@@ -21,7 +31,7 @@ public class TierElementDragListener implements View.OnDragListener{
         View view = (View) event.getLocalState();
         ViewGroup owner = (ViewGroup) view.getParent();
 
-        FlexboxLayout container = (FlexboxLayout) v.getParent();
+        CustomFlexboxLayout container = (CustomFlexboxLayout) v.getParent();
 
         int i = -1;
 
@@ -37,11 +47,13 @@ public class TierElementDragListener implements View.OnDragListener{
                 container.setBackgroundResource(active_background);
 
                 owner.removeView(view);
+
                 view.setAlpha(0.5f);
 
 
                 i = container.indexOfChild(v);
-                container.addView(view, i);
+                //container.addView(view, i);
+                ((CustomFlexboxLayout)container).addView(view, data);
 
                 view.setVisibility(View.VISIBLE);
 
@@ -56,7 +68,8 @@ public class TierElementDragListener implements View.OnDragListener{
                 owner.removeView(view);
 
                 i = container.indexOfChild(v);
-                container.addView(view, i);
+                //container.addView(view, i);
+                ((CustomFlexboxLayout)container).addView(view, data);
 
                 view.setVisibility(View.VISIBLE);
                 break;
