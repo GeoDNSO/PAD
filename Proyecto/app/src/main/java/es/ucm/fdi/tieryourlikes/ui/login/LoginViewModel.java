@@ -10,8 +10,10 @@ import java.util.List;
 import es.ucm.fdi.tieryourlikes.model.ApiResponse;
 import es.ucm.fdi.tieryourlikes.model.ResponseStatus;
 import es.ucm.fdi.tieryourlikes.model.Template;
+import es.ucm.fdi.tieryourlikes.model.Tier;
 import es.ucm.fdi.tieryourlikes.model.User;
 import es.ucm.fdi.tieryourlikes.repositories.UserRepository;
+import es.ucm.fdi.tieryourlikes.rxjava_utils.GeneralSubscriber;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
@@ -30,6 +32,15 @@ public class LoginViewModel extends ViewModel {
     }
 
     public void userLogin (User user){
+
+        GeneralSubscriber<User> generalSubscriber = new GeneralSubscriber<User>();
+        generalSubscriber.setMutableLiveDataToModify(APIresponseLogin);
+        generalSubscriber.setObservable(userRepository.userLogin(user));
+        generalSubscriber.subscribe();
+
+        //Lo de arriba es igual a lo de abajo, si te resulta raro o dificil o quieres hacer otras cosas
+        // en el viewmodel hazlo como abajo
+        /*
         Disposable dis = userRepository.userLogin(user)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -54,6 +65,8 @@ public class LoginViewModel extends ViewModel {
                         Log.d("H", "ON COMPLETE");
                     }
                 });
+
+         */
     }
 
     public MutableLiveData<ApiResponse<User>> getAPIresponseLogin() {

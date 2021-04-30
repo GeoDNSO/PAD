@@ -31,7 +31,7 @@ public class TemplateRepository {
         Request request = simpleRequest.buildRequest(postBodyString,
                 AppConstants.METHOD_POST, route);
 
-        return new CallObservableCreator<Tier>().get(simpleRequest, request);
+        return new CallObservableCreator<>(Tier.class).get(simpleRequest, request);
     }
 
 
@@ -53,10 +53,10 @@ public class TemplateRepository {
         Request request = simpleRequest.buildRequest(postBodyString,
                 AppConstants.METHOD_GET, builtURI.toString());
 
-        return new CallObservableCreator<Template>().getList(simpleRequest, request);
+        return new CallObservableCreator<>(Template.class).getList(simpleRequest, request);
     }
 
-    //@TODO FALTA AÑADIR EL FILTER y no añadirlo si esta vacio
+    //@TODO FALTA AÑADIR EL FILTER y no añadirlo si esta vacio --> Crear en helper
     private String createBodyString(int page, int quantity, String filter){
 
         JSONObject bodyString = new JSONObject();
