@@ -6,6 +6,8 @@ import android.view.Menu;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
+import es.ucm.fdi.tieryourlikes.model.User;
+
 public class App {
 
     private SessionManager sessionManager;
@@ -33,7 +35,7 @@ public class App {
     }
 
     public boolean isLogged() {
-        return false;
+        return sessionManager.isLogged();
     }
 
     public void setMenu(Menu menu) {
@@ -45,6 +47,11 @@ public class App {
 
     public void setBottomNavigationView(BottomNavigationView bottomNavView) {
         this.bottomNavigationView = bottomNavView;
+    }
+
+    public void setUserSession(User user) {
+        sessionManager.setLogged(true);
+        sessionManager.setUserInfo(user);
     }
 
     public void setMainActivity(MainActivity mainActivity) {
