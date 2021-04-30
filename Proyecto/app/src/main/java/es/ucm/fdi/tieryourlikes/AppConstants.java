@@ -35,5 +35,10 @@ public class AppConstants {
     public static final String DB_PAGINATION_LIMIT = "limit";
     public static final int DEAFULT_LIMIT = 1;
 
+
     public static final String GALLERY_FOLDER = "TierYourLikes";
+
+    public static final String USERNAME = "username";
+    public static final String PASSWORD = "password";
+    public static final String EMAIL = "email";
 }
