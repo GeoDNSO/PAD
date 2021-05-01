@@ -37,6 +37,22 @@ public class UserRepository {
         return new CallObservableCreator<>(User.class).get(simpleRequest, request);
     }
 
+    public Observable<ApiResponse<User>> userRegister(User user) {
 
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(User.class, new UserSerializer()) //MIrar clase TemplateSerializer que es quien lo convierte a JSON
+                .setPrettyPrinting()
+                .create();
+
+        String postBodyString = gson.toJson(user);
+
+        String route = "/registerUser/";
+
+        SimpleRequest simpleRequest = new SimpleRequest();
+        Request request = simpleRequest.buildRequest(postBodyString,
+                AppConstants.METHOD_POST,route);
+
+        return new CallObservableCreator<>(User.class).get(simpleRequest, request);
+    }
 
 }

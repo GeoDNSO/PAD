@@ -16,6 +16,7 @@
         android:layout_marginTop="35dp"
         android:layout_marginEnd="32dp"
         android:hint="@string/app_user_name"
+        app:errorEnabled="true"
         app:endIconMode="clear_text"
         app:helperTextTextColor="@color/colorFavRed"
         app:startIconDrawable="@drawable/ic_user"
@@ -32,26 +33,26 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:id="@+id/textInputLayoutPasswordLogin"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="32dp"
         android:hint="@string/app_user_pass"
-        app:startIconDrawable="@drawable/ic_lock"
         app:endIconMode="password_toggle"
+        app:errorEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutUsernameLogin">
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutUsernameLogin"
+        app:startIconDrawable="@drawable/ic_lock">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editTextPasswordLogin"
             android:layout_width="match_parent"
-            android:inputType="textPassword"
             android:layout_height="wrap_content"
-            />
+            android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
@@ -73,7 +74,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="159dp"
-        android:layout_marginTop="47dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="159dp"
         android:background="#009688"
         android:text="@string/app_login"
