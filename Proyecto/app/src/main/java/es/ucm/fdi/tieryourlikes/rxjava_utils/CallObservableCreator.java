@@ -12,6 +12,7 @@ import java.util.List;
 
 import es.ucm.fdi.tieryourlikes.model.ApiResponse;
 import es.ucm.fdi.tieryourlikes.model.ResponseStatus;
+import es.ucm.fdi.tieryourlikes.model.User;
 import es.ucm.fdi.tieryourlikes.networking.SimpleRequest;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
@@ -21,6 +22,12 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class CallObservableCreator<T> {
+
+    Class<T> objectClass;
+
+    public CallObservableCreator(Class<T> objectClass) {
+        this.objectClass = objectClass;
+    }
 
     public Observable<ApiResponse<List<T>>> getList(SimpleRequest simpleRequest, Request request) {
         return Observable.create(new CallSchema<ApiResponse<List<T>>>(simpleRequest, request){
@@ -78,10 +85,9 @@ public class CallObservableCreator<T> {
     }
 
     private ApiResponse<T> getObject(String responseString){
-        Type typeClass = new TypeToken<T>(){}.getType();
 
         JsonObject jo = (JsonObject)JsonParser.parseString(responseString);
-        T object = new Gson().fromJson(jo, typeClass);
+        T object = new Gson().fromJson(jo, objectClass);
 
         return  new ApiResponse<>(object, ResponseStatus.SUCCESS, null);
     }

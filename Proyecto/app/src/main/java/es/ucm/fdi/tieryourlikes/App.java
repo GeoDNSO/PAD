@@ -53,6 +53,7 @@ public class App {
 
     public void logout() {
         sessionManager.logout();
+        mainActivity.inflateMenu();
     }
 
     public void setBottomNavigationView(BottomNavigationView bottomNavView) {
@@ -62,6 +63,8 @@ public class App {
     public void setUserSession(User user) {
         sessionManager.setLogged(true);
         sessionManager.setUserInfo(user);
+
+        mainActivity.inflateMenu();
     }
 
     public void setMainActivity(MainActivity mainActivity) {

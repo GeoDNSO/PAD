@@ -8,6 +8,7 @@ DB_EMAIL_KEY="email"
 #Constantes para el documento de templates y tiers de la base de datos
 DB_TITLE_KEY = "title"
 DB_CATEGORY_KEY = "category"
+DB_COVER_KEY = "cover"
 DB_CREATOR_USERNAME_KEY = "creator_username" #Creador de la plantilla o tier dependiendo del documento
 DB_CONTAINER_KEY = "container"
 DB_TIER_ROWS_KEY = "tier_rows"
