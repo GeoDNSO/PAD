@@ -78,7 +78,6 @@ public class TemplateRepository {
     public Observable<ApiResponse<Template>> createTemplate(Template template) {
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(Template.class, new TemplateSerializer()) //MIrar clase TemplateSerializer que es quien lo convierte a JSON
-                .setPrettyPrinting()
                 .create();
         String postBodyString = gson.toJson(template);
 

@@ -60,6 +60,7 @@ import es.ucm.fdi.tieryourlikes.model.ResponseStatus;
 import es.ucm.fdi.tieryourlikes.model.Template;
 import es.ucm.fdi.tieryourlikes.model.TierRow;
 import es.ucm.fdi.tieryourlikes.model.serializers.TemplateSerializer;
+import es.ucm.fdi.tieryourlikes.ui.home.HomeViewModel;
 import es.ucm.fdi.tieryourlikes.ui.template.listeners.TierElementDragListener;
 import es.ucm.fdi.tieryourlikes.ui.template.listeners.TierElementTouchListener;
 import es.ucm.fdi.tieryourlikes.ui.template.listeners.TierRowDragListener;
@@ -106,6 +107,9 @@ public class TemplateFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
 
         root = inflater.inflate(R.layout.template_fragment, container, false);
+
+        mViewModel = new ViewModelProvider(this).get(TemplateViewModel.class);
+
         setHasOptionsMenu(true);
         init();
         listeners();
@@ -488,21 +492,19 @@ public class TemplateFragment extends Fragment {
     }
 
     private void createTemplate(){
-        /*imageString = new ArrayList<>();
+        imageString = new ArrayList<>();
         imageByte = new ArrayList<>();
         if(bitmapList.size() > 0) {
             for (int i = 0; i < bitmapList.size(); ++i) {
-                //imageString.add(bitmapToBase64(bitmapList.get(i)));
-                imageByte.add(bitmapToBytes(bitmapList.get(i)));
+                imageString.add(bitmapToBase64(bitmapList.get(i)));
             }
         }
         String image = "";
         byte [] b;
         if(bitmap != null) {
-            //image = bitmapToBase64(bitmap);
-            b = bitmapToBytes(bitmap);
+            image = bitmapToBase64(bitmap);
         }
-        */
+
         rowString = new ArrayList<>();
 
         for (int i = 0; i < countView; ++i) {
@@ -516,11 +518,11 @@ public class TemplateFragment extends Fragment {
         String template_name = et_template_name.getText().toString();
         String template_category = et_template_category.getText().toString();
 
-        if (template_name.isEmpty() || template_category.isEmpty() || pathList.size() == 0 || selectedImagePath == "" || rowString.size() == 0) {
+        if (template_name.isEmpty() || template_category.isEmpty() || imageString.size() == 0 || image == "" || rowString.size() == 0) {
             Toast.makeText(getActivity(), getString(R.string.empty_fields), Toast.LENGTH_SHORT).show();
         }
         else{
-            Template template = new Template(template_name, template_category, "Jin", selectedImagePath, pathList, rowString);
+            Template template = new Template(template_name, template_category, "Jin", image, imageString, rowString);
             mViewModel.createTemplate(template);
         }
     }
