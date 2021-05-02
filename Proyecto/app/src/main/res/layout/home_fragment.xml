@@ -18,6 +18,18 @@
         app:layout_constraintStart_toStartOf="@+id/textViewDemo"
         app:layout_constraintTop_toBottomOf="@+id/textViewDemo" />
 
+    <Button
+        android:id="@+id/buttonDemo2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="72dp"
+        android:text="Empezar Demo Template"
+        app:layout_constraintEnd_toEndOf="@+id/textViewDemo"
+        app:layout_constraintHorizontal_bias="0.026"
+        app:layout_constraintStart_toStartOf="@+id/textViewDemo"
+        app:layout_constraintTop_toBottomOf="@+id/buttonDemo" />
+
+
     <TextView
         android:id="@+id/textViewDemo"
         android:layout_width="300dp"

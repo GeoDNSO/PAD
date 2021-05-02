@@ -4,6 +4,7 @@ import android.net.Uri;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -14,6 +15,8 @@ import es.ucm.fdi.tieryourlikes.AppConstants;
 import es.ucm.fdi.tieryourlikes.model.ApiResponse;
 import es.ucm.fdi.tieryourlikes.model.Template;
 import es.ucm.fdi.tieryourlikes.model.Tier;
+import es.ucm.fdi.tieryourlikes.model.serializers.TemplateSerializer;
+import es.ucm.fdi.tieryourlikes.model.serializers.TierSerializer;
 import es.ucm.fdi.tieryourlikes.networking.SimpleRequest;
 import es.ucm.fdi.tieryourlikes.rxjava_utils.CallObservableCreator;
 import io.reactivex.Observable;
@@ -70,5 +73,23 @@ public class TemplateRepository {
         }
 
         return bodyString.toString();
+    }
+
+    public Observable<ApiResponse<Template>> createTemplate(Template template) {
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(Template.class, new TemplateSerializer()) //MIrar clase TemplateSerializer que es quien lo convierte a JSON
+                .setPrettyPrinting()
+                .create();
+        String postBodyString = gson.toJson(template);
+
+        String route = "/createTemplate/";
+
+        Log.d("TemplateRepository", "EL post Bosy es " + postBodyString);
+
+        SimpleRequest simpleRequest = new SimpleRequest();
+        Request request = simpleRequest.buildRequest(postBodyString,
+                AppConstants.METHOD_POST, route);
+
+        return new CallObservableCreator<>(Template.class).get(simpleRequest, request);
     }
 }

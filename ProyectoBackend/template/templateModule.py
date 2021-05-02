@@ -25,12 +25,12 @@ def createTemplate():
 
     try:
         templateDict = template.to_dict()
-        templateDict.pop(constants.DB_TEMPLATE_ID)#Para no usar un ID incorrecto creado por defecto
+        templateDict.pop(constants.DB_ID_KEY)#Para no usar un ID incorrecto creado por defecto
 
         id = mongo.db.templates.insert_one(templateDict).inserted_id
 
         
-        templateDict[constants.DB_TEMPLATE_ID] = str(id) #Devolvemos el id correcto
+        templateDict[constants.DB_ID_KEY] = str(id) #Devolvemos el id correcto
        
         response = jsonify(templateDict)
         response.status_code = 200 # OK

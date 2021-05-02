@@ -19,9 +19,11 @@ public class TemplateSerializer implements JsonSerializer<Template> {
     @Override
     public JsonElement serialize(Template src, Type typeOfSrc, JsonSerializationContext context) {
         JsonObject result = new JsonObject();
+        result.add(AppConstants.DB_ID_KEY, new JsonPrimitive(src.getId()));
         result.add(AppConstants.DB_TITLE_KEY, new JsonPrimitive(src.getTitle()));
         result.add(AppConstants.DB_CATEGORY_KEY, new JsonPrimitive(src.getCategory()));
         result.add(AppConstants.DB_CREATOR_USERNAME_KEY, new JsonPrimitive(src.getCreator_username()));
+        result.add(AppConstants.DB_COVER_IMAGE_KEY, new JsonPrimitive(src.getCover_image()));
 
         JsonArray container = new JsonArray();
         JsonArray tier_rows = new JsonArray();

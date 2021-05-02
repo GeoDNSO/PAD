@@ -146,39 +146,45 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/template_scrollView_images_photo"/>
 
-        <TextView
-            android:id="@+id/template_textView_row_label"
+        <LinearLayout
+            android:id="@+id/template_linearLayout_2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:layout_marginStart="20dp"
-            android:textSize="24sp"
-            android:text="@string/template_row_label"
+            android:gravity="center"
+            android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/template_button_images_photo"/>
+            app:layout_constraintTop_toBottomOf="@+id/template_button_images_photo">
+
+            <TextView
+                    android:id="@+id/template_textView_row_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:textSize="24sp"
+                    android:text="@string/template_row_label" />
+
+            <Button
+                android:id="@+id/template_button_add_label"
+                android:layout_width="wrap_content"
+                android:text="@string/add_row"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/template_expandable_list_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/template_textView_row_label"/>
-
-        <Button
-            android:id="@+id/template_button_add_label"
-            android:layout_width="match_parent"
-            android:text="@string/add_row"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="30dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/template_expandable_list_view"/>
+            app:layout_constraintTop_toBottomOf="@+id/template_linearLayout_2"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
