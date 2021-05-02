@@ -38,7 +38,7 @@
     <!--Strings para los mensajes de error o informacion a la hora de registrarse/ hacer login-->
     <string name="email_not_valid">Correo Electrónico Inválido</string>
     <string name="password_not_equal">Las contraseñas son distintas</string>
-    <string name="empty_fields">Hay algún campo vacío</string>
+    <string name="empty_fields">En el formulario hay algún campo vacío</string>
     <string name="username_exists">El nombre de usuario ya existe</string>
     <string name="account_created">Cuenta creado con éxito</string>
     <string name="sign_in">Se ha iniciado la sesión</string>
@@ -103,10 +103,28 @@
     <string name="description">Descripción</string>
     <string name="geolocation">Geolocalización</string>
     <string name="menu_creations_text">Creaciones</string>
+
     <string name="save_tier">Guardar Tier</string>
     <string name="saved_tier_message">El Tier se ha guardado en la Galería</string>
     <string name="error_saved_tier_message">Se produjo un error al guardar la imagen</string>
     <string name="error_upload_tier_message">Error al subir el Tier a la Base de Datos</string>
     <string name="ok_upload_tier_message">El Tier se subió a la BD correctamente</string>
+
+    <string name="template_name">Nombre de la plantilla</string>
+    <string name="edit_text_template_name">Nombre de la plantilla</string>
+    <string name="cover_photo">Foto de cubierta</string>
+    <string name="add_photo">Añadir imagen</string>
+    <string name="add_images">Añadir imágenes</string>
+    <string name="template_imageView">Imagen de cubierta</string>
+    <string name="images_photo">Imágenes para el tier</string>
+    <string name="template_row_label">Nombre de las filas</string>
+    <string name="s"> S</string>
+    <string name="delete">Borrar</string>
+    <string name="add_row">Añadir Fila</string>
+    <string name="cannot_add_more_rows">No se puede añadir más de ocho filas</string>
+    <string name="added_images">Imagen añadida</string>
+    <string name="template_name_category">Nombre de la categoría</string>
+    <string name="add_template">Crear Template</string>
+
 
 </resources>
