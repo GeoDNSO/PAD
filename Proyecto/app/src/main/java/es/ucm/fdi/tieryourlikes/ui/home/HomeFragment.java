@@ -28,7 +28,10 @@ import es.ucm.fdi.tieryourlikes.R;
 import es.ucm.fdi.tieryourlikes.model.ApiResponse;
 import es.ucm.fdi.tieryourlikes.model.ResponseStatus;
 import es.ucm.fdi.tieryourlikes.model.Template;
+import es.ucm.fdi.tieryourlikes.model.Tier;
+import es.ucm.fdi.tieryourlikes.model.TierRow;
 import es.ucm.fdi.tieryourlikes.model.serializers.TemplateSerializer;
+import es.ucm.fdi.tieryourlikes.model.serializers.TierSerializer;
 
 public class HomeFragment extends Fragment {
 
@@ -54,7 +57,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //Navegar al fragmento con la demo del tier maker
-                Navigation.findNavController(root).navigate(R.id.templateFragment);
+                Navigation.findNavController(root).navigate(R.id.tierFragment);
             }
         });
 
@@ -62,7 +65,34 @@ public class HomeFragment extends Fragment {
 
         prueba2();
 
+        prueba3();
+
         return root;
+    }
+
+
+
+    private void prueba3() {
+        //Prueba de tiers
+
+        List<String> container = new ArrayList<>();
+        List<TierRow> tierRows = new ArrayList<>();
+        for (int i = 0; i < 5; i++)
+            container.add("url" + i);
+
+        for (int i = 0; i < 5; i++)
+            tierRows.add(new TierRow("Tier_"+i, container.subList(0, i)));
+
+        Tier tier = new Tier("3948i043", "09283ru83uy", "hola", container, tierRows);
+
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(Tier.class, new TierSerializer()) //MIrar clase TemplateSerializer que es quien lo convierte a JSON
+                .setPrettyPrinting()
+                .create();
+
+        String pretty = gson.toJson(tier);
+
+        Log.d("TAG_3", "prueba3: " + pretty);
     }
 
     private void prueba2() {
@@ -74,14 +104,12 @@ public class HomeFragment extends Fragment {
                     return;
                 }
 
-
                 Gson gson = new GsonBuilder()
                         .registerTypeAdapter(Template.class, new TemplateSerializer()) //MIrar clase TemplateSerializer que es quien lo convierte a JSON
                         .setPrettyPrinting()
                         .create();
 
                 String pretty = gson.toJson(listApiResponse.getObject());
-                Log.d("PRETTY", "onChanged: " + pretty);
                 tvPrueba.setText(pretty);
             }
         });

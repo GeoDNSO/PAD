@@ -1,5 +1,10 @@
 package es.ucm.fdi.tieryourlikes.utilities;
 
+import android.app.Activity;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+
 public class AppUtils {
 
     public static void sleep(long milis){
@@ -8,5 +13,12 @@ public class AppUtils {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void setFragmentTitle(Activity activity, String title){
+        //Poner el nombre del lugar en la toolbar
+        AppCompatActivity appCompatActivity = (AppCompatActivity) activity;
+        ActionBar actionBar = appCompatActivity.getSupportActionBar();
+        actionBar.setTitle(title);
     }
 }
