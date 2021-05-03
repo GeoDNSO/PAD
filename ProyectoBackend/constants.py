@@ -23,3 +23,5 @@ DB_TIERS_COUNT = "tiers_count"
 PAGINATION_PAGE = "page"
 PAGINATION_LIMIT = "limit"
 DEAFULT_LIMIT = 1
+
+UPLOAD_FOLDER = "_templates_images"

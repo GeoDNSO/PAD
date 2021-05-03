@@ -3,6 +3,7 @@ import os
 from flask import Flask, app
 from flask_pymongo import PyMongo
 import database
+import constants
 from dotenv import load_dotenv
 
 from user.userModule import userModule
@@ -45,6 +46,7 @@ app.register_blueprint(userModule)
 app.register_blueprint(templateModule)
 app.register_blueprint(tiersDoneModule)
 
+app.config['UPLOAD_FOLDER'] = constants.UPLOAD_FOLDER
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True, threaded=True)

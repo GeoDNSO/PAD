@@ -116,7 +116,7 @@ public class TemplateFragment extends Fragment {
                 if(ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
                     ActivityCompat.requestPermissions(getActivity(),new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, AppConstants.REQUEST_STORAGE);
                 }else {
-                    MediaManager.createImageChooser(TemplateFragment.this.getActivity(), false);
+                    createImageChooser(false);
                 }
             }
         });
@@ -127,7 +127,8 @@ public class TemplateFragment extends Fragment {
                 if(ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
                     ActivityCompat.requestPermissions(getActivity(),new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, AppConstants.REQUEST_STORAGE);
                 }else {
-                    MediaManager.createImageChooser(TemplateFragment.this.getActivity(), true);
+                    //createImageChooser(TemplateFragment.this.getActivity(), true);
+                    createImageChooser(true);
                 }
             }
         });
@@ -165,6 +166,16 @@ public class TemplateFragment extends Fragment {
 
     private void removeView(View v){
         template_linearLayout.removeView(v);
+    }
+
+    public void createImageChooser(boolean allowMultipleSelect){
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, allowMultipleSelect); //allowMultipleSelect --> true más de una imagen a seleccionar
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        String msg = (allowMultipleSelect) ? getActivity().getString(R.string.select_images) : getActivity().getString(R.string.select_image);
+        int requestCode = (allowMultipleSelect) ? AppConstants.INSERT_IMAGES_RC_IMAGES : AppConstants.INSERT_IMAGES_RC;
+        startActivityForResult(Intent.createChooser(intent, msg), requestCode);
     }
 
     @Override
