@@ -61,7 +61,6 @@ public class LoginFragment extends Fragment {
         loginButton = root.findViewById(R.id.buttonLogin);
         tvRegistrate = root.findViewById(R.id.textViewRegistrateAqui);
 
-
         tvRegistrate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,7 +71,9 @@ public class LoginFragment extends Fragment {
         loginButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                User user = createUser(inputUsername.getText().toString(), inputPassword.getText().toString(), "");
+                User user = createUser(inputUsername.getText().toString(),
+                        inputPassword.getText().toString(),
+                        "");
                 mViewModel.userLogin(user);
             }
         });
@@ -93,6 +94,8 @@ public class LoginFragment extends Fragment {
             public void onChanged(ApiResponse<User> userApiResponse) {
                 Log.d("TAG2", "ENTRO");
                 if(userApiResponse.getResponseStatus() == ResponseStatus.ERROR) {
+                    layoutUsername.setError("El usuario o contraseña no coinciden.");
+                    layoutPassword.setError("El usuario o contraseña no coinciden.");
                     Toast.makeText(getActivity(), "Hubo un error:" + userApiResponse.getError(), Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -103,6 +106,24 @@ public class LoginFragment extends Fragment {
             }
         });
     }
+
+    /*public void errores(){
+        if(inputUsername.getText().toString().trim().isEmpty()){
+            //Poner el mensaje de error en el Layout
+            layoutUsername.setError("Este campo es requerido");
+        }else{
+            //Quitar el mensaje de error del Layout
+            layoutUsername.setError(null);
+        }
+
+        if(inputPassword.getText().toString().trim().isEmpty()){
+            //Poner el mensaje de error en el Layout
+            layoutPassword.setError("Este campo es requerido");
+        }else{
+            //Quitar el mensaje de error del Layout
+            layoutPassword.setError(null);
+        }
+    }*/
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
