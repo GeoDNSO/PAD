@@ -177,13 +177,16 @@ public class TierFragment extends Fragment {
         container.add("https://naranjasvitaminadas.com/wp-content/uploads/2018/10/naranja-valenciana-vitaminada.png");
         container.add("https://e00-expansion.uecdn.es/assets/multimedia/imagenes/2019/06/27/15616371314021.jpg");
         container.add("https://mk0lanoticiapwmx1x6a.kinstacdn.com/wp-content/uploads/2020/08/5-razones-para-comer-sandia-todos-los-dias.jpg");
+
+        String image = "asdad";
+
         List<String> tierRowsString = new ArrayList<>();
         tierRowsString.add("A");
         tierRowsString.add("B");
         tierRowsString.add("C");
 
         //Glide.with(getActivity()).load("https://picsum.photos/200")
-        Template template = new Template("Frutas", "Frutas", "frutero",
+        Template template = new Template("Frutas", "Frutas", "frutero", image,
                 container, tierRowsString);
 
         this.template = template;

@@ -41,4 +41,10 @@ public class AppConstants {
     public static final String USERNAME = "username";
     public static final String PASSWORD = "password";
     public static final String EMAIL = "email";
+
+    public static final int INSERT_IMAGES_RC = 200;
+    public static final int REQUEST_STORAGE = 150;
+    public static final int INSERT_IMAGES_RC_IMAGES = 201;
+
+    public static final String DB_COVER_IMAGE_KEY = "cover";
 }

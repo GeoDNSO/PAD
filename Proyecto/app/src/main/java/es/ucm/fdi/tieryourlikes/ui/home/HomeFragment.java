@@ -61,6 +61,15 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        Button button2 = root.findViewById(R.id.buttonDemo2);
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Navegar al fragmento con la demo del tier maker
+                Navigation.findNavController(root).navigate(R.id.templateFragment);
+            }
+        });
+
         prueba();
 
         prueba2();
@@ -139,6 +148,7 @@ public class HomeFragment extends Fragment {
 
                 //Ejemplo de Serializar un template a JSON
 
+                String image = "url1";
                 //Crear template
                 List<String> container = new ArrayList<>();
                 container.add("url1");
@@ -152,7 +162,7 @@ public class HomeFragment extends Fragment {
                 tierRows.add("C");
 
                 Template template = new Template("Prueba", "Otro", "hola",
-                        container, tierRows);
+                        image, container, tierRows);
 
                 //Crear el item de GSON que lo convertira a json
                 Gson gson = new GsonBuilder()

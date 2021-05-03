@@ -3,15 +3,19 @@ package es.ucm.fdi.tieryourlikes.model;
 import java.util.List;
 
 public class Template {
+    private String id;
     private String title;
     private String category;
     private String creator_username;
     private List<String> container;
     private List<String> tier_rows;
+    private String cover_image;
 
-    public Template(String title, String category, String creator_username, List<String> container, List<String> tier_rows) {
+    public Template(String title, String category, String creator_username, String cover_image, List<String> container, List<String> tier_rows) {
+        id = "-1";
         this.title = title;
         this.category = category;
+        this.cover_image = cover_image;
         this.creator_username = creator_username;
         this.container = container;
         this.tier_rows = tier_rows;
@@ -57,14 +61,32 @@ public class Template {
         this.tier_rows = tier_rows;
     }
 
+    public String getCover_image() {
+        return cover_image;
+    }
+
+    public void setCover_image(String cover_image) {
+        this.cover_image = cover_image;
+    }
+
     @Override
     public String toString() {
         return "Template{" +
                 "title='" + title + '\'' +
                 ", category='" + category + '\'' +
                 ", creator_username='" + creator_username + '\'' +
+                ", cover_image='" + cover_image + '\'' +
                 ", container=" + container +
                 ", tier_rows=" + tier_rows +
                 '}';
+    }
+
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }
