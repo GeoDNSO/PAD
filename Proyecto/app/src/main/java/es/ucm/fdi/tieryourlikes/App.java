@@ -10,8 +10,8 @@ import com.google.android.material.navigation.NavigationView;
 
 import java.io.FileNotFoundException;
 
-import es.ucm.fdi.tieryourlikes.ui.tier.TierFragment;
 import es.ucm.fdi.tieryourlikes.model.User;
+import es.ucm.fdi.tieryourlikes.utilities.MediaManager;
 
 
 public class App {

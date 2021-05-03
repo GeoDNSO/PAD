@@ -64,9 +64,11 @@ import es.ucm.fdi.tieryourlikes.ui.home.HomeViewModel;
 import es.ucm.fdi.tieryourlikes.ui.template.listeners.TierElementDragListener;
 import es.ucm.fdi.tieryourlikes.ui.template.listeners.TierElementTouchListener;
 import es.ucm.fdi.tieryourlikes.ui.template.listeners.TierRowDragListener;
+import es.ucm.fdi.tieryourlikes.utilities.MediaManager;
 
 public class TemplateFragment extends Fragment {
 
+    private static final int ROW_LIMIT = 8;
     private View root;
 
     private EditText et_template_name;
@@ -97,6 +99,7 @@ public class TemplateFragment extends Fragment {
     private TemplateAdapter templateAdapter;
 
     private List<TierRow> tierRowList;
+    private char nextTierRow;
 
     public static TemplateFragment newInstance() {
         return new TemplateFragment();
@@ -151,6 +154,7 @@ public class TemplateFragment extends Fragment {
         imageView = root.findViewById(R.id.template_imageView_cover_photo);
         et_template_category = root.findViewById(R.id.template_editText_category);
         countView = 0;
+        nextTierRow = 'A';
     }
 
     private void listeners(){
@@ -160,7 +164,7 @@ public class TemplateFragment extends Fragment {
                 if(ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
                     ActivityCompat.requestPermissions(getActivity(),new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, AppConstants.REQUEST_STORAGE);
                 }else {
-                    insertImageFromGallery();
+                    MediaManager.createImageChooser(TemplateFragment.this.getActivity(), false);
                 }
             }
         });
@@ -171,7 +175,7 @@ public class TemplateFragment extends Fragment {
                 if(ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
                     ActivityCompat.requestPermissions(getActivity(),new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, AppConstants.REQUEST_STORAGE);
                 }else {
-                    insertImagesFromGallery();
+                    MediaManager.createImageChooser(TemplateFragment.this.getActivity(), true);
                 }
             }
         });
@@ -179,7 +183,7 @@ public class TemplateFragment extends Fragment {
         add_label_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(countView >= 8){
+                if(countView >= ROW_LIMIT){
                     Toast.makeText(getContext(), getString(R.string.cannot_add_more_rows), Toast.LENGTH_SHORT).show();
                 }else {
                     countView++;
@@ -195,10 +199,15 @@ public class TemplateFragment extends Fragment {
         et_row_label = view.findViewById(R.id.editText_row);
         iv_row_label = view.findViewById(R.id.remove_button_row);
 
+
+        String rowLabelHint = String.valueOf(nextTierRow++);
+        et_row_label.setHint(rowLabelHint);
+        
         iv_row_label.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 removeView(view);
+                nextTierRow--;
                 countView--;
             }
         });
@@ -210,23 +219,6 @@ public class TemplateFragment extends Fragment {
         template_linearLayout.removeView(v);
     }
 
-    //función para seleccionar imagenes de la galeria
-    private void insertImagesFromGallery(){
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Seleccionar Imagenes"), AppConstants.INSERT_IMAGES_RC_IMAGES);
-    }
-
-    //función para seleccionar imagenes de la galeria
-    private void insertImageFromGallery(){
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, false);
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Seleccionar Imagen"), AppConstants.INSERT_IMAGES_RC);
-    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
