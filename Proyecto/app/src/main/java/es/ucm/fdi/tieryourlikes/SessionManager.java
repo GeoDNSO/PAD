@@ -3,6 +3,8 @@ package es.ucm.fdi.tieryourlikes;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import es.ucm.fdi.tieryourlikes.model.User;
+
 public class SessionManager {
 
     private final String SHARED_PRIVATE_FILE = "pref";
@@ -47,20 +49,14 @@ public class SessionManager {
         editor.commit();
     }
 
-    public void setUserInfo(/*TUser user*/) {
-        /*
+    public void setUserInfo(User user) {
+
         editor.putString(AppConstants.USERNAME, user.getUsername());
-        editor.putString(AppConstants.NAME, user.getName());
-        editor.putString(AppConstants.SURNAME, user.getSurname());
-        editor.putString(AppConstants.CITY, user.getCity());
         editor.putString(AppConstants.PASSWORD, user.getPassword());
         editor.putString(AppConstants.EMAIL, user.getEmail());
-        editor.putString(AppConstants.GENDER, user.getGender());
-        editor.putString(AppConstants.BIRTH_DATE, user.getBirthDate());
-        editor.putString(AppConstants.PROFILE_PICTURE, "AA");//TODO Usuario con imagen de perfil??
-        editor.putString(AppConstants.ADMIN, user.getRol());
+        //editor.putString(AppConstants.ADMIN, user.getRol());
+
         editor.commit();
-        */
     }
 
 
