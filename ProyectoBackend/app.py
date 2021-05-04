@@ -32,7 +32,6 @@ def config_DB_URL():
 
     MONGO_DB_URL = "mongodb+srv://{0}:{1}@{2}/pad_tiermaker?retryWrites=true&w=majority".format(USERNAME, PASSWORD, BASE_URL)
 
-
 #Inicialización del Servidor
 config_DB_URL()
 

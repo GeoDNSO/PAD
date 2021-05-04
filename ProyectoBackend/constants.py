@@ -22,7 +22,9 @@ DB_CATEGORY_NAME_KEY = "name"
 DB_CREATION_TIME = "creation_time"
 
 DB_RESULT = "result"
-DB_CATEGORIES_LIST = "categories"
+DB_CATEGORIES_LIST = "list"
+DB_TEMPLATE_LIST = "list"
+DB_TIER_LIST = "list"
 
 #Constantes para el envio de otros datos
 DB_TEMPLATE_COUNT = "templates_count"

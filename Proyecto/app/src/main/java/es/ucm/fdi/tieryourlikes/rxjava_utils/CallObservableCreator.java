@@ -7,6 +7,7 @@ import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
+import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.List;
 
@@ -23,7 +24,7 @@ import okhttp3.Response;
 
 public class CallObservableCreator<T> {
 
-    Class<T> objectClass;
+    private Class<T> objectClass;
 
     public CallObservableCreator(Class<T> objectClass) {
         this.objectClass = objectClass;
@@ -93,13 +94,35 @@ public class CallObservableCreator<T> {
     }
 
     private ApiResponse<List<T>> getList(String responseString){
-        Type typeClass = new TypeToken<List<T>>(){}.getType();
-
         JsonObject jo = (JsonObject) JsonParser.parseString(responseString);
         JsonArray arr = jo.get("list").getAsJsonArray();
 
-        List<T> outputList = new Gson().fromJson(arr, typeClass);
+        List<T> outputList = new Gson().fromJson(arr, new ListWithElements<T>(objectClass));
 
         return new ApiResponse<>(outputList, ResponseStatus.SUCCESS, null);
+    }
+
+    // https://stackoverflow.com/questions/27253555/com-google-gson-internal-linkedtreemap-cannot-be-cast-to-my-class
+    // https://stackoverflow.com/questions/14503881/strange-behavior-when-deserializing-nested-generic-classes-with-gson/14506181#14506181
+    //Useful: https://stackoverflow.com/questions/26203634/gson-fromjson-deserialize-generics/26203635#26203635
+    private class ListWithElements<T> implements ParameterizedType {
+
+        private Class<T> elementsClass;
+
+        public ListWithElements(Class<T> elementsClass) {
+            this.elementsClass = elementsClass;
+        }
+
+        public Type[] getActualTypeArguments() {
+            return new Type[] {elementsClass};
+        }
+
+        public Type getRawType() {
+            return List.class;
+        }
+
+        public Type getOwnerType() {
+            return null;
+        }
     }
 }

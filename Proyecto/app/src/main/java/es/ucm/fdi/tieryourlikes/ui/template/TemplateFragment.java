@@ -20,25 +20,33 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.Toast;
+
+import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import es.ucm.fdi.tieryourlikes.AppConstants;
 import es.ucm.fdi.tieryourlikes.R;
 import es.ucm.fdi.tieryourlikes.model.ApiResponse;
+import es.ucm.fdi.tieryourlikes.model.Category;
 import es.ucm.fdi.tieryourlikes.model.ResponseStatus;
 import es.ucm.fdi.tieryourlikes.model.Template;
 import es.ucm.fdi.tieryourlikes.utilities.MediaManager;
@@ -53,7 +61,6 @@ public class TemplateFragment extends Fragment {
     private int numberOfImages;
 
     private EditText et_template_name;
-    private EditText et_template_category;
     private Button add_cover_button;
     private Button add_images_button;
     private Button add_label_button;
@@ -62,6 +69,7 @@ public class TemplateFragment extends Fragment {
     private LinearLayout template_linearLayout;
     private EditText et_row_label;
     private ImageView iv_row_label;
+    private SearchableSpinner categoriesSpinner;
 
     private Bitmap bitmap;
     private List<Bitmap> bitmapList;
@@ -79,6 +87,8 @@ public class TemplateFragment extends Fragment {
         listeners();
         observers();
 
+        mViewModel.getCategories();
+
         return root;
     }
 
@@ -94,6 +104,25 @@ public class TemplateFragment extends Fragment {
                 Navigation.findNavController(root).navigate(R.id.homeFragment);
             }
         });
+
+        mViewModel.getCategoriesResponse().observe(getViewLifecycleOwner(), new Observer<ApiResponse<List<Category>>>() {
+            @Override
+            public void onChanged(ApiResponse<List<Category>> listApiResponse) {
+                if(listApiResponse.getResponseStatus() == ResponseStatus.ERROR) {
+                    //Toast.makeText(getActivity(), "Hubo un error:" + listApiResponse.getError(), Toast.LENGTH_SHORT).show();
+                    //Si falla se vuelve a pedir al servidor
+                    mViewModel.getCategories();
+                    return;
+                }
+                List<String> categoriesList = listApiResponse.getObject().stream()
+                        .map(category -> category.getName())
+                        .collect(Collectors.toList());
+
+                categoriesSpinner.setAdapter(new ArrayAdapter<>(getActivity(),
+                                R.layout.support_simple_spinner_dropdown_item,
+                                categoriesList));
+            }
+        });
     }
 
     private void init(){
@@ -104,9 +133,13 @@ public class TemplateFragment extends Fragment {
         template_linearLayout = root.findViewById(R.id.template_expandable_list_view);
         linearLayout = root.findViewById(R.id.template_linearLayout);
         imageView = root.findViewById(R.id.template_imageView_cover_photo);
-        et_template_category = root.findViewById(R.id.template_editText_category);
+
         countView = 0;
         nextTierRow = 'A';
+
+        categoriesSpinner = root.findViewById(R.id.template_category_spinner);
+        categoriesSpinner.setTitle(getString(R.string.select_category));
+        categoriesSpinner.setPositiveButton(getString(R.string.category_select_ok));
     }
 
     private void listeners(){
@@ -142,6 +175,19 @@ public class TemplateFragment extends Fragment {
                     countView++;
                     addView();
                 }
+            }
+        });
+
+        categoriesSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                 String template_category = (String) categoriesSpinner.getSelectedItem();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                Toast.makeText(getActivity(), getString(R.string.select_category_message), Toast.LENGTH_SHORT).show();
+                return;
             }
         });
     }
@@ -285,8 +331,9 @@ public class TemplateFragment extends Fragment {
             }
         }
         String template_name = et_template_name.getText().toString();
-        String template_category = et_template_category.getText().toString();
-
+        //String template_category = et_template_category.getText().toString();
+        String template_category = (String) categoriesSpinner.getSelectedItem();
+        Log.d("TAG_CAT", "El item seleccionado fue " + template_category);
         if (template_name.isEmpty() || template_category.isEmpty() || imageString.size() == 0 || image == "" || rowString.size() == 0) {
             Toast.makeText(getActivity(), getString(R.string.empty_fields), Toast.LENGTH_SHORT).show();
         }

@@ -127,6 +127,9 @@
     <string name="add_template">Crear Template</string>
     <string name="select_images">Seleccionar Imágenes</string>
     <string name="select_image">Seleccionar Imagen</string>
+    <string name="select_category_message">Por favor, selecciona una categoría</string>
+    <string name="select_category">Selecciona una Categoría</string>
+    <string name="category_select_ok">Confirmar</string>
 
 
 </resources>

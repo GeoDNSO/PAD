@@ -57,6 +57,7 @@ public class SimpleRequest {
 
     public Call createCall(Request request){
         OkHttpClient client = new OkHttpClient.Builder()
+                .retryOnConnectionFailure(true)
                 .connectTimeout(TTL_SECONDS, TimeUnit.SECONDS)
                 .readTimeout(TTL_SECONDS, TimeUnit.SECONDS)
                 .writeTimeout(TTL_SECONDS, TimeUnit.SECONDS)

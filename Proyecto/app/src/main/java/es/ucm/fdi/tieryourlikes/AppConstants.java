@@ -47,4 +47,6 @@ public class AppConstants {
     public static final int INSERT_IMAGES_RC_IMAGES = 201;
 
     public static final String DB_COVER_IMAGE_KEY = "cover";
+    public static final String DB_CATEGORY_NAME = "name";
+    public static final String DB_CREATION_TIME = "creation_time";
 }
