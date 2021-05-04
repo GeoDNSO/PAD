@@ -55,6 +55,8 @@
     <string name="profile_delete_account_title">Borrar Cuenta</string>
     <string name="profile_delete_account_message">¿Estás seguro de borrar tu cuenta? Todos tus datos se perderán</string>
     <string name="profile_your_profile">Tu perfil</string>
+    <string name="profile_templates_count">Plantillas creadas</string>
+    <string name="profile_tiers_count">Tiers completados</string>
 
     <string name="alert_yes">Sí</string>
     <string name="alert_no">No</string>

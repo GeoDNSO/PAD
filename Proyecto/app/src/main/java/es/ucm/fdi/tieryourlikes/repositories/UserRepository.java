@@ -1,9 +1,11 @@
 package es.ucm.fdi.tieryourlikes.repositories;
 
+import android.net.Uri;
 import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 
 import es.ucm.fdi.tieryourlikes.AppConstants;
 import es.ucm.fdi.tieryourlikes.model.ApiResponse;
@@ -53,6 +55,24 @@ public class UserRepository {
                 AppConstants.METHOD_POST,route);
 
         return new CallObservableCreator<>(User.class).get(simpleRequest, request);
+    }
+
+    public Observable<ApiResponse<JsonObject>> userProfile(String username) {
+
+        String postBodyString = ""; //metodo GET no es necesario el body
+
+        String route = "/getUserStats/";
+
+        String finalURL = route + "?";
+        Uri builtURI = Uri.parse(finalURL).buildUpon()
+                .appendQueryParameter(AppConstants.DB_USERNAME_KEY, String.valueOf(username))
+                .build();
+
+        SimpleRequest simpleRequest = new SimpleRequest();
+        Request request = simpleRequest.buildRequest(postBodyString,
+                AppConstants.METHOD_GET, builtURI.toString());
+
+        return new CallObservableCreator<>(JsonObject.class).getJson(simpleRequest, request);
     }
 
 }

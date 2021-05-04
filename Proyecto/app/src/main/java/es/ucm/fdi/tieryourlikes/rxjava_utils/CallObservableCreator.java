@@ -6,6 +6,8 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.List;
@@ -44,6 +46,16 @@ public class CallObservableCreator<T> {
             @Override
             protected void onSuccessful(String responseString, ObservableEmitter<ApiResponse<T>> emitter) {
                 ApiResponse<T> apiResponse = getObject(responseString);
+                emitter.onNext(apiResponse);
+            }
+        });
+    }
+
+    public Observable<ApiResponse<JsonObject>> getJson(SimpleRequest simpleRequest, Request request){
+        return Observable.create(new CallSchema<ApiResponse<JsonObject>>(simpleRequest, request){
+            @Override
+            protected void onSuccessful(String responseString, ObservableEmitter<ApiResponse<JsonObject>> emitter) {
+                ApiResponse<JsonObject> apiResponse = getJsonObject(responseString);
                 emitter.onNext(apiResponse);
             }
         });
@@ -90,6 +102,13 @@ public class CallObservableCreator<T> {
         T object = new Gson().fromJson(jo, objectClass);
 
         return  new ApiResponse<>(object, ResponseStatus.SUCCESS, null);
+    }
+
+    private ApiResponse<JsonObject> getJsonObject(String responseString){
+
+        JsonObject jo = (JsonObject)JsonParser.parseString(responseString);
+
+        return  new ApiResponse<>(jo, ResponseStatus.SUCCESS, null);
     }
 
     private ApiResponse<List<T>> getList(String responseString){

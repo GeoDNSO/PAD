@@ -118,7 +118,7 @@ public class RegisterFragment extends Fragment {
     }
 
     private void observers(){
-        mViewModel.getAPIresponseLogin().observe(getViewLifecycleOwner(), new Observer<ApiResponse<User>>() {
+        mViewModel.getAPIresponseRegister().observe(getViewLifecycleOwner(), new Observer<ApiResponse<User>>() {
             @Override
             public void onChanged(ApiResponse<User> userApiResponse) {
                 Log.d("TAG2", "ENTRO");

@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/profileCL"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.profile.ProfileFragment">
@@ -23,8 +24,8 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.cardview.widget.CardView
-        android:layout_width="406dp"
-        android:layout_height="113dp"
+        android:layout_width="416dp"
+        android:layout_height="208dp"
         android:layout_marginStart="15dp"
         android:layout_marginTop="37dp"
         android:layout_marginEnd="15dp"
@@ -37,40 +38,56 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/tvNombrePerfil"
+                android:id="@+id/tvTemplatesCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="40dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="312dp"
-                android:text="@string/profile_name"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="100dp"
+                android:text="@string/profile_templates_count"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/tvEmailPerfil" />
 
             <TextView
                 android:id="@+id/tvEmailPerfil"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="40dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="328dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="100dp"
                 android:text="@string/profile_email"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvNombrePerfil" />
+                app:layout_constraintTop_toBottomOf="@+id/tvUsernamePerfil" />
 
             <TextView
                 android:id="@+id/tvUsernamePerfil"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="40dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="242dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="200dp"
                 android:text="@string/profile_username"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvEmailPerfil" />
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvTiersC"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="246dp"
+                android:text="@string/profile_tiers_count"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvTemplatesCount" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 

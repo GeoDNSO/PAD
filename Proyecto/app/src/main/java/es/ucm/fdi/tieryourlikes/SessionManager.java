@@ -29,11 +29,13 @@ public class SessionManager {
     }
 
     public String getUsername() {
-        /*
         String username = prefs.getString(AppConstants.USERNAME,"");
         return username;
-        */
-         return "GETUSERNAME NO HECHO";
+    }
+
+    public String getEmail() {
+        String email = prefs.getString(AppConstants.EMAIL,"");
+        return email;
     }
 
     public void setLogged(boolean logged){
