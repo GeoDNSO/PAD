@@ -182,12 +182,12 @@ public class TemplateFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                  String template_category = (String) categoriesSpinner.getSelectedItem();
+                 Log.d("TEMPLATE_SPINNER", "Item seleccionado " + template_category);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 Toast.makeText(getActivity(), getString(R.string.select_category_message), Toast.LENGTH_SHORT).show();
-                return;
             }
         });
     }
