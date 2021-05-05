@@ -73,7 +73,8 @@ public class LoginFragment extends Fragment {
             public void onClick(View v){
                 User user = createUser(inputUsername.getText().toString(),
                         inputPassword.getText().toString(),
-                        "");
+                        ""/*,
+                        ""*/);
                 mViewModel.userLogin(user);
             }
         });
@@ -83,8 +84,8 @@ public class LoginFragment extends Fragment {
         return root;
     }
 
-    private User createUser(String username, String pass, String email){
-        User user = new User(username, pass, email);
+    private User createUser(String username, String pass, String email/*, String iconURL*/){
+        User user = new User(username, pass, email/*, iconURL*/);
         return user;
     }
 

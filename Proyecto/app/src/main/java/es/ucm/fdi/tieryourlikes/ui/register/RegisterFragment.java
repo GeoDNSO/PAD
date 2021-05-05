@@ -94,7 +94,9 @@ public class RegisterFragment extends Fragment {
                 if(p1.equals(p2)){
                     User user = createUser(inputUsername.getText().toString(),
                             inputPassword.getText().toString(),
-                            inputEmail.getText().toString());
+                            inputEmail.getText().toString()/*,
+                            "res/drawable/ic_icons8_user_male.xml"*/);  //no se si poner mas ruta o desde res esta bien...
+                            //no se si la url esta bien, alome es mejor pone @drawable/ic_icons8_user_male
                     mViewModel.userRegister(user);
                 }
                 else {
@@ -112,8 +114,8 @@ public class RegisterFragment extends Fragment {
         return root;
     }
 
-    private User createUser(String username, String pass, String email){
-        User user = new User(username, pass, email);
+    private User createUser(String username, String pass, String email/*, String iconURL*/){
+        User user = new User(username, pass, email/*, iconURL*/);
         return user;
     }
 

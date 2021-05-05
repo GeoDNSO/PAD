@@ -52,7 +52,7 @@ public class UserRepository {
 
         SimpleRequest simpleRequest = new SimpleRequest();
         Request request = simpleRequest.buildRequest(postBodyString,
-                AppConstants.METHOD_POST,route);
+                AppConstants.METHOD_POST, route);
 
         return new CallObservableCreator<>(User.class).get(simpleRequest, request);
     }

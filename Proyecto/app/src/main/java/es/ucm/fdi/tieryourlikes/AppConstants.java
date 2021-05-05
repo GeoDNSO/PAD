@@ -21,6 +21,7 @@ public class AppConstants {
     public static final String DB_USERNAME_KEY="username";
     public static final String DB_PASSWORD_KEY="password";
     public static final String DB_EMAIL_KEY="email";
+    public static final String DB_ICON_KEY = "iconURL";
 
     public static final String DB_TITLE_KEY = "title";
     public static final String DB_CATEGORY_KEY = "category";
@@ -47,4 +48,5 @@ public class AppConstants {
     public static final int INSERT_IMAGES_RC_IMAGES = 201;
 
     public static final String DB_COVER_IMAGE_KEY = "cover";
+
 }

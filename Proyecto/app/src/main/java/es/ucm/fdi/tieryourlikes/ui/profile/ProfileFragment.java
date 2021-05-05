@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +33,7 @@ public class ProfileFragment extends Fragment {
     private TextView tvUsername;
     private TextView tvTemplatesCount;
     private TextView tvTiersCount;
+    private ImageView ivIcon;
 
     public static ProfileFragment newInstance() {
         return new ProfileFragment();
@@ -52,8 +54,8 @@ public class ProfileFragment extends Fragment {
         String email = App.getInstance().getEmail();
         mViewModel.userProfile(username);
 
-        tvUsername.setText("Nombre de usuario: " + username);
-        tvEmail.setText("Email: " + email);
+        tvUsername.setText(username);
+        tvEmail.setText(email);
 
         observers();
 
@@ -76,8 +78,8 @@ public class ProfileFragment extends Fragment {
                 String template_count = stats.get("templates_count").toString();
                 String tiers_count = stats.get("tiers_count").toString();
 
-                tvTemplatesCount.setText("Plantillas creadas: " + template_count);
-                tvTiersCount.setText("Tiers completados: " + tiers_count);
+                tvTemplatesCount.setText(template_count);
+                tvTiersCount.setText(tiers_count);
 
             }
         });

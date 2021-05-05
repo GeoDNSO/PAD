@@ -57,6 +57,8 @@
     <string name="profile_your_profile">Tu perfil</string>
     <string name="profile_templates_count">Plantillas creadas</string>
     <string name="profile_tiers_count">Tiers completados</string>
+    <string name="profile_user_icon">Icono del Usuario</string>
+    <string name="profile_boton_cambiar_avatar">Cambiar Avatar</string>
 
     <string name="alert_yes">Sí</string>
     <string name="alert_no">No</string>
