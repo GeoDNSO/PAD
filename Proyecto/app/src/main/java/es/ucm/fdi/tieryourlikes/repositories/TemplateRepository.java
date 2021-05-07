@@ -24,21 +24,7 @@ import okhttp3.Request;
 
 public class TemplateRepository {
 
-
-    public Observable<ApiResponse<Tier>> uploadTier(Tier tier) {
-        String postBodyString = new Gson().toJson(tier);
-
-        String route = "/createTierDone/";
-
-        SimpleRequest simpleRequest = new SimpleRequest();
-        Request request = simpleRequest.buildRequest(postBodyString,
-                AppConstants.METHOD_POST, route);
-
-        return new CallObservableCreator<>(Tier.class).get(simpleRequest, request);
-    }
-
-
-    public Observable<ApiResponse<List<Template>>> listTemplates(int page, int quantity, String filter) {
+        public Observable<ApiResponse<List<Template>>> listTemplates(int page, int quantity, String filter) {
 
         String postBodyString = ""; //Metodo GET, no es necesairo un Body
 
@@ -83,7 +69,7 @@ public class TemplateRepository {
 
         String route = "/createTemplate/";
 
-        Log.d("TemplateRepository", "EL post Bosy es " + postBodyString);
+        Log.d("TemplateRepository", "EL post Body es " + postBodyString);
 
         SimpleRequest simpleRequest = new SimpleRequest();
         Request request = simpleRequest.buildRequest(postBodyString,

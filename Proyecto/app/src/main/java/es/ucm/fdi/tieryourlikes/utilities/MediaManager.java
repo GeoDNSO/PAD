@@ -1,21 +1,28 @@
-package es.ucm.fdi.tieryourlikes;
+package es.ucm.fdi.tieryourlikes.utilities;
 
+import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Base64;
 
 import androidx.annotation.NonNull;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+
+import es.ucm.fdi.tieryourlikes.AppConstants;
+import es.ucm.fdi.tieryourlikes.R;
 
 public class MediaManager {
 
@@ -113,4 +120,28 @@ public class MediaManager {
 
     }
 
+
+    public static void createImageChooser(Activity activity, boolean allowMultipleSelect){
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, allowMultipleSelect); //allowMultipleSelect --> true más de una imagen a seleccionar
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        String msg = (allowMultipleSelect) ? activity.getString(R.string.select_images) : activity.getString(R.string.select_image);
+        int requestCode = (allowMultipleSelect) ? AppConstants.INSERT_IMAGES_RC_IMAGES : AppConstants.INSERT_IMAGES_RC;
+        activity.startActivityForResult(Intent.createChooser(intent, msg), requestCode);
+    }
+
+    public static String bitmapToBase64(Bitmap bitmap) {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 90, byteArrayOutputStream);
+        byte[] byteArray = byteArrayOutputStream.toByteArray();
+        return Base64.encodeToString(byteArray, Base64.DEFAULT);
+    }
+
+    public static byte[] bitmapToBytes(Bitmap bitmap) {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 90, byteArrayOutputStream);
+        byte[] byteArray = byteArrayOutputStream.toByteArray();
+        return byteArray;
+    }
 }

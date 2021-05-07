@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -101,7 +102,7 @@ public class HomeFragment extends Fragment {
 
         String pretty = gson.toJson(tier);
 
-        Log.d("TAG_3", "prueba3: " + pretty);
+        //Log.d("TAG_3", "prueba3: " + pretty);
     }
 
     private void prueba2() {

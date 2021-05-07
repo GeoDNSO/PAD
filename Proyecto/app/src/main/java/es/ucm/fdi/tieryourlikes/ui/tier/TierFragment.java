@@ -6,15 +6,11 @@ import androidx.lifecycle.ViewModelProvider;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -32,15 +28,11 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.google.android.flexbox.FlexboxLayout;
 
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
 import es.ucm.fdi.tieryourlikes.App;
-import es.ucm.fdi.tieryourlikes.AppConstants;
-import es.ucm.fdi.tieryourlikes.MediaManager;
 import es.ucm.fdi.tieryourlikes.R;
 import es.ucm.fdi.tieryourlikes.model.ApiResponse;
 import es.ucm.fdi.tieryourlikes.model.ResponseStatus;
@@ -48,12 +40,9 @@ import es.ucm.fdi.tieryourlikes.model.Template;
 import es.ucm.fdi.tieryourlikes.model.Tier;
 import es.ucm.fdi.tieryourlikes.model.TierRow;
 import es.ucm.fdi.tieryourlikes.ui.template.TemplateAdapter;
-import es.ucm.fdi.tieryourlikes.ui.template.listeners.TierElementDragListener;
 import es.ucm.fdi.tieryourlikes.ui.template.listeners.TierElementTouchListener;
 import es.ucm.fdi.tieryourlikes.ui.template.listeners.TierRowDragListener;
-import es.ucm.fdi.tieryourlikes.utilities.AppUtils;
 import es.ucm.fdi.tieryourlikes.utilities.CustomFlexboxLayout;
-import okhttp3.internal.Util;
 
 public class TierFragment extends Fragment {
 

@@ -7,19 +7,25 @@ import androidx.lifecycle.ViewModel;
 import java.util.List;
 
 import es.ucm.fdi.tieryourlikes.model.ApiResponse;
+import es.ucm.fdi.tieryourlikes.model.Category;
 import es.ucm.fdi.tieryourlikes.model.Template;
 import es.ucm.fdi.tieryourlikes.model.Tier;
+import es.ucm.fdi.tieryourlikes.repositories.CategoriesRepository;
 import es.ucm.fdi.tieryourlikes.repositories.TemplateRepository;
 import es.ucm.fdi.tieryourlikes.rxjava_utils.GeneralSubscriber;
 
 public class TemplateViewModel extends ViewModel {
 
     private TemplateRepository templateRepository;
+    private CategoriesRepository categoriesRepository;
     private MutableLiveData<ApiResponse<Template>> mlvTemplateResponse;
+    private MutableLiveData<ApiResponse<List<Category>>> mlvCategoriesResponse;
 
     public TemplateViewModel() {
         templateRepository = new TemplateRepository();
+        categoriesRepository = new CategoriesRepository();
         mlvTemplateResponse = new MutableLiveData<>();
+        mlvCategoriesResponse = new MutableLiveData<>();
     }
 
     public void createTemplate(Template template) {
@@ -29,9 +35,18 @@ public class TemplateViewModel extends ViewModel {
         generalSubscriber.subscribe();
     }
 
+    public void getCategories() {
+        GeneralSubscriber<List<Category>> generalSubscriber = new GeneralSubscriber<List<Category>>();
+        generalSubscriber.setMutableLiveDataToModify(mlvCategoriesResponse);
+        generalSubscriber.setObservable(categoriesRepository.getCategories());
+        generalSubscriber.subscribe();
+    }
+
     public LiveData<ApiResponse<Template>> getTemplateResponse() {
         return mlvTemplateResponse;
     }
 
-    // TODO: Implement the ViewModel
+    public MutableLiveData<ApiResponse<List<Category>>> getCategoriesResponse() {
+        return mlvCategoriesResponse;
+    }
 }

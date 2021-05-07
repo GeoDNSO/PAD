@@ -125,10 +125,11 @@
     <string name="s"> S</string>
     <string name="delete">Borrar</string>
     <string name="add_row">Añadir Fila</string>
-    <string name="cannot_add_more_rows">No se puede añadir más de ocho filas</string>
+    <string name="cannot_add_more_rows">No se pueden añadir más de ocho filas</string>
     <string name="added_images">Imagen añadida</string>
     <string name="template_name_category">Nombre de la categoría</string>
     <string name="add_template">Crear Template</string>
+<<<<<<< HEAD
     <string name="icons_title">Elige tu Avatar</string>
     <string name="icons_icon00">Breaking Bad</string>
     <string name="icons_icon01">Super Mario</string>
@@ -138,6 +139,13 @@
     <string name="icons_icon05">Avatar</string>
     <string name="icons_icon06">Default Icon</string>
     <string name="icons_icon07">House Stark</string>
+=======
+    <string name="select_images">Seleccionar Imágenes</string>
+    <string name="select_image">Seleccionar Imagen</string>
+    <string name="select_category_message">Por favor, selecciona una categoría</string>
+    <string name="select_category">Selecciona una Categoría</string>
+    <string name="category_select_ok">Confirmar</string>
+>>>>>>> backend_dev_2
 
 
 </resources>
