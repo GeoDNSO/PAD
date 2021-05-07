@@ -61,6 +61,16 @@ public class SessionManager {
         editor.commit();
     }
 
+    public User getUser(){
+
+        String username =  prefs.getString(AppConstants.USERNAME,"");
+        String email = prefs.getString(AppConstants.EMAIL,"");
+        String password = prefs.getString(AppConstants.PASSWORD, "");
+        String iconTag = prefs.getString(AppConstants.ICON, "");
+        User user = new User(username, email, password/*, iconTag*/);
+
+        return user;
+    }
 
 }
 

@@ -14,6 +14,7 @@ public class ProfileViewModel extends ViewModel {
     // TODO: Implement the ViewModel
     private UserRepository userRepository;
     MutableLiveData<ApiResponse<JsonObject>> APIresponseProfile;
+    MutableLiveData<ApiResponse<User>> APIresponseUpdate;
 
     public ProfileViewModel(){
         userRepository = new UserRepository();
@@ -29,7 +30,18 @@ public class ProfileViewModel extends ViewModel {
 
     }
 
+    public void userUpdate(User user){
+        GeneralSubscriber<User> generalSubscriber = new GeneralSubscriber<User>();
+        generalSubscriber.setMutableLiveDataToModify(APIresponseUpdate);
+        generalSubscriber.setObservable(userRepository.userUpdate(user));
+        generalSubscriber.subscribe();
+    }
+
     public MutableLiveData<ApiResponse<JsonObject>> getAPIresponseProfile() {
         return APIresponseProfile;
+    }
+
+    public MutableLiveData<ApiResponse<User>> getAPIresponseUpdate() {
+        return APIresponseUpdate;
     }
 }

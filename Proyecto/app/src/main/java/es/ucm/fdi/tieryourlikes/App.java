@@ -88,4 +88,6 @@ public class App {
     public String getEmail(){
         return sessionManager.getEmail();
     }
+
+    public User getUser() { return sessionManager.getUser(); }
 }

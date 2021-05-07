@@ -75,4 +75,20 @@ public class UserRepository {
         return new CallObservableCreator<>(JsonObject.class).getJson(simpleRequest, request);
     }
 
+    public Observable<ApiResponse<User>> userUpdate(User user) {
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(User.class, new UserSerializer()) //MIrar clase TemplateSerializer que es quien lo convierte a JSON
+                .setPrettyPrinting()
+                .create();
+
+        String postBodyString = gson.toJson(user);
+
+        String route = "/updateUser/"; //aquí habria que meter otra ruta, que cambiase el icon
+
+        SimpleRequest simpleRequest = new SimpleRequest();
+        Request request = simpleRequest.buildRequest(postBodyString,
+                AppConstants.METHOD_POST, route);
+
+        return new CallObservableCreator<>(User.class).get(simpleRequest, request);
+    }
 }
