@@ -4,7 +4,7 @@ from flask import jsonify
 from flask_pymongo import PyMongo
 from pymongo import errors
 from database import mongo
-
+import json
 from .User import User
 
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -92,6 +92,36 @@ def getUser():
         return response
 
      
+@userModule.route('/updateUser/', methods=['POST'])
+def updateUser():
+    json_data = request.get_json()
+    user = User(json=json_data)
+
+    try:
+        selected = {constants.DB_USERNAME_KEY: user.username}
+
+        userDict = user.to_dict()
+        userDict.pop(constants.DB_PASSWORD_KEY) #No se va a modificar la contraseña desde este endpoint
+        updated_values = {"$set": userDict}
+
+        #updated_values = {"$set": {constants.DB_ICON_KEY: userDict[constants.DB_ICON_KEY]}}
+        mongo.db.users.update_one(selected, updated_values)
+
+        userToReturnJSON = mongo.db.users.find_one({constants.DB_USERNAME_KEY: user.username})
+        userToReturn = User(json=userToReturnJSON).to_dict()
+
+
+        response = jsonify(userToReturn)
+        response.status_code = 200
+
+        return response
+    except errors.PyMongoError as e:
+        print("Error PyMongo: ", repr(e))
+        response = jsonify({"error": "Error al modificar usuario"})
+        response.status_code = 400
+        return response
+
+    
 @userModule.route('/getUserStats/', methods=['GET'])
 def getUserStats():
 

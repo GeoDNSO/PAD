@@ -18,7 +18,7 @@ public class UserSerializer implements JsonSerializer<User> {
         result.add(AppConstants.DB_USERNAME_KEY, new JsonPrimitive(src.getUsername()));
         result.add(AppConstants.DB_PASSWORD_KEY, new JsonPrimitive(src.getPassword()));
         result.add(AppConstants.DB_EMAIL_KEY, new JsonPrimitive(src.getEmail()));
-        //result.add(AppConstants.DB_ICON_KEY, new JsonPrimitive(src.getIconURL()));
+        result.add(AppConstants.DB_ICON_KEY, new JsonPrimitive(src.getIconURL()));
 
         return result;
     }

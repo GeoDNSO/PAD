@@ -21,4 +21,11 @@ public class AppUtils {
         ActionBar actionBar = appCompatActivity.getSupportActionBar();
         actionBar.setTitle(title);
     }
+
+    public static String getValidTag(String tag){
+        int leftIdx = tag.lastIndexOf('/');
+        int rightIdx = tag.lastIndexOf('.');
+        String validTag = tag.substring(leftIdx + 1, rightIdx);
+        return validTag;
+    }
 }

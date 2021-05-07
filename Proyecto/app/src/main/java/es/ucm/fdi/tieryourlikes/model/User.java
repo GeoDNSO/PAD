@@ -10,11 +10,11 @@ public class User {
     private String email;
     private String iconURL;
 
-    public User(String username, String password, String email/*, String iconURL*/) {
+    public User(String username, String password, String email, String iconURL) {
         this.username = username;
         this.password = password;
         this.email = email;
-        //this.iconURL = iconURL;
+        this.iconURL = iconURL;
     }
 
     public String getUsername() {
@@ -51,7 +51,7 @@ public class User {
                 "username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
-                //", iconURL='" + iconURL + '\'' +
+                ", iconURL='" + iconURL + '\'' +
                 '}';
     }
 }

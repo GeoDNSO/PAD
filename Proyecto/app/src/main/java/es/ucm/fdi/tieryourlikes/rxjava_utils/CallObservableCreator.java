@@ -26,7 +26,7 @@ import okhttp3.Response;
 
 public class CallObservableCreator<T> {
 
-    private Class<T> objectClass;
+    private final Class<T> objectClass;
 
     public CallObservableCreator(Class<T> objectClass) {
         this.objectClass = objectClass;

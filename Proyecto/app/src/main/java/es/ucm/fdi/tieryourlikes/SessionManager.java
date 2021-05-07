@@ -67,7 +67,7 @@ public class SessionManager {
         String email = prefs.getString(AppConstants.EMAIL,"");
         String password = prefs.getString(AppConstants.PASSWORD, "");
         String iconTag = prefs.getString(AppConstants.ICON, "");
-        User user = new User(username, email, password/*, iconTag*/);
+        User user = new User(username, password, email, iconTag);
 
         return user;
     }

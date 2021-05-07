@@ -4,6 +4,7 @@ DB_USER_ID_KEY="id"#en mongo es '_id', pero principalmente no lo usaremos con us
 DB_USERNAME_KEY="username"
 DB_PASSWORD_KEY="password"
 DB_EMAIL_KEY="email"
+DB_ICON_KEY="icon"
 
 #Constantes para el documento de templates y tiers de la base de datos
 DB_TITLE_KEY = "title"

@@ -13,21 +13,20 @@ import es.ucm.fdi.tieryourlikes.rxjava_utils.GeneralSubscriber;
 public class ProfileViewModel extends ViewModel {
     // TODO: Implement the ViewModel
     private UserRepository userRepository;
-    MutableLiveData<ApiResponse<JsonObject>> APIresponseProfile;
+    MutableLiveData<ApiResponse<JsonObject>> APIresponseProfileData;
     MutableLiveData<ApiResponse<User>> APIresponseUpdate;
 
     public ProfileViewModel(){
         userRepository = new UserRepository();
-        APIresponseProfile = new MutableLiveData<ApiResponse<JsonObject>>();
+        APIresponseProfileData = new MutableLiveData<>();
+        APIresponseUpdate = new MutableLiveData<>();
     }
 
-    public void userProfile (String username){
-
+    public void userProfileData(String username){
         GeneralSubscriber<JsonObject> generalSubscriber = new GeneralSubscriber<JsonObject>();
-        generalSubscriber.setMutableLiveDataToModify(APIresponseProfile);
+        generalSubscriber.setMutableLiveDataToModify(APIresponseProfileData);
         generalSubscriber.setObservable(userRepository.userProfile(username));
         generalSubscriber.subscribe();
-
     }
 
     public void userUpdate(User user){
@@ -37,8 +36,8 @@ public class ProfileViewModel extends ViewModel {
         generalSubscriber.subscribe();
     }
 
-    public MutableLiveData<ApiResponse<JsonObject>> getAPIresponseProfile() {
-        return APIresponseProfile;
+    public MutableLiveData<ApiResponse<JsonObject>> getAPIresponseProfileData() {
+        return APIresponseProfileData;
     }
 
     public MutableLiveData<ApiResponse<User>> getAPIresponseUpdate() {
