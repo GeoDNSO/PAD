@@ -80,4 +80,14 @@ public class App {
             Toast.makeText(context, context.getString(R.string.error_saved_tier_message), Toast.LENGTH_SHORT).show();
         }
     }
+
+    public String getUsername(){
+        return sessionManager.getUsername();
+    }
+
+    public String getEmail(){
+        return sessionManager.getEmail();
+    }
+
+    public User getUser() { return sessionManager.getUser(); }
 }

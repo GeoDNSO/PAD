@@ -94,7 +94,8 @@ public class RegisterFragment extends Fragment {
                 if(p1.equals(p2)){
                     User user = createUser(inputUsername.getText().toString(),
                             inputPassword.getText().toString(),
-                            inputEmail.getText().toString());
+                            inputEmail.getText().toString()/*,
+                            "res/drawable/ic_icons8_user_male.xml"*/);
                     mViewModel.userRegister(user);
                 }
                 else {
@@ -112,13 +113,13 @@ public class RegisterFragment extends Fragment {
         return root;
     }
 
-    private User createUser(String username, String pass, String email){
-        User user = new User(username, pass, email);
+    private User createUser(String username, String pass, String email/*, String iconURL*/){
+        User user = new User(username, pass, email/*, iconURL*/);
         return user;
     }
 
     private void observers(){
-        mViewModel.getAPIresponseLogin().observe(getViewLifecycleOwner(), new Observer<ApiResponse<User>>() {
+        mViewModel.getAPIresponseRegister().observe(getViewLifecycleOwner(), new Observer<ApiResponse<User>>() {
             @Override
             public void onChanged(ApiResponse<User> userApiResponse) {
                 Log.d("TAG2", "ENTRO");

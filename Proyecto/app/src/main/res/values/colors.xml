@@ -17,6 +17,9 @@
     <color name="colorPrimary">#49BEFF</color>
     <color name="colorPrimaryDark">#65DCE5</color>
     <color name="colorAccent">#0D5D98</color>
+    <color name="startBlue">#09c6df</color>
+    <color name="grayLight">#fafafa</color>
+    <color name="endBlue">#0bcce6</color>
 
     <color name="colorFavRed">#E31B23</color>
 

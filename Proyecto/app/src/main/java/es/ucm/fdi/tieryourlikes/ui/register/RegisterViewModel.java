@@ -23,39 +23,9 @@ public class RegisterViewModel extends ViewModel {
         generalSubscriber.setMutableLiveDataToModify(APIresponseRegister);
         generalSubscriber.setObservable(userRepository.userRegister(user));
         generalSubscriber.subscribe();
-
-        //Lo de arriba es igual a lo de abajo, si te resulta raro o dificil o quieres hacer otras cosas
-        // en el viewmodel hazlo como abajo
-        /*
-        Disposable dis = userRepository.userLogin(user)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<ApiResponse<User>>() {
-                    @Override
-                    public void accept(ApiResponse<User> s) throws Exception {
-                        Log.d("A", "accept");
-                        APIresponseLogin.setValue(s);
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        Log.d("A", "Usuario o contraseña erroneos");
-                        throwable.printStackTrace();
-
-                        ApiResponse<User> apiResponse = new ApiResponse<>(null, ResponseStatus.ERROR, throwable.getMessage());
-                        APIresponseLogin.setValue(apiResponse);
-                    }
-                }, new Action() {
-                    @Override
-                    public void run() throws Exception {
-                        Log.d("H", "ON COMPLETE");
-                    }
-                });
-
-         */
     }
 
-    public MutableLiveData<ApiResponse<User>> getAPIresponseLogin() {
+    public MutableLiveData<ApiResponse<User>> getAPIresponseRegister() {
         return APIresponseRegister;
     }
 }

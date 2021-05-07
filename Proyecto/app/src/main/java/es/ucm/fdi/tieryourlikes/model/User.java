@@ -1,15 +1,20 @@
 package es.ucm.fdi.tieryourlikes.model;
 
+import android.graphics.drawable.Icon;
+import android.widget.ImageView;
+
 public class User {
 
     private String username;
     private String password;
     private String email;
+    private String iconURL;
 
-    public User(String username, String password, String email) {
+    public User(String username, String password, String email/*, String iconURL*/) {
         this.username = username;
         this.password = password;
         this.email = email;
+        //this.iconURL = iconURL;
     }
 
     public String getUsername() {
@@ -36,12 +41,17 @@ public class User {
         this.email = email;
     }
 
+    public String getIconURL() { return iconURL; }
+
+    public void setIconURL(String iconURL) { this.iconURL = iconURL; }
+
     @Override
     public String toString() {
         return "User{" +
                 "username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
+                //", iconURL='" + iconURL + '\'' +
                 '}';
     }
 }

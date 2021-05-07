@@ -30,4 +30,8 @@
         <item name="android:windowBackground">@drawable/splash</item>
     </style>
 
+    <style name="botonPerfil">
+        <item name="background">@color/followers</item>
+    </style>
+
 </resources>

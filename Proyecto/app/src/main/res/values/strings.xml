@@ -55,6 +55,10 @@
     <string name="profile_delete_account_title">Borrar Cuenta</string>
     <string name="profile_delete_account_message">¿Estás seguro de borrar tu cuenta? Todos tus datos se perderán</string>
     <string name="profile_your_profile">Tu perfil</string>
+    <string name="profile_templates_count">Plantillas creadas</string>
+    <string name="profile_tiers_count">Tiers completados</string>
+    <string name="profile_user_icon">Icono del Usuario</string>
+    <string name="profile_boton_cambiar_avatar">Cambiar Avatar</string>
 
     <string name="alert_yes">Sí</string>
     <string name="alert_no">No</string>
@@ -125,6 +129,15 @@
     <string name="added_images">Imagen añadida</string>
     <string name="template_name_category">Nombre de la categoría</string>
     <string name="add_template">Crear Template</string>
+    <string name="icons_title">Elige tu Avatar</string>
+    <string name="icons_icon00">Breaking Bad</string>
+    <string name="icons_icon01">Super Mario</string>
+    <string name="icons_icon02">Spiderman</string>
+    <string name="icons_icon03">Fortnite</string>
+    <string name="icons_icon04">Iron Man</string>
+    <string name="icons_icon05">Avatar</string>
+    <string name="icons_icon06">Default Icon</string>
+    <string name="icons_icon07">House Stark</string>
 
 
 </resources>
