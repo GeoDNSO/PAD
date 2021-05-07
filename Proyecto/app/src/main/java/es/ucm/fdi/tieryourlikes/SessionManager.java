@@ -11,6 +11,7 @@ public class SessionManager {
     private SharedPreferences prefs;
     private SharedPreferences.Editor editor;
     private Context context;
+    private User sessionUser;
 
     public SessionManager(Context context) {
         this.context = context;
@@ -24,13 +25,15 @@ public class SessionManager {
         this.editor = prefs.edit();
     }
 
-    public void setUsername(/*String username*/) {
-        /*editor.putString(AppConstants.USERNAME, username).commit();*/
-    }
-
     public String getUsername() {
         String username = prefs.getString(AppConstants.USERNAME,"");
         return username;
+    }
+
+    public boolean isAdmin(){
+        if(sessionUser == null || !sessionUser.getRol().equals(AppConstants.ADMIN_USER))
+            return false;
+        return  true;
     }
 
     public String getEmail() {
@@ -56,20 +59,24 @@ public class SessionManager {
         editor.putString(AppConstants.USERNAME, user.getUsername());
         editor.putString(AppConstants.PASSWORD, user.getPassword());
         editor.putString(AppConstants.EMAIL, user.getEmail());
-        //editor.putString(AppConstants.ADMIN, user.getRol());
+        editor.putString(AppConstants.DB_CREATION_TIME, user.getCreationTime());
+        editor.putString(AppConstants.DB_ROL, user.getRol());
 
         editor.commit();
     }
 
     public User getUser(){
 
-        String username =  prefs.getString(AppConstants.USERNAME,"");
-        String email = prefs.getString(AppConstants.EMAIL,"");
-        String password = prefs.getString(AppConstants.PASSWORD, "");
-        String iconTag = prefs.getString(AppConstants.ICON, "");
-        User user = new User(username, password, email, iconTag);
-
-        return user;
+        if(sessionUser == null){
+            String username =  prefs.getString(AppConstants.USERNAME,"");
+            String email = prefs.getString(AppConstants.EMAIL,"");
+            String password = prefs.getString(AppConstants.PASSWORD, "");
+            String iconTag = prefs.getString(AppConstants.ICON, "");
+            String creation_time = prefs.getString(AppConstants.DB_CREATION_TIME, "");
+            String rol = prefs.getString(AppConstants.DB_ROL, "");
+            sessionUser = new User(username, password, email, iconTag, creation_time, rol);
+        }
+        return sessionUser;
     }
 
 }

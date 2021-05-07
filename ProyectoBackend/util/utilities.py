@@ -5,5 +5,5 @@ import datetime
 #time_string = time.strftime("%m/%d/%Y, %H:%M:%S", named_tuple)
 
 def time_now_str():
-    time_string = datetime.datetime.utcnow().strftime("%m/%d/%Y, %H:%M:%S")
+    time_string = datetime.datetime.utcnow().strftime("%m/%d/%Y,%H:%M:%S,UTC+00")
     return time_string

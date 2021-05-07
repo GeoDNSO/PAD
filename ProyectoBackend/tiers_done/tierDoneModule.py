@@ -6,6 +6,7 @@ from flask_pymongo import PyMongo
 from pymongo import cursor, errors
 from database import mongo
 from bson.objectid import ObjectId
+from util.utilities import time_now_str
 
 from .TierDone import TierDone
 from . import tiersDoneUtils
@@ -24,6 +25,7 @@ def createTierDone():
     json_data = request.get_json()
     
     tierDone = TierDone(json=json_data)
+    tierDone.creation_time = time_now_str()
 
     try:
         tierDoneDict = tierDone.to_dict()

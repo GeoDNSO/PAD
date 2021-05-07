@@ -8,13 +8,15 @@ public class Tier {
     private String creator_username;
     private List<String> container;
     private List<TierRow> tier_rows;
+    private String creation_time;
 
-    public Tier(String _id, String template_id, String creator_username, List<String> container, List<TierRow> tier_rows) {
+    public Tier(String _id, String template_id, String creator_username, List<String> container, List<TierRow> tier_rows, String creation_time) {
         this._id = _id;
         this.template_id = template_id;
         this.creator_username = creator_username;
         this.container = container;
         this.tier_rows = tier_rows;
+        this.creation_time = creation_time;
     }
 
     public String getId() {
@@ -55,5 +57,13 @@ public class Tier {
 
     public void setTierRows(List<TierRow> tier_rows) {
         this.tier_rows = tier_rows;
+    }
+
+    public String getCreationTime() {
+        return creation_time;
+    }
+
+    public void setCreationTime(String creation_time) {
+        this.creation_time = creation_time;
     }
 }

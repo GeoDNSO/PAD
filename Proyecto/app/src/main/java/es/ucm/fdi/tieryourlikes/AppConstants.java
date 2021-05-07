@@ -52,4 +52,8 @@ public class AppConstants {
 
     public static final String DB_CATEGORY_NAME = "name";
     public static final String DB_CREATION_TIME = "creation_time";
+    public static final String DB_ROL = "rol";
+
+    public static final String NORMAL_USER = "user";
+    public static final String ADMIN_USER = "admin";
 }

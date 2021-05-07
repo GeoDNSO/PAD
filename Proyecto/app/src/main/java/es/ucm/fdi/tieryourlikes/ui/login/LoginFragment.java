@@ -22,6 +22,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import es.ucm.fdi.tieryourlikes.App;
+import es.ucm.fdi.tieryourlikes.AppConstants;
 import es.ucm.fdi.tieryourlikes.R;
 import es.ucm.fdi.tieryourlikes.model.ApiResponse;
 import es.ucm.fdi.tieryourlikes.model.ResponseStatus;
@@ -85,7 +86,7 @@ public class LoginFragment extends Fragment {
     }
 
     private User createUser(String username, String pass, String email, String iconURL){
-        User user = new User(username, pass, email, iconURL);
+        User user = new User(username, pass, email, iconURL, "", AppConstants.NORMAL_USER);
         return user;
     }
 

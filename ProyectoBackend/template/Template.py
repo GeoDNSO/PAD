@@ -1,8 +1,9 @@
 import constants as c
 from bson.objectid import ObjectId
+from util.utilities import time_now_str
 
 class Template:
-    def __init__(self,id="-1", title="", cover="", category="", creator_username=-1, container=[], tier_rows={}, json=None):
+    def __init__(self,id="-1", title="", cover="", category="", creator_username=-1, container=[], tier_rows={}, creation_time="", json=None):
         if(json is None):
             self.id = id
             self.title = title
@@ -11,6 +12,7 @@ class Template:
             self.creator_username = creator_username
             self.container = container
             self.tier_rows = tier_rows
+            self.creation_time = creation_time
         else:
             self.initialize(json)
 
@@ -22,6 +24,7 @@ class Template:
         self.creator_username = json[c.DB_CREATOR_USERNAME_KEY]
         self.container = json[c.DB_CONTAINER_KEY]
         self.tier_rows = json[c.DB_TIER_ROWS_KEY]
+        self.creation_time = json[c.DB_CREATION_TIME]
 
     def to_dict(self):
         return {
@@ -31,5 +34,6 @@ class Template:
             c.DB_CATEGORY_KEY: self.category,
             c.DB_CREATOR_USERNAME_KEY: self.creator_username,
             c.DB_CONTAINER_KEY: self.container,
-            c.DB_TIER_ROWS_KEY: self.tier_rows
+            c.DB_TIER_ROWS_KEY: self.tier_rows,
+            c.DB_CREATION_TIME: self.creation_time
         }

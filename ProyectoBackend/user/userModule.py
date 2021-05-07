@@ -1,3 +1,4 @@
+from util.utilities import time_now_str
 from flask import Blueprint
 from flask import request
 from flask import jsonify
@@ -54,6 +55,7 @@ def registerUser():
     hashed_password = generate_password_hash(password)
 
     user = User(username, hashed_password, email)
+    user.creation_time = time_now_str()
 
     try:
         id = mongo.db.users.insert_one(user.to_dict()).inserted_id
@@ -104,7 +106,6 @@ def updateUser():
         userDict.pop(constants.DB_PASSWORD_KEY) #No se va a modificar la contraseña desde este endpoint
         updated_values = {"$set": userDict}
 
-        #updated_values = {"$set": {constants.DB_ICON_KEY: userDict[constants.DB_ICON_KEY]}}
         mongo.db.users.update_one(selected, updated_values)
 
         userToReturnJSON = mongo.db.users.find_one({constants.DB_USERNAME_KEY: user.username})

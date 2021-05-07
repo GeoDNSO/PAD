@@ -27,6 +27,7 @@ public class TierSerializer implements JsonSerializer<Tier> {
         result.add(AppConstants.DB_ID_KEY, new JsonPrimitive(src.getId()));
         result.add(AppConstants.DB_TEMPLATE_ID, new JsonPrimitive(src.getTemplateId()));
         result.add(AppConstants.DB_CREATOR_USERNAME_KEY, new JsonPrimitive(src.getCreatorUsername()));
+        result.add(AppConstants.DB_CREATION_TIME, new JsonPrimitive(src.getCreationTime()));
 
         JsonArray container = new JsonArray();
         JsonArray tier_rows = new JsonArray();

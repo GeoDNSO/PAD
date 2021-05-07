@@ -180,7 +180,7 @@ public class TierFragment extends Fragment {
 
         this.template = template;
 
-        Tier tier = new Tier("3w4rw345", "w45645", "user2", container, TierRow.getListFromString(tierRowsString));
+        Tier tier = new Tier("3w4rw345", "w45645", "user2", container, TierRow.getListFromString(tierRowsString), "");
         this.tier = tier;
     }
 

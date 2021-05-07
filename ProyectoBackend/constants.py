@@ -6,6 +6,10 @@ DB_PASSWORD_KEY="password"
 DB_EMAIL_KEY="email"
 DB_ICON_KEY="icon"
 
+DB_ROL_KEY = "rol"
+NORMAL_USER = "user"
+ADMIN_USER = "admin"
+
 #Constantes para el documento de templates y tiers de la base de datos
 DB_TITLE_KEY = "title"
 DB_CATEGORY_KEY = "category"

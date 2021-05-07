@@ -22,6 +22,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import es.ucm.fdi.tieryourlikes.App;
+import es.ucm.fdi.tieryourlikes.AppConstants;
 import es.ucm.fdi.tieryourlikes.R;
 import es.ucm.fdi.tieryourlikes.model.ApiResponse;
 import es.ucm.fdi.tieryourlikes.model.ResponseStatus;
@@ -33,7 +34,6 @@ public class RegisterFragment extends Fragment {
     private View root;
     private RegisterViewModel mViewModel;
 
-    //creo que solo hacen falta los layouts pero pongo ambos por si acaso
     private TextView tvRegistro;
 
     private TextInputLayout layoutNombre;
@@ -101,28 +101,25 @@ public class RegisterFragment extends Fragment {
                 else {
                     inputPassword.setText("");
                     inputPassword2.setText("");
-                    layoutPassword.setError("Las contraseñas no coinciden");
-                    layoutPassword2.setError("Las contraseñas no coinciden");
+                    layoutPassword.setError(getString(R.string.password_not_equal_2));
+                    layoutPassword2.setError(getString(R.string.password_not_equal_2));
                     Toast.makeText(getActivity(), "ERROR: Las contraseñas no coinciden" , Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
         observers();
-
         return root;
     }
 
     private User createUser(String username, String pass, String email, String iconURL){
-        User user = new User(username, pass, email, iconURL);
-        return user;
+        return new User(username, pass, email, iconURL, "", AppConstants.NORMAL_USER);
     }
 
     private void observers(){
         mViewModel.getAPIresponseRegister().observe(getViewLifecycleOwner(), new Observer<ApiResponse<User>>() {
             @Override
             public void onChanged(ApiResponse<User> userApiResponse) {
-                Log.d("TAG2", "ENTRO");
                 if(userApiResponse.getResponseStatus() == ResponseStatus.ERROR) {
                     Toast.makeText(getActivity(), "Hubo un error:" + userApiResponse.getError(), Toast.LENGTH_SHORT).show();
                     return;
@@ -142,6 +139,5 @@ public class RegisterFragment extends Fragment {
         mViewModel = new ViewModelProvider(this).get(RegisterViewModel.class);
         // TODO: Use the ViewModel
     }
-
 
 }

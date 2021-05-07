@@ -12,7 +12,7 @@ from database import mongo
 from .Template import Template
 #from .templateUtils import *
 from . import templateUtils
-
+from util.utilities import time_now_str
 from flask import current_app as app
 
 import constants
@@ -55,6 +55,7 @@ def createTemplate():
     json_data = request.get_json()
     
     template = Template(json=json_data)
+    template.creation_time = time_now_str()
 
     try:
         templateDict = template.to_dict()
