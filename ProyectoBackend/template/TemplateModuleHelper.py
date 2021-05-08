@@ -12,6 +12,7 @@ from flask import current_app as app
 import constants
 from bson.objectid import ObjectId
 
+from util.utilities import getCustomArgs, getPageAndLimit
 import base64
 import os, errno
 import uuid
@@ -22,9 +23,9 @@ import shutil
 #returns templates order by creation date desc
 def getTemplates(args):
 
-    page, limit = templateUtils.getPageAndLimit(args)
-    custom_args = templateUtils.getCustomArgs(args).to_dict()
-
+    page, limit = getPageAndLimit(args)
+    custom_args = getCustomArgs(args).to_dict()
+    
     print(custom_args)
 
     cursor = mongo.db.templates.find(custom_args).sort( [['_id', -1]] ).skip((page-1)*limit).limit(limit)
@@ -32,8 +33,8 @@ def getTemplates(args):
 
 def getPopularTemplates(args):
 
-    page, limit = templateUtils.getPageAndLimit(args)
-    custom_args = templateUtils.getCustomArgs(args).to_dict()
+    page, limit = getPageAndLimit(args)
+    custom_args = getCustomArgs(args).to_dict()
 
     group_option = {"$group": 
                             {
@@ -48,7 +49,7 @@ def getPopularTemplates(args):
     listCount = templateUtils.tierListInfoFromCursor(cursor)
 
     custom_args["_id"] = {"$in": listCount} #add if filter --> id_filter = {"_id": {"$in": listCount}}
-    
+
     cursor = mongo.db.templates.find(custom_args).skip((page-1)*limit).limit(limit)
 
     return templateUtils.listFromCursor(cursor)

@@ -150,5 +150,7 @@
     <string name="select_category">Selecciona una Categoría</string>
     <string name="category_select_ok">Confirmar</string>
     <string name="password_not_equal_2">Las contraseñas no coinciden</string>
+    <string name="my_tiers">Mis Tiers</string>
+    <string name="my_templates">Mis Plantillas</string>
 
 </resources>
