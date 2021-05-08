@@ -47,4 +47,5 @@ public class AppConstants {
     public static final int INSERT_IMAGES_RC_IMAGES = 201;
 
     public static final String DB_COVER_IMAGE_KEY = "cover";
+    public static final String BUNDLE_TEMPLATE = "TEMPLATE_BUNDLE";
 }

@@ -4,6 +4,11 @@ DB_USER_ID_KEY="id"#en mongo es '_id', pero principalmente no lo usaremos con us
 DB_USERNAME_KEY="username"
 DB_PASSWORD_KEY="password"
 DB_EMAIL_KEY="email"
+DB_ICON_KEY="icon"
+
+DB_ROL_KEY = "rol"
+NORMAL_USER = "user"
+ADMIN_USER = "admin"
 
 #Constantes para el documento de templates y tiers de la base de datos
 DB_TITLE_KEY = "title"
@@ -16,6 +21,16 @@ DB_ROW_NAME_KEY = "row_name"
 DB_IMAGE_URL_KEY = "image_urls"
 DB_TEMPLATE_ID = "template_id" # Para poder buscar plantillas por id
 
+
+#Categorias
+DB_CATEGORY_NAME_KEY = "name"
+DB_CREATION_TIME = "creation_time"
+
+DB_RESULT = "result"
+DB_CATEGORIES_LIST = "list"
+DB_TEMPLATE_LIST = "list"
+DB_TIER_LIST = "list"
+
 #Constantes para el envio de otros datos
 DB_TEMPLATE_COUNT = "templates_count"
 DB_TIERS_COUNT = "tiers_count"
@@ -23,3 +38,7 @@ DB_TIERS_COUNT = "tiers_count"
 PAGINATION_PAGE = "page"
 PAGINATION_LIMIT = "limit"
 DEAFULT_LIMIT = 1
+
+UPLOAD_FOLDER = "_templates_images"
+
+CATEGORIES_YAML_FILE = "categories_list.yaml"

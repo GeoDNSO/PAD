@@ -500,7 +500,7 @@ public class TemplateFragment extends Fragment {
             }
         }
         String image = "";
-        byte [] b;
+
         if(bitmap != null) {
             image = bitmapToBase64(bitmap);
         }
@@ -516,7 +516,7 @@ public class TemplateFragment extends Fragment {
         }
 
         String template_name = et_template_name.getText().toString();
-        String template_category = et_template_category.getText().toString();
+        String template_category = et_template_category.getText().toString().toLowerCase();
 
         if (template_name.isEmpty() || template_category.isEmpty() || imageString.size() == 0 || image == "" || rowString.size() == 0) {
             Toast.makeText(getActivity(), getString(R.string.empty_fields), Toast.LENGTH_SHORT).show();

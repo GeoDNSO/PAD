@@ -91,4 +91,24 @@ public class TemplateRepository {
 
         return new CallObservableCreator<>(Template.class).get(simpleRequest, request);
     }
+
+    public Observable<ApiResponse<List<Template>>> getMostDoneTemplates(int page, int count) {
+        String postBodyString = ""; //Metodo GET, no es necesairo un Body
+
+        String route = "/listPopularTemplates/";
+
+        String finalURL = route + "?";
+        Uri builtURI = Uri.parse(finalURL).buildUpon()
+                .appendQueryParameter(AppConstants.DB_PAGE, String.valueOf(page))
+                .appendQueryParameter(AppConstants.DB_LIMIT, String.valueOf(count))
+                .build();
+
+        Log.d("REPO", builtURI.toString());
+
+        SimpleRequest simpleRequest = new SimpleRequest();
+        Request request = simpleRequest.buildRequest(postBodyString,
+                AppConstants.METHOD_GET, builtURI.toString());
+
+        return new CallObservableCreator<>(Template.class).getList(simpleRequest, request);
+    }
 }
