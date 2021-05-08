@@ -129,6 +129,10 @@
     <string name="added_images">Imagen añadida</string>
     <string name="template_name_category">Nombre de la categoría</string>
     <string name="add_template">Crear Template</string>
+    <string name="trial">Fragmento de pruebas</string>
+    <string name="most_done">Más usados</string>
+    <string name="your_templates">Tus plantillas</string>
+    <string name="most_recent">Más recientes</string>
 
     <string name="icons_title">Elige tu Avatar</string>
     <string name="icons_icon00">Breaking Bad</string>

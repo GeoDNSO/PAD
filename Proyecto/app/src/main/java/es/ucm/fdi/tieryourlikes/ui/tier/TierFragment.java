@@ -70,6 +70,9 @@ public class TierFragment extends Fragment {
         initUI();
         observers();
 
+        template = (Template) getArguments().getParcelable(AppConstants.BUNDLE_TEMPLATE);
+        Log.d("TIER FRAGMENT BUNDLE", template.toString());
+
         defaultTierAndTemplate();//Crear template y tier de ejemplo
         fillContainer();
 

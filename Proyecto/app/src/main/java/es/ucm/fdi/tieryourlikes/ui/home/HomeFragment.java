@@ -9,38 +9,57 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+<<<<<<< HEAD
 import com.google.gson.JsonObject;
+=======
+import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
+>>>>>>> home_fragment
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import es.ucm.fdi.tieryourlikes.AppConstants;
 import es.ucm.fdi.tieryourlikes.R;
 import es.ucm.fdi.tieryourlikes.model.ApiResponse;
 import es.ucm.fdi.tieryourlikes.model.ResponseStatus;
 import es.ucm.fdi.tieryourlikes.model.Template;
-import es.ucm.fdi.tieryourlikes.model.Tier;
-import es.ucm.fdi.tieryourlikes.model.TierRow;
 import es.ucm.fdi.tieryourlikes.model.serializers.TemplateSerializer;
-import es.ucm.fdi.tieryourlikes.model.serializers.TierSerializer;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements TemplatesListAdapter.OnItemClickListener {
 
     private View root;
 
     private HomeViewModel mViewModel;
 
-    TextView tvPrueba;
+    private LinearLayout topCategoriesLinearLayout;
+
+    private RecyclerView mostDoneRecycleView;
+    private RecyclerView mostRecentRecycleView;
+    private TemplatesListAdapter templatesListAdapter;
+
+    private List<Template> mostDoneList;
+    private List<Template> mostRecentList;
+
+    private int page = 1, count = 10;
 
     public static HomeFragment newInstance() {
         return new HomeFragment();
@@ -53,46 +72,36 @@ public class HomeFragment extends Fragment {
         root = inflater.inflate(R.layout.home_fragment, container, false);
         mViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
 
-        Button button = root.findViewById(R.id.buttonDemo);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Navegar al fragmento con la demo del tier maker
-                Navigation.findNavController(root).navigate(R.id.tierFragment);
-            }
-        });
+        /*topCategoriesLinearLayout = root.findViewById(R.id.top_categories_linearLayout_home);
 
-        Button button2 = root.findViewById(R.id.buttonDemo2);
-        button2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Navegar al fragmento con la demo del tier maker
-                Navigation.findNavController(root).navigate(R.id.templateFragment);
-            }
-        });
+        for(int i = 0; i < 4; ++i){
+            View v = inflater.inflate(R.layout.top_categories_item_fragment, container, false);
 
-        prueba();
+            TextView tv = v.findViewById(R.id.top_categories_text_view_item);
+            ImageView iv = v.findViewById(R.id.top_categories_image_view_item);
 
-        prueba2();
+            iv.setImageResource(R.drawable.ic_baseline_save_24);
+            tv.setText("Categoria" + i);
 
-        prueba3();
+            topCategoriesLinearLayout.addView(v);
+        }*/
 
-        return root;
-    }
+        init();
 
+        /*for(int i = 0; i < 6; ++i){
+            mostDoneList.add(new Template("i" + i, "sad", "sad", "sadad", new ArrayList<>(), new ArrayList<>()));
+            yourTemplatesList.add(new Template("i" + i, "sad", "sad", "sadad", new ArrayList<>(), new ArrayList<>()));
+        }*/
 
+        mostDoneView();
+        mostRecentView();
 
-    private void prueba3() {
-        //Prueba de tiers
+        mViewModel.getMostDoneTemplates(page, count);
+        mViewModel.getListTemplates(page, count);
 
-        List<String> container = new ArrayList<>();
-        List<TierRow> tierRows = new ArrayList<>();
-        for (int i = 0; i < 5; i++)
-            container.add("url" + i);
+        observers();
 
-        for (int i = 0; i < 5; i++)
-            tierRows.add(new TierRow("Tier_"+i, container.subList(0, i)));
-
+<<<<<<< HEAD
         Tier tier = new Tier("3948i043", "09283ru83uy", "hola", container, tierRows, "");
 
         Gson gson = new GsonBuilder()
@@ -103,10 +112,21 @@ public class HomeFragment extends Fragment {
         String pretty = gson.toJson(tier);
 
         //Log.d("TAG_3", "prueba3: " + pretty);
+=======
+        Button button = root.findViewById(R.id.button_trial);
+        button.setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View v) {
+                    Navigation.findNavController(root).navigate(R.id.trialFragment);
+              }
+          });
+
+        return root;
+>>>>>>> home_fragment
     }
 
-    private void prueba2() {
-        mViewModel.getPruebaAPIResponse2().observe(getViewLifecycleOwner(), new Observer<ApiResponse<List<Template>>>() {
+    private void observers() {
+        mViewModel.getListTemplateMostRecentResponse().observe(getViewLifecycleOwner(), new Observer<ApiResponse<List<Template>>>() {
             @Override
             public void onChanged(ApiResponse<List<Template>> listApiResponse) {
                 if(listApiResponse.getResponseStatus() == ResponseStatus.ERROR) {
@@ -114,74 +134,55 @@ public class HomeFragment extends Fragment {
                     return;
                 }
 
-                Gson gson = new GsonBuilder()
-                        .registerTypeAdapter(Template.class, new TemplateSerializer()) //MIrar clase TemplateSerializer que es quien lo convierte a JSON
-                        .setPrettyPrinting()
-                        .create();
+                mostRecentList = listApiResponse.getObject();
 
-                String pretty = gson.toJson(listApiResponse.getObject());
-                tvPrueba.setText(pretty);
+                /*Gson gson = new Gson();
+                JSONObject jsonObj = null;
+                try {
+                    jsonObj = new JSONObject(listApiResponse.getObject().toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Type type = new TypeToken<Template>() {}.getType();
+                mostRecentList = gson.fromJson(jsonObj.toString(),type);*/
+
+                mostRecentView();
             }
         });
-    }
 
-    private void prueba() {
-        tvPrueba = root.findViewById(R.id.tvPruebaServer);
-
-        mViewModel.getPruebaAPIResponse().observe(getViewLifecycleOwner(), new Observer<ApiResponse<String>>() {
+        mViewModel.getListTemplateMostDoneResponse().observe(getViewLifecycleOwner(), new Observer<ApiResponse<List<Template>>>() {
             @Override
-            public void onChanged(ApiResponse<String> s) {
-                if(s.getResponseStatus() == ResponseStatus.ERROR) {
-                    Toast.makeText(getActivity(), "Hubo un error:" + s.getError(), Toast.LENGTH_SHORT).show();
+            public void onChanged(ApiResponse<List<Template>> listApiResponse) {
+                if(listApiResponse.getResponseStatus() == ResponseStatus.ERROR) {
+                    Toast.makeText(getActivity(), "Hubo un error:" + listApiResponse.getError(), Toast.LENGTH_SHORT).show();
                     return;
                 }
-                tvPrueba.setText(s.getObject());
-            }
-        });
-
-        Button button = root.findViewById(R.id.buttonDB);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Ejemplo llamada al viewmodel que llamará a la API
-                mViewModel.listTemplates(1, 5, "");
-
-
-                //Ejemplo de Serializar un template a JSON
-
-                String image = "url1";
-                //Crear template
-                List<String> container = new ArrayList<>();
-                container.add("url1");
-                container.add("url2");
-                container.add("url4");
-                container.add("url3");
-                List<String> tierRows = new ArrayList<>();
-                tierRows.add("S");
-                tierRows.add("A");
-                tierRows.add("B");
-                tierRows.add("C");
-
-                Template template = new Template("Prueba", "Otro", "hola",
-                        image, container, tierRows);
-
-                //Crear el item de GSON que lo convertira a json
-                Gson gson = new GsonBuilder()
-                        .registerTypeAdapter(Template.class, new TemplateSerializer()) //MIrar clase TemplateSerializer que es quien lo convierte a JSON
-                        .setPrettyPrinting()
-                        .create();
-
-                String json = gson.toJson(template);
-                Log.d("TAG", "onClick: " + json);
-
-                //Ejemplo de Deserializar un template a JSON, es automatico
-                Template template2 = gson.fromJson(json, Template.class);
-                template2.setTitle("HA FUNCIONADO");
-                Log.d("TAG2", "onClick: " + template2.toString());
-
+                mostDoneList = listApiResponse.getObject();
+                Log.d("HOME FRAGMENT", listApiResponse.getObject().toString());
+                mostDoneView();
             }
         });
     }
+
+    private void mostRecentView() {
+        templatesListAdapter = new TemplatesListAdapter(getActivity(), mostRecentList, this);
+        mostRecentRecycleView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        mostRecentRecycleView.setAdapter(templatesListAdapter);
+    }
+
+    private void mostDoneView() {
+        templatesListAdapter = new TemplatesListAdapter(getActivity(), mostDoneList, this);
+        mostDoneRecycleView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        mostDoneRecycleView.setAdapter(templatesListAdapter);
+    }
+
+    private void init() {
+        mostDoneRecycleView = root.findViewById(R.id.most_done_recycle_view_home);
+        mostRecentRecycleView = root.findViewById(R.id.most_recent_recycle_view_home);
+        mostDoneList = new ArrayList<>();
+        mostRecentList = new ArrayList<>();
+    }
+
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -190,4 +191,13 @@ public class HomeFragment extends Fragment {
         // TODO: Use the ViewModel
     }
 
+    @Override
+    public void onItemClickListener(int position, List<Template> list) {
+        String templateName = list.get(position).getTitle();
+        Toast.makeText(getContext(), templateName, Toast.LENGTH_SHORT).show();
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(AppConstants.BUNDLE_TEMPLATE, (Parcelable) list);
+        Navigation.findNavController(root).navigate(R.id.templateFragment, bundle);
+        //mViewModel.
+    }
 }

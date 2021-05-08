@@ -49,6 +49,7 @@ public class AppConstants {
     public static final int INSERT_IMAGES_RC_IMAGES = 201;
 
     public static final String DB_COVER_IMAGE_KEY = "cover";
+<<<<<<< HEAD
 
     public static final String DB_CATEGORY_NAME = "name";
     public static final String DB_CREATION_TIME = "creation_time";
@@ -56,4 +57,7 @@ public class AppConstants {
 
     public static final String NORMAL_USER = "user";
     public static final String ADMIN_USER = "admin";
+=======
+    public static final String BUNDLE_TEMPLATE = "TEMPLATE_BUNDLE";
+>>>>>>> home_fragment
 }
