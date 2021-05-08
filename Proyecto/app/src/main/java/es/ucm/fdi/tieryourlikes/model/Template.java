@@ -1,8 +1,11 @@
 package es.ucm.fdi.tieryourlikes.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.List;
 
-public class Template {
+public class Template implements Parcelable {
     private String id;
     private String title;
     private String category;
@@ -94,6 +97,7 @@ public class Template {
     }
 
 
+
     public String getId() {
         return id;
     }
@@ -109,4 +113,55 @@ public class Template {
     public void setCreationTime(String creation_time) {
         this.creation_time = creation_time;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.id);
+        dest.writeString(this.title);
+        dest.writeString(this.category);
+        dest.writeString(this.creator_username);
+        dest.writeStringList(this.container);
+        dest.writeStringList(this.tier_rows);
+        dest.writeString(this.cover_image);
+        dest.writeString(this.creation_time);
+    }
+
+    public void readFromParcel(Parcel source) {
+        this.id = source.readString();
+        this.title = source.readString();
+        this.category = source.readString();
+        this.creator_username = source.readString();
+        this.container = source.createStringArrayList();
+        this.tier_rows = source.createStringArrayList();
+        this.cover_image = source.readString();
+        this.creation_time = source.readString();
+    }
+
+    protected Template(Parcel in) {
+        this.id = in.readString();
+        this.title = in.readString();
+        this.category = in.readString();
+        this.creator_username = in.readString();
+        this.container = in.createStringArrayList();
+        this.tier_rows = in.createStringArrayList();
+        this.cover_image = in.readString();
+        this.creation_time = in.readString();
+    }
+
+    public static final Parcelable.Creator<Template> CREATOR = new Parcelable.Creator<Template>() {
+        @Override
+        public Template createFromParcel(Parcel source) {
+            return new Template(source);
+        }
+
+        @Override
+        public Template[] newArray(int size) {
+            return new Template[size];
+        }
+    };
 }

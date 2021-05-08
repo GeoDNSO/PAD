@@ -46,13 +46,11 @@
         android:label="tier_fragment"
         tools:layout="@layout/tier_fragment" />
     <fragment
-<<<<<<< HEAD
         android:id="@+id/iconsFragment"
-        android:name="es.ucm.fdi.tieryourlikes.ui.icons.IconsDialog"
+        android:name="es.ucm.fdi.tieryourlikes.ui.iconDialog.IconDialog"
         android:label="IconsFragment" />
-=======
+    <fragment
         android:id="@+id/trialFragment"
         android:name="es.ucm.fdi.tieryourlikes.ui.trial.TrialFragment"
         android:label="TrialFragment" />
->>>>>>> home_fragment
 </navigation>

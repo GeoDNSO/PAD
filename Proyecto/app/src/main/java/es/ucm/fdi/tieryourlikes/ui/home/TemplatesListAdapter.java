@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -57,18 +58,29 @@ public class TemplatesListAdapter extends RecyclerView.Adapter<TemplatesListAdap
         private OnItemClickListener onItemClickListener;
         private TextView templateName;
         private ImageView imageTemplate;
+        private CardView cardView;
 
         public ViewHolder(@NonNull View itemView, OnItemClickListener onItemClickListener) {
             super(itemView);
             templateName = itemView.findViewById(R.id.home_item_template_text_view);
             imageTemplate = itemView.findViewById(R.id.home_item_template_image_view);
+            cardView = itemView.findViewById(R.id.home_item_template_card_view);
             this.onItemClickListener = onItemClickListener;
+
+            cardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onItemClickListener.onItemClickListener(getAdapterPosition(), list);
+                }
+            });
         }
 
         @Override
         public void onClick(View v) {
             onItemClickListener.onItemClickListener(getAdapterPosition(), list);
         }
+
+
     }
 
 

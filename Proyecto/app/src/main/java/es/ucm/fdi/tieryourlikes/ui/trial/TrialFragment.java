@@ -83,7 +83,7 @@ public class TrialFragment extends Fragment {
         for (int i = 0; i < 5; i++)
             tierRows.add(new TierRow("Tier_"+i, container.subList(0, i)));
 
-        Tier tier = new Tier("3948i043", "09283ru83uy", "hola", container, tierRows);
+        Tier tier = new Tier("3948i043", "09283ru83uy", "hola", container, tierRows, "");
 
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(Tier.class, new TierSerializer()) //MIrar clase TemplateSerializer que es quien lo convierte a JSON
@@ -92,7 +92,7 @@ public class TrialFragment extends Fragment {
 
         String pretty = gson.toJson(tier);
 
-        Log.d("TAG_3", "prueba3: " + pretty);
+        //Log.d("TAG_3", "prueba3: " + pretty);
     }
 
     private void prueba2() {

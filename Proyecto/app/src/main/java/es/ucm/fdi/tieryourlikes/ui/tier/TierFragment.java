@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import es.ucm.fdi.tieryourlikes.App;
+import es.ucm.fdi.tieryourlikes.AppConstants;
 import es.ucm.fdi.tieryourlikes.R;
 import es.ucm.fdi.tieryourlikes.model.ApiResponse;
 import es.ucm.fdi.tieryourlikes.model.ResponseStatus;

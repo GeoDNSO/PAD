@@ -23,12 +23,9 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-<<<<<<< HEAD
 import com.google.gson.JsonObject;
-=======
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
->>>>>>> home_fragment
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -59,7 +56,7 @@ public class HomeFragment extends Fragment implements TemplatesListAdapter.OnIte
     private List<Template> mostDoneList;
     private List<Template> mostRecentList;
 
-    private int page = 1, count = 10;
+    private int page = 1, count = 5;
 
     public static HomeFragment newInstance() {
         return new HomeFragment();
@@ -101,18 +98,6 @@ public class HomeFragment extends Fragment implements TemplatesListAdapter.OnIte
 
         observers();
 
-<<<<<<< HEAD
-        Tier tier = new Tier("3948i043", "09283ru83uy", "hola", container, tierRows, "");
-
-        Gson gson = new GsonBuilder()
-                .registerTypeAdapter(Tier.class, new TierSerializer()) //MIrar clase TemplateSerializer que es quien lo convierte a JSON
-                .setPrettyPrinting()
-                .create();
-
-        String pretty = gson.toJson(tier);
-
-        //Log.d("TAG_3", "prueba3: " + pretty);
-=======
         Button button = root.findViewById(R.id.button_trial);
         button.setOnClickListener(new View.OnClickListener() {
               @Override
@@ -122,7 +107,6 @@ public class HomeFragment extends Fragment implements TemplatesListAdapter.OnIte
           });
 
         return root;
->>>>>>> home_fragment
     }
 
     private void observers() {
@@ -135,16 +119,6 @@ public class HomeFragment extends Fragment implements TemplatesListAdapter.OnIte
                 }
 
                 mostRecentList = listApiResponse.getObject();
-
-                /*Gson gson = new Gson();
-                JSONObject jsonObj = null;
-                try {
-                    jsonObj = new JSONObject(listApiResponse.getObject().toString());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                Type type = new TypeToken<Template>() {}.getType();
-                mostRecentList = gson.fromJson(jsonObj.toString(),type);*/
 
                 mostRecentView();
             }
@@ -195,9 +169,12 @@ public class HomeFragment extends Fragment implements TemplatesListAdapter.OnIte
     public void onItemClickListener(int position, List<Template> list) {
         String templateName = list.get(position).getTitle();
         Toast.makeText(getContext(), templateName, Toast.LENGTH_SHORT).show();
+
+        Template template = list.get(position);
+
         Bundle bundle = new Bundle();
-        bundle.putParcelable(AppConstants.BUNDLE_TEMPLATE, (Parcelable) list);
-        Navigation.findNavController(root).navigate(R.id.templateFragment, bundle);
+        bundle.putParcelable(AppConstants.BUNDLE_TEMPLATE, template);
+        Navigation.findNavController(root).navigate(R.id.tierFragment, bundle);
         //mViewModel.
     }
 }

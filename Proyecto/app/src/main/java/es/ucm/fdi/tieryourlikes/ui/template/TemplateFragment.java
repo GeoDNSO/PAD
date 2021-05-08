@@ -321,16 +321,9 @@ public class TemplateFragment extends Fragment {
                 imageString.add(MediaManager.bitmapToBase64(bitmapList.get(i)));
             }
         }
-<<<<<<< HEAD
+
         String image = (bitmap != null) ? MediaManager.bitmapToBase64(bitmap) : "";
-=======
-        String image = "";
 
-        if(bitmap != null) {
-            image = bitmapToBase64(bitmap);
-        }
-
->>>>>>> home_fragment
         rowString = new ArrayList<>();
         for (int i = 0; i < countView; ++i) {
             EditText editText = template_linearLayout.getChildAt(i).findViewById(R.id.editText_row);
@@ -340,19 +333,17 @@ public class TemplateFragment extends Fragment {
             }
         }
         String template_name = et_template_name.getText().toString();
-<<<<<<< HEAD
+
         //String template_category = et_template_category.getText().toString();
         String template_category = (String) categoriesSpinner.getSelectedItem();
-        Log.d("TAG_CAT", "El item seleccionado fue " + template_category);
-=======
-        String template_category = et_template_category.getText().toString().toLowerCase();
+        String final_category = template_category.toLowerCase();
+        Log.d("TAG_CAT", "El item seleccionado fue " + final_category);
 
->>>>>>> home_fragment
-        if (template_name.isEmpty() || template_category.isEmpty() || imageString.size() == 0 || image == "" || rowString.size() == 0) {
+        if (template_name.isEmpty() || final_category.isEmpty() || imageString.size() == 0 || image == "" || rowString.size() == 0) {
             Toast.makeText(getActivity(), getString(R.string.empty_fields), Toast.LENGTH_SHORT).show();
         }
         else{
-            Template template = new Template(template_name, template_category, "Jin", image, imageString, rowString);
+            Template template = new Template(template_name, final_category, "Jin", image, imageString, rowString);
             mViewModel.createTemplate(template);
         }
     }
