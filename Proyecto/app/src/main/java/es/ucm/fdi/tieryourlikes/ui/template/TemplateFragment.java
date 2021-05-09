@@ -330,6 +330,8 @@ public class TemplateFragment extends Fragment {
             String text = editText.getText().toString();
             if(!text.equals("") || !text.equals(null)) {
                 rowString.add(text);
+            }else{
+                editText.getHint().toString();
             }
         }
         String template_name = et_template_name.getText().toString();
