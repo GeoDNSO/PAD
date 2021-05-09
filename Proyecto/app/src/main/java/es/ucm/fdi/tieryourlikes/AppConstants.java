@@ -31,6 +31,7 @@ public class AppConstants {
     public static final String DB_ROW_NAME_KEY = "row_name";
     public static final String DB_IMAGE_URL_KEY = "image_urls";
     public static final String DB_TEMPLATE_ID = "template_id";
+    public static final String DB_ROW_COLOR_KEY = "tier_row_color";
 
     public static final String DB_PAGINATION_PAGE = "page";
     public static final String DB_PAGINATION_LIMIT = "limit";
@@ -58,5 +59,6 @@ public class AppConstants {
     public static final String ADMIN_USER = "admin";
 
     public static final String BUNDLE_TEMPLATE = "TEMPLATE_BUNDLE";
+
 
 }

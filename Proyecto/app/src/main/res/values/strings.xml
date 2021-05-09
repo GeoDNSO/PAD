@@ -152,5 +152,8 @@
     <string name="password_not_equal_2">Las contraseñas no coinciden</string>
     <string name="my_tiers">Mis Tiers</string>
     <string name="my_templates">Mis Plantillas</string>
+    <string name="choose_color">Elige un color</string>
+    <string name="color_select_ok">Confirmar</string>
+    <string name="color_select_cancel">Cancelar</string>
 
 </resources>

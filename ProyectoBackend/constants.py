@@ -20,6 +20,7 @@ DB_TIER_ROWS_KEY = "tier_rows"
 DB_ROW_NAME_KEY = "row_name"
 DB_IMAGE_URL_KEY = "image_urls"
 DB_TEMPLATE_ID = "template_id" # Para poder buscar plantillas por id
+DB_TIER_ROW_COLOR = "tier_row_color"
 
 
 #Categorias

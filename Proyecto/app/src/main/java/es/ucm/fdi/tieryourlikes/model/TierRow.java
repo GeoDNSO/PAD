@@ -5,18 +5,21 @@ import java.util.List;
 
 public class TierRow {
 
-    String row_name;
-    List<String> image_urls;
+    public static final String DEFAULT_COLOR = "#87AAEC";
+    private String row_name;
+    private String color;
+    private List<String> image_urls;
 
-    public TierRow(String tierName, List<String> images) {
+    public TierRow(String tierName, String color, List<String> images) {
         this.row_name = tierName;
+        this.color = color;
         this.image_urls = images;
     }
 
     public static List<TierRow> getListFromString(List<String> tierListString){
         List<TierRow> tierRowList = new ArrayList<>();
         for(String title : tierListString)
-            tierRowList.add(new TierRow(title, new ArrayList<>()));
+            tierRowList.add(new TierRow(title, DEFAULT_COLOR, new ArrayList<>()));
         return tierRowList;
     }
 
@@ -36,10 +39,19 @@ public class TierRow {
         this.image_urls = image_urls;
     }
 
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
     @Override
     public String toString() {
         return "TierRow{" +
                 "row_name='" + row_name + '\'' +
+                "color='" + color + '\'' +
                 ", image_urls=" + image_urls +
                 '}';
     }
