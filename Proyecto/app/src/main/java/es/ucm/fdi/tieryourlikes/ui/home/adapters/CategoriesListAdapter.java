@@ -1,6 +1,7 @@
 package es.ucm.fdi.tieryourlikes.ui.home.adapters;
 
 import android.app.Activity;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,15 +20,13 @@ import es.ucm.fdi.tieryourlikes.model.Template;
 public class CategoriesListAdapter extends RecyclerView.Adapter<CategoriesListAdapter.ViewHolder>{
 
     private Activity activity;
-    private List<Category> list;
     private TemplatesListAdapter templatesListAdapter;
-    private List<List<Template>> templateList;
+    private List<Pair<List<Template>, Category>> pairList;
     private TemplatesListAdapter.OnItemClickListener onItemClickListener;
 
-    public CategoriesListAdapter(Activity activity, List<Category> list, List<List<Template>> templateList, TemplatesListAdapter.OnItemClickListener onItemClickListener){
+    public CategoriesListAdapter(Activity activity, List<Pair<List<Template>, Category>> pairList, TemplatesListAdapter.OnItemClickListener onItemClickListener){
         this.activity = activity;
-        this.list = list;
-        this.templateList = templateList;
+        this.pairList = pairList;
         this.onItemClickListener = onItemClickListener;
     }
 
@@ -42,8 +41,8 @@ public class CategoriesListAdapter extends RecyclerView.Adapter<CategoriesListAd
 
     @Override
     public void onBindViewHolder(@NonNull CategoriesListAdapter.ViewHolder holder, int position) {
-        Category category = list.get(position);
-        List<Template> templates = templateList.get(position);
+        Category category = pairList.get(position).second;
+        List<Template> templates = pairList.get(position).first;
         holder.categoryName.setText(category.getName());
         templatesListAdapter = new TemplatesListAdapter(activity, templates, onItemClickListener);
         holder.recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
@@ -52,7 +51,7 @@ public class CategoriesListAdapter extends RecyclerView.Adapter<CategoriesListAd
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return pairList.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
