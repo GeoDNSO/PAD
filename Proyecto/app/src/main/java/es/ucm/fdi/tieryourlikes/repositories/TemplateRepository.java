@@ -13,6 +13,7 @@ import java.util.List;
 
 import es.ucm.fdi.tieryourlikes.AppConstants;
 import es.ucm.fdi.tieryourlikes.model.ApiResponse;
+import es.ucm.fdi.tieryourlikes.model.Category;
 import es.ucm.fdi.tieryourlikes.model.Template;
 import es.ucm.fdi.tieryourlikes.model.Tier;
 import es.ucm.fdi.tieryourlikes.model.serializers.TemplateSerializer;
@@ -90,6 +91,26 @@ public class TemplateRepository {
                 .build();
 
         Log.d("REPO", builtURI.toString());
+
+        SimpleRequest simpleRequest = new SimpleRequest();
+        Request request = simpleRequest.buildRequest(postBodyString,
+                AppConstants.METHOD_GET, builtURI.toString());
+
+        return new CallObservableCreator<>(Template.class).getList(simpleRequest, request);
+    }
+
+    public Observable<ApiResponse<List<Template>>> getListTemplatesCategory(int page, int count, String category) {
+        String postBodyString = ""; //Metodo GET, no es necesairo un Body
+
+        String route = "/listTemplates/";
+
+        String finalURL = route + "?";
+        Uri builtURI = Uri.parse(finalURL).buildUpon()
+                .appendQueryParameter(AppConstants.DB_PAGE, String.valueOf(page))
+                .appendQueryParameter(AppConstants.DB_LIMIT, String.valueOf(count))
+                .appendQueryParameter(AppConstants.DB_CATEGORY_KEY, category)
+                .build();
+
 
         SimpleRequest simpleRequest = new SimpleRequest();
         Request request = simpleRequest.buildRequest(postBodyString,

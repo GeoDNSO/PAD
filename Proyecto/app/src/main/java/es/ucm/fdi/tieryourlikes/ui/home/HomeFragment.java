@@ -12,34 +12,24 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
-import com.google.gson.stream.JsonReader;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
 import es.ucm.fdi.tieryourlikes.AppConstants;
 import es.ucm.fdi.tieryourlikes.R;
 import es.ucm.fdi.tieryourlikes.model.ApiResponse;
+import es.ucm.fdi.tieryourlikes.model.Category;
 import es.ucm.fdi.tieryourlikes.model.ResponseStatus;
 import es.ucm.fdi.tieryourlikes.model.Template;
-import es.ucm.fdi.tieryourlikes.model.serializers.TemplateSerializer;
+import es.ucm.fdi.tieryourlikes.ui.home.adapters.CategoriesListAdapter;
+import es.ucm.fdi.tieryourlikes.ui.home.adapters.TemplatesListAdapter;
 
 public class HomeFragment extends Fragment implements TemplatesListAdapter.OnItemClickListener {
 
@@ -47,16 +37,21 @@ public class HomeFragment extends Fragment implements TemplatesListAdapter.OnIte
 
     private HomeViewModel mViewModel;
 
-    private LinearLayout topCategoriesLinearLayout;
+    private RecyclerView categoriesRecycleView;
 
     private RecyclerView mostDoneRecycleView;
     private RecyclerView mostRecentRecycleView;
     private TemplatesListAdapter templatesListAdapter;
+    private CategoriesListAdapter categoriesListAdapter;
 
     private List<Template> mostDoneList;
     private List<Template> mostRecentList;
+    private List<Category> mostPopularCategoriesList;
+    private List<List<Template>> categoriesTemplateList;
 
-    private int page = 1, count = 5;
+
+    private int page = 1, count = 3;
+    private int i = 0;
 
     public static HomeFragment newInstance() {
         return new HomeFragment();
@@ -69,32 +64,15 @@ public class HomeFragment extends Fragment implements TemplatesListAdapter.OnIte
         root = inflater.inflate(R.layout.home_fragment, container, false);
         mViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
 
-        /*topCategoriesLinearLayout = root.findViewById(R.id.top_categories_linearLayout_home);
-
-        for(int i = 0; i < 4; ++i){
-            View v = inflater.inflate(R.layout.top_categories_item_fragment, container, false);
-
-            TextView tv = v.findViewById(R.id.top_categories_text_view_item);
-            ImageView iv = v.findViewById(R.id.top_categories_image_view_item);
-
-            iv.setImageResource(R.drawable.ic_baseline_save_24);
-            tv.setText("Categoria" + i);
-
-            topCategoriesLinearLayout.addView(v);
-        }*/
-
         init();
-
-        /*for(int i = 0; i < 6; ++i){
-            mostDoneList.add(new Template("i" + i, "sad", "sad", "sadad", new ArrayList<>(), new ArrayList<>()));
-            yourTemplatesList.add(new Template("i" + i, "sad", "sad", "sadad", new ArrayList<>(), new ArrayList<>()));
-        }*/
 
         mostDoneView();
         mostRecentView();
+        mostPopularCategoriesView();
 
         mViewModel.getMostDoneTemplates(page, count);
         mViewModel.getListTemplates(page, count);
+        mViewModel.getMostPopularCategories(page, count);
 
         observers();
 
@@ -117,9 +95,7 @@ public class HomeFragment extends Fragment implements TemplatesListAdapter.OnIte
                     Toast.makeText(getActivity(), "Hubo un error:" + listApiResponse.getError(), Toast.LENGTH_SHORT).show();
                     return;
                 }
-
                 mostRecentList = listApiResponse.getObject();
-
                 mostRecentView();
             }
         });
@@ -132,8 +108,31 @@ public class HomeFragment extends Fragment implements TemplatesListAdapter.OnIte
                     return;
                 }
                 mostDoneList = listApiResponse.getObject();
-                Log.d("HOME FRAGMENT", listApiResponse.getObject().toString());
                 mostDoneView();
+            }
+        });
+
+        mViewModel.getListCategoryMostPopularResponse().observe(getViewLifecycleOwner(), new Observer<ApiResponse<List<Category>>>() {
+            @Override
+            public void onChanged(ApiResponse<List<Category>> listApiResponse) {
+                mostPopularCategoriesList = listApiResponse.getObject();
+                mViewModel.getListTemplatesCategory(page, count, mostPopularCategoriesList.get(i).getName());
+                ++i;
+            }
+        });
+
+        mViewModel.getMlvListTemplateCategoriesResponse().observe(getViewLifecycleOwner(), new Observer<ApiResponse<List<Template>>>() {
+            @Override
+            public void onChanged(ApiResponse<List<Template>> listApiResponse) {
+                categoriesTemplateList.add(listApiResponse.getObject());
+                if(mostPopularCategoriesList.size() <= i){
+                    mostPopularCategoriesView();
+                    i = 0;
+                }
+                else {
+                    mViewModel.getListTemplatesCategory(page, count, mostPopularCategoriesList.get(i).getName());
+                    ++i;
+                }
             }
         });
     }
@@ -150,11 +149,20 @@ public class HomeFragment extends Fragment implements TemplatesListAdapter.OnIte
         mostDoneRecycleView.setAdapter(templatesListAdapter);
     }
 
+    private void mostPopularCategoriesView() {
+        categoriesListAdapter = new CategoriesListAdapter(getActivity(), mostPopularCategoriesList, categoriesTemplateList, this);
+        categoriesRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        categoriesRecycleView.setAdapter(categoriesListAdapter);
+    }
+
     private void init() {
         mostDoneRecycleView = root.findViewById(R.id.most_done_recycle_view_home);
         mostRecentRecycleView = root.findViewById(R.id.most_recent_recycle_view_home);
+        categoriesRecycleView = root.findViewById(R.id.categories_recycle_view_home);
         mostDoneList = new ArrayList<>();
         mostRecentList = new ArrayList<>();
+        mostPopularCategoriesList = new ArrayList<>();
+        categoriesTemplateList = new ArrayList<>();
     }
 
 

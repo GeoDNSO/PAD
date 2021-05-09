@@ -7,10 +7,11 @@ import constants
 
 from pprint import pprint
 
+#Return args without page and limit to make a custom search
+
 def tierListInfoFromCursor(cursor):
     tierInfo = []
     for item in cursor:
-        print(item)
         tierInfo.append(item[constants.DB_ID_KEY])
     return tierInfo
 
