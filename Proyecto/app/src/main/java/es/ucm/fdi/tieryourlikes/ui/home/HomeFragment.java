@@ -1,5 +1,6 @@
 package es.ucm.fdi.tieryourlikes.ui.home;
 
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +22,8 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import es.ucm.fdi.tieryourlikes.AppConstants;
@@ -48,6 +52,7 @@ public class HomeFragment extends Fragment implements TemplatesListAdapter.OnIte
     private List<Template> mostRecentList;
     private List<Category> mostPopularCategoriesList;
     private List<List<Template>> categoriesTemplateList;
+    private List<Pair<List<Template>, Category>> listOfListTemplatesList;
 
 
     private int page = 1, count = 3;
@@ -121,34 +126,31 @@ public class HomeFragment extends Fragment implements TemplatesListAdapter.OnIte
                     return;
                 }
                 mostPopularCategoriesList = listApiResponse.getObject();
-                for(int i = 0; i< mostPopularCategoriesList.size(); ++i) {
-                    mViewModel.getListTemplatesCategory(page, count, mostPopularCategoriesList.get(i).getName());
+
+                List<Pair<MutableLiveData<ApiResponse<List<Template>>>, Category>> pairList = mViewModel.generateDynamicMLV();
+
+                dynamicObserver(pairList);
+
+                for(Pair<MutableLiveData<ApiResponse<List<Template>>>, Category> p: pairList) {
+                    mViewModel.getListTemplatesCategory(page,count, p.second.getName(), p.first);
                 }
-                //i++;
 
             }
         });
+    }
 
-        mViewModel.getMlvListTemplateCategoriesResponse().observe(getViewLifecycleOwner(), new Observer<ApiResponse<List<Template>>>() {
-            @Override
-            public void onChanged(ApiResponse<List<Template>> listApiResponse) {
-                if(listApiResponse.getResponseStatus() == ResponseStatus.ERROR) {
-                    Toast.makeText(getActivity(), "Hubo un error:" + listApiResponse.getError(), Toast.LENGTH_SHORT).show();
-                    return;
+    private void dynamicObserver(List<Pair<MutableLiveData<ApiResponse<List<Template>>>, Category>> pairList) {
+        for(Pair<MutableLiveData<ApiResponse<List<Template>>>, Category> p: pairList){
+            p.first.observe(getViewLifecycleOwner(), new Observer<ApiResponse<List<Template>>>() {
+                @Override
+                public void onChanged(ApiResponse<List<Template>> listApiResponse) {
+                    listOfListTemplatesList.add(new Pair<>(listApiResponse.getObject(), p.second));
+                    if(listOfListTemplatesList.size() == pairList.size()) {
+                        mostPopularCategoriesView();
+                    }
                 }
-                categoriesTemplateList.add(listApiResponse.getObject());
-                mostPopularCategoriesView();
-                /*if(mostPopularCategoriesList.size() == i){
-                    mostPopularCategoriesView();
-                    //i = 0;
-                }
-                else {
-                    i++;
-                    mViewModel.getListTemplatesCategory(page, count, mostPopularCategoriesList.get(i).getName());
-                    //i++;
-                }*/
-            }
-        });
+            });
+        }
     }
 
     private void mostRecentView() {
@@ -164,7 +166,17 @@ public class HomeFragment extends Fragment implements TemplatesListAdapter.OnIte
     }
 
     private void mostPopularCategoriesView() {
-        categoriesListAdapter = new CategoriesListAdapter(getActivity(), mostPopularCategoriesList, categoriesTemplateList, this);
+
+        List<Pair<List<Template>, Category>> pairList = listOfListTemplatesList;
+
+        Collections.sort(pairList, new Comparator<Pair<List<Template>, Category>>() {
+            @Override
+            public int compare(Pair<List<Template>, Category> o1, Pair<List<Template>, Category> o2) {
+                return o1.second.getName().compareTo(o2.second.getName());
+            }
+        });
+
+        categoriesListAdapter = new CategoriesListAdapter(getActivity(), pairList, this);
         categoriesRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
         categoriesRecycleView.setAdapter(categoriesListAdapter);
     }
@@ -175,11 +187,11 @@ public class HomeFragment extends Fragment implements TemplatesListAdapter.OnIte
         categoriesRecycleView = root.findViewById(R.id.categories_recycle_view_home);
         mostDoneList = new ArrayList<>();
         mostRecentList = new ArrayList<>();
+        listOfListTemplatesList = new ArrayList<>();
         mostPopularCategoriesList = new ArrayList<>();
         categoriesTemplateList = new ArrayList<>();
         i = 0;
     }
-
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -199,12 +211,6 @@ public class HomeFragment extends Fragment implements TemplatesListAdapter.OnIte
         bundle.putParcelable(AppConstants.BUNDLE_TEMPLATE, template);
         Navigation.findNavController(root).navigate(R.id.tierFragment, bundle);
         //mViewModel.
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        Toast.makeText(getContext(), "OnDestroy", Toast.LENGTH_SHORT).show();
     }
 
 }

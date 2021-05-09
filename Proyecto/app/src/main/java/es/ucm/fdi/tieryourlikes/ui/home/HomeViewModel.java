@@ -1,11 +1,13 @@
 package es.ucm.fdi.tieryourlikes.ui.home;
 
 import android.util.Log;
+import android.util.Pair;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import es.ucm.fdi.tieryourlikes.model.ApiResponse;
@@ -29,6 +31,8 @@ public class HomeViewModel extends ViewModel {
     private MutableLiveData<ApiResponse<List<Template>>> mlvListTemplateMostDoneResponse;
     private MutableLiveData<ApiResponse<List<Template>>> mlvListTemplateCategoriesResponse;
     private MutableLiveData<ApiResponse<List<Category>>> mlvListCategoryMostPopularResponse;
+    private List<Pair<MutableLiveData<ApiResponse<List<Template>>>, Category>> listPairMLV;
+
 
     public HomeViewModel() {
         templateRepository = new TemplateRepository();
@@ -37,6 +41,7 @@ public class HomeViewModel extends ViewModel {
         mlvListTemplateMostDoneResponse = new MutableLiveData<>();
         mlvListCategoryMostPopularResponse = new MutableLiveData<>();
         mlvListTemplateCategoriesResponse = new MutableLiveData<>();
+        listPairMLV = new ArrayList<>();
     }
 
     public void getMostDoneTemplates(int page, int count) {
@@ -67,6 +72,21 @@ public class HomeViewModel extends ViewModel {
         generalSubscriber.subscribe();
     }
 
+    public void getListTemplatesCategory(int page, int count, String category, MutableLiveData<ApiResponse<List<Template>>> mlv) {
+        GeneralSubscriber<List<Template>> generalSubscriber = new GeneralSubscriber<List<Template>>();
+        generalSubscriber.setMutableLiveDataToModify(mlv);
+        generalSubscriber.setObservable(templateRepository.getListTemplatesCategory(page, count, category));
+        generalSubscriber.subscribe();
+    }
+
+    public List<Pair<MutableLiveData<ApiResponse<List<Template>>>, Category>> generateDynamicMLV() {
+        listPairMLV = new ArrayList<>();
+        for(Category category: mlvListCategoryMostPopularResponse.getValue().getObject()) {
+            listPairMLV.add(new Pair<>(new MutableLiveData<>(), category));
+        }
+        return listPairMLV;
+    }
+
     public LiveData<ApiResponse<List<Template>>> getListTemplateMostRecentResponse() {
         return mlvListTemplateMostRecentResponse;
     }
@@ -79,9 +99,6 @@ public class HomeViewModel extends ViewModel {
         return mlvListCategoryMostPopularResponse;
     }
 
-    public MutableLiveData<ApiResponse<List<Template>>> getMlvListTemplateCategoriesResponse() {
-        return mlvListTemplateCategoriesResponse;
-    }
 
     // TODO: Implement the ViewModel
 

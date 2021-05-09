@@ -43,7 +43,8 @@ public class CategoriesListAdapter extends RecyclerView.Adapter<CategoriesListAd
     public void onBindViewHolder(@NonNull CategoriesListAdapter.ViewHolder holder, int position) {
         Category category = pairList.get(position).second;
         List<Template> templates = pairList.get(position).first;
-        holder.categoryName.setText(category.getName());
+        String categoryName = category.getName().substring(0, 1).toUpperCase() + category.getName().substring(1);
+        holder.categoryName.setText("Categoría " + categoryName);
         templatesListAdapter = new TemplatesListAdapter(activity, templates, onItemClickListener);
         holder.recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
         holder.recyclerView.setAdapter(templatesListAdapter);
