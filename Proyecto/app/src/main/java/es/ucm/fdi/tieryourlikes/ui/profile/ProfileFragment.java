@@ -3,6 +3,8 @@ package es.ucm.fdi.tieryourlikes.ui.profile;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -18,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.gson.JsonObject;
 
 import es.ucm.fdi.tieryourlikes.App;
@@ -75,6 +78,7 @@ public class ProfileFragment extends Fragment implements IconDialog.IconDialogOb
                 if (dialog == null){
                     dialog = IconDialog.newInstance(ProfileFragment.this);
                 }
+                dialog.setStyle(BottomSheetDialogFragment.STYLE_NORMAL, R.style.CustomBottomSheetDialogTheme);
                 dialog.show(getParentFragmentManager(), "icons_fragment");
             }
         });
@@ -121,7 +125,6 @@ public class ProfileFragment extends Fragment implements IconDialog.IconDialogOb
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(ProfileViewModel.class);
-        // TODO: Use the ViewModel
     }
 
     @Override

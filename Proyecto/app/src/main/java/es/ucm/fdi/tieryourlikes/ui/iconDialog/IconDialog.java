@@ -18,18 +18,19 @@ import es.ucm.fdi.tieryourlikes.R;
 
 public class IconDialog extends BottomSheetDialogFragment {
 
-    IconDialogObserver observer;
-    List<ImageView> listaIconos = new ArrayList<>();
+    private IconDialogObserver observer;
+    private View view;
+    private List<ImageView> listaIconos;
 
     //COGER TODOS LOS IMAGEVIEWS
-    ImageView icon00;
-    ImageView icon01;
-    ImageView icon02;
-    ImageView icon03;
-    ImageView icon04;
-    ImageView icon05;
-    ImageView icon06;
-    ImageView icon07;
+    private ImageView icon00;
+    private ImageView icon01;
+    private ImageView icon02;
+    private ImageView icon03;
+    private ImageView icon04;
+    private ImageView icon05;
+    private ImageView icon06;
+    private ImageView icon07;
 
 
     public static IconDialog newInstance(IconDialogObserver observer) {
@@ -45,8 +46,20 @@ public class IconDialog extends BottomSheetDialogFragment {
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.icons_fragment, container, false);
+        view = inflater.inflate(R.layout.icons_fragment, container, false);
 
+        initIcons();
+        addIconToList();
+
+        // get the views and attach the listener
+        for(ImageView v: listaIconos){
+            v.setOnClickListener(v1 -> observer.onItemClicked(v1));
+        }
+
+        return view;
+    }
+
+    private void initIcons() {
         icon00 = view.findViewById(R.id.icon00);
         icon01 = view.findViewById(R.id.icon01);
         icon02 = view.findViewById(R.id.icon02);
@@ -56,6 +69,10 @@ public class IconDialog extends BottomSheetDialogFragment {
         icon06 = view.findViewById(R.id.icon06);
         icon07 = view.findViewById(R.id.icon07);
 
+    }
+
+    private void addIconToList() {
+        listaIconos = new ArrayList<>();
         listaIconos.add(icon00);
         listaIconos.add(icon01);
         listaIconos.add(icon02);
@@ -64,21 +81,10 @@ public class IconDialog extends BottomSheetDialogFragment {
         listaIconos.add(icon05);
         listaIconos.add(icon06);
         listaIconos.add(icon07);
-
-        // get the views and attach the listener
-        for(ImageView v: listaIconos){
-            v.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    observer.onItemClicked(v);
-                }
-            });
-        }
-        return view;
     }
 
     public interface IconDialogObserver {
-        public void onItemClicked(View v);
+        void onItemClicked(View v);
     }
 
 }
