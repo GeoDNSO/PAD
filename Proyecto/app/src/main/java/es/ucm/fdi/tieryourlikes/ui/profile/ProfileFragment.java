@@ -3,8 +3,6 @@ package es.ucm.fdi.tieryourlikes.ui.profile;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -30,6 +28,8 @@ import es.ucm.fdi.tieryourlikes.model.ResponseStatus;
 import es.ucm.fdi.tieryourlikes.model.User;
 import es.ucm.fdi.tieryourlikes.ui.iconDialog.IconDialog;
 import es.ucm.fdi.tieryourlikes.utilities.AppUtils;
+
+import static android.content.ContentValues.TAG;
 
 public class ProfileFragment extends Fragment implements IconDialog.IconDialogObserver {
 
@@ -65,6 +65,11 @@ public class ProfileFragment extends Fragment implements IconDialog.IconDialogOb
 
         String username = App.getInstance().getUsername();
         String email = App.getInstance().getEmail();
+
+        String iconURL = App.getInstance().getUser().getIcon();
+        iconID = getActivity().getResources().getIdentifier(iconURL, "drawable", getActivity().getPackageName());
+        ivIcon.setImageResource(iconID);
+
         mViewModel.userProfileData(username);
 
         tvUsername.setText(username);
@@ -135,7 +140,7 @@ public class ProfileFragment extends Fragment implements IconDialog.IconDialogOb
         ivIcon.setImageResource(iconID);
 
         User user = App.getInstance().getUser();
-        user.setIconURL(validTag);
+        user.setIcon(validTag);
 
         mViewModel.userUpdate(user);
 

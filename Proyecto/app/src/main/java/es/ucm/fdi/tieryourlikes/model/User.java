@@ -1,14 +1,11 @@
 package es.ucm.fdi.tieryourlikes.model;
 
-import android.graphics.drawable.Icon;
-import android.widget.ImageView;
-
 public class User {
 
     private String username;
     private String password;
     private String email;
-    private String iconURL;
+    private String icon;
     private String creation_time;
     private String rol;
 
@@ -16,7 +13,7 @@ public class User {
         this.username = username;
         this.password = password;
         this.email = email;
-        this.iconURL = iconURL;
+        this.icon = iconURL;
         this.creation_time = creation_time;
         this.rol = rol;
     }
@@ -45,9 +42,9 @@ public class User {
         this.email = email;
     }
 
-    public String getIconURL() { return iconURL; }
+    public String getIcon() { return icon; }
 
-    public void setIconURL(String iconURL) { this.iconURL = iconURL; }
+    public void setIcon(String icon) { this.icon = icon; }
 
     public String getCreationTime() {
         return creation_time;
@@ -71,7 +68,7 @@ public class User {
                 "username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
-                ", iconURL='" + iconURL + '\'' +
+                ", icon='" + icon + '\'' +
                 ", creation_time='" + creation_time + '\'' +
                 ", rol='" + rol + '\'' +
                 '}';

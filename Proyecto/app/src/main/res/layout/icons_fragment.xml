@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/icons_fragment_drawable"
+    android:paddingBottom="40dp"
     tools:context=".ui.profile.ProfileFragment">
 
         <TextView

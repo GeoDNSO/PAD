@@ -59,8 +59,10 @@ public class SessionManager {
         editor.putString(AppConstants.USERNAME, user.getUsername());
         editor.putString(AppConstants.PASSWORD, user.getPassword());
         editor.putString(AppConstants.EMAIL, user.getEmail());
+        editor.putString(AppConstants.DB_ICON_KEY, user.getIcon());
         editor.putString(AppConstants.DB_CREATION_TIME, user.getCreationTime());
         editor.putString(AppConstants.DB_ROL, user.getRol());
+
 
         editor.commit();
     }
@@ -71,7 +73,7 @@ public class SessionManager {
             String username =  prefs.getString(AppConstants.USERNAME,"");
             String email = prefs.getString(AppConstants.EMAIL,"");
             String password = prefs.getString(AppConstants.PASSWORD, "");
-            String iconTag = prefs.getString(AppConstants.ICON, "");
+            String iconTag = prefs.getString(AppConstants.DB_ICON_KEY, "");
             String creation_time = prefs.getString(AppConstants.DB_CREATION_TIME, "");
             String rol = prefs.getString(AppConstants.DB_ROL, "");
             sessionUser = new User(username, password, email, iconTag, creation_time, rol);
