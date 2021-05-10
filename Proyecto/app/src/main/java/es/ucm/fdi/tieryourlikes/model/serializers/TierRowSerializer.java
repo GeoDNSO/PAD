@@ -20,6 +20,7 @@ public class TierRowSerializer implements JsonSerializer<TierRow> {
     public JsonElement serialize(TierRow src, Type typeOfSrc, JsonSerializationContext context) {
         JsonObject result = new JsonObject();
         result.add(AppConstants.DB_ROW_NAME_KEY, new JsonPrimitive(src.getRowName()));
+        result.add(AppConstants.DB_ROW_COLOR_KEY, new JsonPrimitive(src.getRowName()));
 
         JsonArray image_urls = new JsonArray();
         List<String> stringUrls = src.getImageUrls();

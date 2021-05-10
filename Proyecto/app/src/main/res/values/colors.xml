@@ -22,6 +22,8 @@
     <color name="endBlue">#0bcce6</color>
 
     <color name="colorFavRed">#E31B23</color>
+    <color name="blackTierRowBackground">#333</color>
+    <color name="blackTierBackground">#1a1a17</color>
 
     <color name="address">#2F7092</color>
     <color name="followers">#0D5D98</color>
