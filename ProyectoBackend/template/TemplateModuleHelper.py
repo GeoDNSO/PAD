@@ -72,7 +72,6 @@ def getTemplatesUsedBy(args):
 
     return templateUtils.listFromCursor(cursor)
 
-
 #Para getTemplatesUsedBy
 def tierListFromCursor(cursor):
     tiersDoneList = []

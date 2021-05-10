@@ -33,16 +33,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import es.ucm.fdi.tieryourlikes.App;
-import es.ucm.fdi.tieryourlikes.AppConstants;
 import es.ucm.fdi.tieryourlikes.R;
 import es.ucm.fdi.tieryourlikes.model.ApiResponse;
 import es.ucm.fdi.tieryourlikes.model.ResponseStatus;
 import es.ucm.fdi.tieryourlikes.model.Template;
 import es.ucm.fdi.tieryourlikes.model.Tier;
 import es.ucm.fdi.tieryourlikes.model.TierRow;
-import es.ucm.fdi.tieryourlikes.ui.template.TemplateAdapter;
-import es.ucm.fdi.tieryourlikes.ui.template.listeners.TierElementTouchListener;
-import es.ucm.fdi.tieryourlikes.ui.template.listeners.TierRowDragListener;
+import es.ucm.fdi.tieryourlikes.ui.tier.listeners.TierElementTouchListener;
+import es.ucm.fdi.tieryourlikes.ui.tier.listeners.TierRowDragListener;
 import es.ucm.fdi.tieryourlikes.utilities.CustomFlexboxLayout;
 
 public class TierFragment extends Fragment {
@@ -55,7 +53,7 @@ public class TierFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private CustomFlexboxLayout flexboxContainer;
-    private TemplateAdapter templateAdapter;
+    private TierAdapter templateAdapter;
 
     public static TierFragment newInstance() {
         return new TierFragment();
@@ -79,7 +77,7 @@ public class TierFragment extends Fragment {
         fillContainer();
 
 
-        templateAdapter = new TemplateAdapter(getActivity(), tier.getTierRows());
+        templateAdapter = new TierAdapter(getActivity(), tier.getTierRows());
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(templateAdapter);
