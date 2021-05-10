@@ -42,21 +42,17 @@ public class HomeFragment extends Fragment implements TemplatesListAdapter.OnIte
     private HomeViewModel mViewModel;
 
     private RecyclerView categoriesRecycleView;
-
     private RecyclerView mostDoneRecycleView;
     private RecyclerView mostRecentRecycleView;
+
     private TemplatesListAdapter templatesListAdapter;
     private CategoriesListAdapter categoriesListAdapter;
 
     private List<Template> mostDoneList;
     private List<Template> mostRecentList;
-    private List<Category> mostPopularCategoriesList;
-    private List<List<Template>> categoriesTemplateList;
     private List<Pair<List<Template>, Category>> listOfListTemplatesList;
 
-
     private int page = 1, count = 3;
-    private int i = 0;
 
     public static HomeFragment newInstance() {
         return new HomeFragment();
@@ -80,7 +76,6 @@ public class HomeFragment extends Fragment implements TemplatesListAdapter.OnIte
         mViewModel.getMostDoneTemplates(page, count);
         mViewModel.getListTemplates(page, count);
         mViewModel.getMostPopularCategories(page, count);
-
 
         Button button = root.findViewById(R.id.button_trial);
         button.setOnClickListener(new View.OnClickListener() {
@@ -125,7 +120,6 @@ public class HomeFragment extends Fragment implements TemplatesListAdapter.OnIte
                     Toast.makeText(getActivity(), "Hubo un error:" + listApiResponse.getError(), Toast.LENGTH_SHORT).show();
                     return;
                 }
-                mostPopularCategoriesList = listApiResponse.getObject();
 
                 List<Pair<MutableLiveData<ApiResponse<List<Template>>>, Category>> pairList = mViewModel.generateDynamicMLV();
 
@@ -188,9 +182,6 @@ public class HomeFragment extends Fragment implements TemplatesListAdapter.OnIte
         mostDoneList = new ArrayList<>();
         mostRecentList = new ArrayList<>();
         listOfListTemplatesList = new ArrayList<>();
-        mostPopularCategoriesList = new ArrayList<>();
-        categoriesTemplateList = new ArrayList<>();
-        i = 0;
     }
 
     @Override
@@ -210,7 +201,6 @@ public class HomeFragment extends Fragment implements TemplatesListAdapter.OnIte
         Bundle bundle = new Bundle();
         bundle.putParcelable(AppConstants.BUNDLE_TEMPLATE, template);
         Navigation.findNavController(root).navigate(R.id.tierFragment, bundle);
-        //mViewModel.
     }
 
 }
