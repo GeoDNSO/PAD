@@ -1,6 +1,3 @@
-from os import path
-from re import A
-
 from pymongo.message import delete
 from template.templateUtils import listFromCursor
 from flask import Blueprint
@@ -11,7 +8,6 @@ from pymongo import cursor, errors
 from database import mongo
 
 from .Template import Template
-#from .templateUtils import *
 from . import templateUtils
 from util.utilities import time_now_str
 from flask import current_app as app
@@ -22,6 +18,7 @@ from bson.objectid import ObjectId
 from pprint import pprint
 
 from .TemplateModuleHelper import convertB64Images, deleteDirectory
+from  . import TemplateModuleHelper
 
 templateModule = Blueprint("templateModule", __name__)
 
@@ -100,30 +97,12 @@ def getTemplate(id):
         response.status_code = 400
         return response
 
-def getPageAndLimit(args):
-    page = 1
-    limit = 1
-    try:
-        page = int(args[constants.PAGINATION_PAGE])
-        limit = int(args[constants.PAGINATION_LIMIT])
-    except:
-        page = 1
-        limit = 1
-    return page, limit
 
 @templateModule.route('/listTemplates/', methods=['GET'])
 def listTemplates():
 
-    page, limit = getPageAndLimit(request.args)
-    
-    custom_args = request.args.copy()
-    custom_args.pop(constants.PAGINATION_PAGE)
-    custom_args.pop(constants.PAGINATION_LIMIT)
-    
     try:
-        cursor = mongo.db.templates.find(custom_args).skip((page-1)*limit).limit(limit)
-        templateList = templateUtils.listFromCursor(cursor)
-        
+        templateList = TemplateModuleHelper.getTemplates(request.args)        
        
         response = jsonify({
             "elements": len(templateList),
@@ -137,46 +116,12 @@ def listTemplates():
         response.status_code = 400
         return response
 
-'''
-db.collection.aggregate([{
-  '$group': {
-    '_id': {'author': '$author', 'subreddit': '$subreddit'}, 
-    'count': {'$sum': 1}, 
-    'author': {'$last': '$author'}}
-}, {
-  '$match': {
-    'count': {'$eq': 1}
-}}])'''
-
-'''
-group_option = {"$group": 
-                        {"_id": {f"${constants.DB_TEMPLATE_ID}"}, 
-                        "count": {"$sum": f"${constants.DB_TEMPLATE_ID}"}}
-                        }
-'''
 
 @templateModule.route('/listPopularTemplates/', methods=['GET'])
 def listPopularTemplates():
-
-    page, limit = getPageAndLimit(request.args)
     
     try:
-        group_option = {"$group": 
-                            {
-                            "_id": f"${constants.DB_TEMPLATE_ID}", 
-                            "count": {"$sum": 1}
-                            }
-                        }
-
-        sort = {"$sort": {"count":-1}}
-
-        cursor = mongo.db.tiers_done.aggregate([group_option, sort])
-        listCount = templateUtils.tierListInfoFromCursor(cursor)
-        print(listCount)
-        c_filter = {"_id": {"$in": listCount}}
-        cursor = mongo.db.templates.find(c_filter).skip((page-1)*limit).limit(limit)
-    
-        templateList = templateUtils.listFromCursor(cursor)
+        templateList = TemplateModuleHelper.getPopularTemplates(request.args)
 
         response = jsonify({
             "elements": len(templateList),

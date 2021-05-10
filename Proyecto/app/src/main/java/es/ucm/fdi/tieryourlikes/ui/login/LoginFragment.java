@@ -109,24 +109,6 @@ public class LoginFragment extends Fragment {
         });
     }
 
-    /*public void errores(){
-        if(inputUsername.getText().toString().trim().isEmpty()){
-            //Poner el mensaje de error en el Layout
-            layoutUsername.setError("Este campo es requerido");
-        }else{
-            //Quitar el mensaje de error del Layout
-            layoutUsername.setError(null);
-        }
-
-        if(inputPassword.getText().toString().trim().isEmpty()){
-            //Poner el mensaje de error en el Layout
-            layoutPassword.setError("Este campo es requerido");
-        }else{
-            //Quitar el mensaje de error del Layout
-            layoutPassword.setError(null);
-        }
-    }*/
-
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);

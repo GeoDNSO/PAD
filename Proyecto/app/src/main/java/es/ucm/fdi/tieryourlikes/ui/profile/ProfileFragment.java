@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.gson.JsonObject;
 
 import es.ucm.fdi.tieryourlikes.App;
@@ -27,6 +28,8 @@ import es.ucm.fdi.tieryourlikes.model.ResponseStatus;
 import es.ucm.fdi.tieryourlikes.model.User;
 import es.ucm.fdi.tieryourlikes.ui.iconDialog.IconDialog;
 import es.ucm.fdi.tieryourlikes.utilities.AppUtils;
+
+import static android.content.ContentValues.TAG;
 
 public class ProfileFragment extends Fragment implements IconDialog.IconDialogObserver {
 
@@ -62,6 +65,11 @@ public class ProfileFragment extends Fragment implements IconDialog.IconDialogOb
 
         String username = App.getInstance().getUsername();
         String email = App.getInstance().getEmail();
+
+        String iconURL = App.getInstance().getUser().getIcon();
+        iconID = getActivity().getResources().getIdentifier(iconURL, "drawable", getActivity().getPackageName());
+        ivIcon.setImageResource(iconID);
+
         mViewModel.userProfileData(username);
 
         tvUsername.setText(username);
@@ -75,6 +83,7 @@ public class ProfileFragment extends Fragment implements IconDialog.IconDialogOb
                 if (dialog == null){
                     dialog = IconDialog.newInstance(ProfileFragment.this);
                 }
+                dialog.setStyle(BottomSheetDialogFragment.STYLE_NORMAL, R.style.CustomBottomSheetDialogTheme);
                 dialog.show(getParentFragmentManager(), "icons_fragment");
             }
         });
@@ -121,7 +130,6 @@ public class ProfileFragment extends Fragment implements IconDialog.IconDialogOb
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(ProfileViewModel.class);
-        // TODO: Use the ViewModel
     }
 
     @Override
@@ -132,7 +140,7 @@ public class ProfileFragment extends Fragment implements IconDialog.IconDialogOb
         ivIcon.setImageResource(iconID);
 
         User user = App.getInstance().getUser();
-        user.setIconURL(validTag);
+        user.setIcon(validTag);
 
         mViewModel.userUpdate(user);
 

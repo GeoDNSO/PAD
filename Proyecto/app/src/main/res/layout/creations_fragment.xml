@@ -1,13 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.creations.CreationsFragment">
 
-    <TextView
+    <com.google.android.material.tabs.TabLayout
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:id="@+id/creations_tab_layout"
+        android:layout_gravity="center_horizontal"
+        android:textAlignment="center"
+        android:gravity="center"
+        app:tabGravity="fill"
+        app:tabInlineLabel="true"
+        app:tabIndicatorHeight="3dp"
+        app:tabTextColor="@color/grey"
+        app:tabIndicator="@color/purple_700"
+        app:tabSelectedTextColor="@color/purple_700"
+        app:tabTextAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:background="@color/white"/>
+
+    <androidx.viewpager.widget.ViewPager
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Hello" />
+        android:id="@+id/creations_view_pager"/>
 
-</FrameLayout>
+
+</LinearLayout>

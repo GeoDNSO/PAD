@@ -1,17 +1,61 @@
-from os import path
-
-from flask import jsonify
-from flask import current_app as app
+from flask import Blueprint
+from flask import request
+from flask_pymongo import PyMongo
+from pymongo import cursor, errors
 from database import mongo
+
+from .Template import Template
+from . import templateUtils
+from util.utilities import time_now_str
+from flask import current_app as app
 
 import constants
 from bson.objectid import ObjectId
 
+from util.utilities import getCustomArgs, getPageAndLimit
 import base64
 import os, errno
 import uuid
 import shutil
 
+#Consultas
+
+#returns templates order by creation date desc
+def getTemplates(args):
+
+    page, limit = getPageAndLimit(args)
+    custom_args = getCustomArgs(args).to_dict()
+    
+    print(custom_args)
+
+    cursor = mongo.db.templates.find(custom_args).sort( [['_id', -1]] ).skip((page-1)*limit).limit(limit)
+    return templateUtils.listFromCursor(cursor)
+
+def getPopularTemplates(args):
+
+    page, limit = getPageAndLimit(args)
+    custom_args = getCustomArgs(args).to_dict()
+
+    group_option = {"$group": 
+                            {
+                            "_id": f"${constants.DB_TEMPLATE_ID}", 
+                            "count": {"$sum": 1}
+                            }
+                    }
+
+    sort = {"$sort": {"count":-1}}
+
+    cursor = mongo.db.tiers_done.aggregate([group_option, sort])
+    listCount = templateUtils.tierListInfoFromCursor(cursor)
+
+    custom_args["_id"] = {"$in": listCount} #add if filter --> id_filter = {"_id": {"$in": listCount}}
+
+    cursor = mongo.db.templates.find(custom_args).skip((page-1)*limit).limit(limit)
+
+    return templateUtils.listFromCursor(cursor)
+
+
+#Manejo de ficheros y directorios
 
 def deleteDirectory(templateID):
     folderPath = os.path.dirname(os.path.join(app.root_path , app.config['UPLOAD_FOLDER'], templateID, ""))

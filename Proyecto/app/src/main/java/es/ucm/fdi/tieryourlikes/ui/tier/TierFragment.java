@@ -71,8 +71,9 @@ public class TierFragment extends Fragment {
         initUI();
         observers();
 
-        template = (Template) getArguments().getParcelable(AppConstants.BUNDLE_TEMPLATE);
-        Log.d("TIER FRAGMENT BUNDLE", template.toString());
+        //TODO manejar template que se recibe
+        //template = (Template) getArguments().getParcelable(AppConstants.BUNDLE_TEMPLATE);
+        //Log.d("TIER FRAGMENT BUNDLE", template.toString());
 
         defaultTierAndTemplate();//Crear template y tier de ejemplo
         fillContainer();
@@ -134,7 +135,7 @@ public class TierFragment extends Fragment {
         //Preparar y configurar el contenedor desde el que se van a mover las imagenes
         flexboxContainer.setOnDragListener(new TierRowDragListener());
         List<String> list = this.template.getContainer();
-        flexboxContainer.setTierRow(new TierRow("Container", list));
+        flexboxContainer.setTierRow(new TierRow("Container","#806BE4", list));
         for(String images : list){
             ImageView imageView = new ImageView(getContext());
 

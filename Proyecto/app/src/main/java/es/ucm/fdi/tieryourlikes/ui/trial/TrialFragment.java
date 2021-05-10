@@ -81,7 +81,7 @@ public class TrialFragment extends Fragment {
             container.add("url" + i);
 
         for (int i = 0; i < 5; i++)
-            tierRows.add(new TierRow("Tier_"+i, container.subList(0, i)));
+            tierRows.add(new TierRow("Tier_"+i, "#B0B0B0", container.subList(0, i)));
 
         Tier tier = new Tier("3948i043", "09283ru83uy", "hola", container, tierRows, "");
 

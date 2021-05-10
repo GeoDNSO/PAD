@@ -18,8 +18,8 @@ class User:
     self.password = json[c.DB_PASSWORD_KEY]
     self.email = json[c.DB_EMAIL_KEY]
     self.icon = json[c.DB_ICON_KEY]
-    self.creation_time = json[c.DB_CREATION_TIME]
-    self.rol = json[c.DB_ROL_KEY]
+    self.creation_time = json[c.DB_CREATION_TIME]  if c.DB_CREATION_TIME in json else time_now_str()
+    self.rol = json[c.DB_ROL_KEY] if c.DB_ROL_KEY in json else c.NORMAL_USER
 
   def to_dict(self):
     return {c.DB_USERNAME_KEY: self.username,
