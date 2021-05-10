@@ -1,4 +1,4 @@
-package es.ucm.fdi.tieryourlikes.ui.home;
+package es.ucm.fdi.tieryourlikes.ui.home.adapters;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
@@ -11,13 +11,10 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-
 import java.util.List;
 
 import es.ucm.fdi.tieryourlikes.R;
 import es.ucm.fdi.tieryourlikes.model.Template;
-import es.ucm.fdi.tieryourlikes.model.TierRow;
 
 public class TemplatesListAdapter extends RecyclerView.Adapter<TemplatesListAdapter.ViewHolder> {
 
