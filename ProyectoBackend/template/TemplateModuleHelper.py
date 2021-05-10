@@ -18,6 +18,12 @@ import os, errno
 import uuid
 import shutil
 
+import sys
+p = os.path.abspath('..')
+if p not in sys.path:
+    sys.path.append(p)
+from tiers_done.TierDone import TierDone
+
 #Consultas
 
 #returns templates order by creation date desc
@@ -25,8 +31,6 @@ def getTemplates(args):
 
     page, limit = getPageAndLimit(args)
     custom_args = getCustomArgs(args).to_dict()
-    
-    print(custom_args)
 
     cursor = mongo.db.templates.find(custom_args).sort( [['_id', -1]] ).skip((page-1)*limit).limit(limit)
     return templateUtils.listFromCursor(cursor)
@@ -54,6 +58,28 @@ def getPopularTemplates(args):
 
     return templateUtils.listFromCursor(cursor)
 
+def getTemplatesUsedBy(args):
+    page, limit = getPageAndLimit(args)
+    custom_args = getCustomArgs(args).to_dict()
+
+    cursor = mongo.db.tiers_done.find(custom_args)
+    tierList = tierListFromCursor(cursor)
+
+    templatesID = [ObjectId(tier[constants.DB_TEMPLATE_ID]) for tier in tierList] #Do something
+    print(templatesID)
+    in_param = {constants.DB_ID_KEY: {"$in": templatesID}}
+    cursor = mongo.db.templates.find(in_param).skip((page-1)*limit).limit(limit)
+
+    return templateUtils.listFromCursor(cursor)
+
+
+#Para getTemplatesUsedBy
+def tierListFromCursor(cursor):
+    tiersDoneList = []
+    for item in cursor:
+        template = TierDone(json=item)
+        tiersDoneList.append(template.to_dict())
+    return tiersDoneList
 
 #Manejo de ficheros y directorios
 

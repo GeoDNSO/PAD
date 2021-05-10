@@ -18,6 +18,7 @@ def tierListInfoFromCursor(cursor):
 def listFromCursor(cursor):
     templateList = []
     for item in cursor:
+        print(item)
         template = Template(json=item)
         templateList.append(template.to_dict())
     return templateList

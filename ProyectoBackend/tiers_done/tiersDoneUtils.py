@@ -10,7 +10,6 @@ from pprint import pprint
 def listFromCursor(cursor):
     tiersDoneList = []
     for item in cursor:
-        print(item)
         template = TierDone(json=item)
         tiersDoneList.append(template.to_dict())
     return tiersDoneList
