@@ -155,5 +155,6 @@
     <string name="choose_color">Elige un color</string>
     <string name="color_select_ok">Confirmar</string>
     <string name="color_select_cancel">Cancelar</string>
+    <string name="label_tier_row_text">Etiqueta</string>
 
 </resources>

@@ -16,6 +16,7 @@ import java.util.List;
 import es.ucm.fdi.tieryourlikes.R;
 import es.ucm.fdi.tieryourlikes.model.TierRow;
 import es.ucm.fdi.tieryourlikes.ui.tier.listeners.TierRowDragListener;
+import es.ucm.fdi.tieryourlikes.utilities.AppUtils;
 import es.ucm.fdi.tieryourlikes.utilities.CustomColorPicker;
 import es.ucm.fdi.tieryourlikes.utilities.CustomFlexboxLayout;
 import petrov.kristiyan.colorpicker.ColorPicker;
@@ -56,7 +57,7 @@ public class TierAdapter extends RecyclerView.Adapter<TierAdapter.ViewHolder> {
         int index = position % colors.size();
         int color = colors.get(index);
         holder.tvTierRow.setBackgroundColor(color);
-        holder.tvTierRow.setTextColor(CustomColorPicker.contrastColor(color, activity));
+        holder.tvTierRow.setTextColor(AppUtils.contrastColor(color, activity));
     }
 
     @Override
@@ -80,7 +81,8 @@ public class TierAdapter extends RecyclerView.Adapter<TierAdapter.ViewHolder> {
             tvTierRow.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    ColorPicker colorPicker = CustomColorPicker.getTierColorPicker(activity, tvTierRow, tierRow);
+                    //ColorPicker colorPicker = AppUtils.getTierColorPicker(activity, tvTierRow, tierRow);
+                    CustomColorPicker colorPicker = AppUtils.getCustomTierColorPicker(activity, tvTierRow, tierRow);
                     colorPicker.show();
 
                     return false;
