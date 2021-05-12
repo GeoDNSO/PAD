@@ -1,6 +1,7 @@
 package es.ucm.fdi.tieryourlikes.ui.home.adapters;
 
 import android.app.Activity;
+import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import es.ucm.fdi.tieryourlikes.R;
@@ -43,6 +45,10 @@ public class CategoriesListAdapter extends RecyclerView.Adapter<CategoriesListAd
     public void onBindViewHolder(@NonNull CategoriesListAdapter.ViewHolder holder, int position) {
         Category category = pairList.get(position).second;
         List<Template> templates = pairList.get(position).first;
+
+        if(templates == null){
+            templates = new ArrayList<>();
+        }
         String categoryName = category.getName().substring(0, 1).toUpperCase() + category.getName().substring(1);
         holder.categoryName.setText("Categoría " + categoryName);
         templatesListAdapter = new TemplatesListAdapter(activity, templates, onItemClickListener);

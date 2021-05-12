@@ -1,5 +1,7 @@
 package es.ucm.fdi.tieryourlikes.rxjava_utils;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;

@@ -8,4 +8,9 @@
         android:title="@string/save_tier"
         app:showAsAction="always"/>
 
+    <item
+        android:id="@+id/delete_tier_item"
+        android:icon="@drawable/ic_baseline_delete_24"
+        android:title="@string/delete_tier"
+        app:showAsAction="never"/>
 </menu>

@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -54,6 +55,21 @@ public class TemplateRepository {
         try {
             bodyString.put("page", page);
             bodyString.put("quantity", quantity);
+            //bodyString.put("filter", filter);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return bodyString.toString();
+    }
+
+
+    private String bodyDeleteTemplate(String id){
+
+        JSONObject bodyString = new JSONObject();
+
+        try {
+            bodyString.put("_id", id);
             //bodyString.put("filter", filter);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -117,5 +133,22 @@ public class TemplateRepository {
                 AppConstants.METHOD_GET, builtURI.toString());
 
         return new CallObservableCreator<>(Template.class).getList(simpleRequest, request);
+    }
+
+    public Observable<ApiResponse<JsonObject>> deleteTemplate(String id) {
+        String postBodyString = bodyDeleteTemplate(id); //Metodo GET, no es necesairo un Body
+
+        String route = "/deleteTemplate/";
+
+        /*String finalURL = route + "?";
+        Uri builtURI = Uri.parse(finalURL).buildUpon()
+                .appendQueryParameter(AppConstants.DB_ID_KEY, id)
+                .build();*/
+
+        SimpleRequest simpleRequest = new SimpleRequest();
+        Request request = simpleRequest.buildRequest(postBodyString,
+                AppConstants.METHOD_DELETE, route);
+
+        return new CallObservableCreator<>(JsonObject.class).getJson(simpleRequest, request);
     }
 }

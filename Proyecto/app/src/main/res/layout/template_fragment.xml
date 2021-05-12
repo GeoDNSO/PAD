@@ -102,6 +102,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             app:layout_constraintEnd_toEndOf="parent"
+            android:scaleType="fitXY"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/template_textView_cover_photo"
             android:contentDescription="@string/template_imageView" />
@@ -200,6 +201,17 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/template_linearLayout_2"/>
 
+        <Button
+            android:id="@+id/create_template_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:text="@string/add_template"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/template_expandable_list_view"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.core.widget.NestedScrollView>

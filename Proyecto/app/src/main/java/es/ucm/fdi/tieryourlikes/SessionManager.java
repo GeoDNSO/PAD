@@ -23,6 +23,12 @@ public class SessionManager {
         this.context = context;
         this.prefs = context.getSharedPreferences(SHARED_PRIVATE_FILE, Context.MODE_PRIVATE);
         this.editor = prefs.edit();
+        setSessionUserData();
+    }
+
+    public void logout() {
+        this.editor.clear();
+        this.editor.commit();
     }
 
     public String getUsername() {
@@ -31,9 +37,7 @@ public class SessionManager {
     }
 
     public boolean isAdmin(){
-        if(sessionUser == null || !sessionUser.getRol().equals(AppConstants.ADMIN_USER))
-            return false;
-        return  true;
+        return (this.sessionUser.getRol().equals(AppConstants.ADMIN_USER));
     }
 
     public String getEmail() {
@@ -49,13 +53,8 @@ public class SessionManager {
         return prefs.getBoolean(AppConstants.LOGGED, false);
     }
 
-    public void logout() {
-        editor.clear();
-        editor.commit();
-    }
 
     public void setUserInfo(User user) {
-
         editor.putString(AppConstants.USERNAME, user.getUsername());
         editor.putString(AppConstants.PASSWORD, user.getPassword());
         editor.putString(AppConstants.EMAIL, user.getEmail());
@@ -63,22 +62,25 @@ public class SessionManager {
         editor.putString(AppConstants.DB_CREATION_TIME, user.getCreationTime());
         editor.putString(AppConstants.DB_ROL, user.getRol());
 
-
         editor.commit();
+        setSessionUserData();
+    }
+
+    private void setSessionUserData(){
+        String username =  prefs.getString(AppConstants.USERNAME,"");
+        String email = prefs.getString(AppConstants.EMAIL,"");
+        String password = prefs.getString(AppConstants.PASSWORD, "");
+        String iconTag = prefs.getString(AppConstants.DB_ICON_KEY, "");
+        String creation_time = prefs.getString(AppConstants.DB_CREATION_TIME, "");
+        String rol = prefs.getString(AppConstants.DB_ROL, "");
+        this.sessionUser = new User(username, password, email, iconTag, creation_time, rol);
     }
 
     public User getUser(){
-
-        if(sessionUser == null){
-            String username =  prefs.getString(AppConstants.USERNAME,"");
-            String email = prefs.getString(AppConstants.EMAIL,"");
-            String password = prefs.getString(AppConstants.PASSWORD, "");
-            String iconTag = prefs.getString(AppConstants.DB_ICON_KEY, "");
-            String creation_time = prefs.getString(AppConstants.DB_CREATION_TIME, "");
-            String rol = prefs.getString(AppConstants.DB_ROL, "");
-            sessionUser = new User(username, password, email, iconTag, creation_time, rol);
+        if(this.sessionUser == null){
+            setSessionUserData();
         }
-        return sessionUser;
+        return this.sessionUser;
     }
 
 }

@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,9 +17,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -26,6 +31,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import es.ucm.fdi.tieryourlikes.App;
 import es.ucm.fdi.tieryourlikes.AppConstants;
 import es.ucm.fdi.tieryourlikes.R;
 import es.ucm.fdi.tieryourlikes.model.ApiResponse;
@@ -34,6 +40,7 @@ import es.ucm.fdi.tieryourlikes.model.ResponseStatus;
 import es.ucm.fdi.tieryourlikes.model.Template;
 import es.ucm.fdi.tieryourlikes.ui.home.adapters.CategoriesListAdapter;
 import es.ucm.fdi.tieryourlikes.ui.home.adapters.TemplatesListAdapter;
+import es.ucm.fdi.tieryourlikes.ui.tier.TierFragment;
 
 public class HomeFragment extends Fragment implements TemplatesListAdapter.OnItemClickListener {
 
@@ -52,6 +59,9 @@ public class HomeFragment extends Fragment implements TemplatesListAdapter.OnIte
     private List<Template> mostRecentList;
     private List<Pair<List<Template>, Category>> listOfListTemplatesList;
 
+    private TextView noResutsMostDone;
+    private TextView noResutsMostRecent;
+
     private int page = 1, count = 3;
 
     public static HomeFragment newInstance() {
@@ -64,6 +74,7 @@ public class HomeFragment extends Fragment implements TemplatesListAdapter.OnIte
 
         root = inflater.inflate(R.layout.home_fragment, container, false);
         mViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
+        setHasOptionsMenu(true);
 
         init();
 
@@ -97,6 +108,14 @@ public class HomeFragment extends Fragment implements TemplatesListAdapter.OnIte
                     return;
                 }
                 mostRecentList = listApiResponse.getObject();
+
+                if(mostRecentList.size() == 0){
+                    noResutsMostRecent.setVisibility(View.VISIBLE);
+                }
+                else{
+                    noResutsMostRecent.setVisibility(View.GONE);
+                }
+
                 mostRecentView();
             }
         });
@@ -109,6 +128,14 @@ public class HomeFragment extends Fragment implements TemplatesListAdapter.OnIte
                     return;
                 }
                 mostDoneList = listApiResponse.getObject();
+
+                if(mostDoneList.size() == 0){
+                    noResutsMostDone.setVisibility(View.VISIBLE);
+                }
+                else{
+                    noResutsMostDone.setVisibility(View.GONE);
+                }
+
                 mostDoneView();
             }
         });
@@ -129,6 +156,20 @@ public class HomeFragment extends Fragment implements TemplatesListAdapter.OnIte
                     mViewModel.getListTemplatesCategory(page,count, p.second.getName(), p.first);
                 }
 
+            }
+        });
+    }
+
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){
+        inflater.inflate(R.menu.home_fragment_menu, menu);
+
+        MenuItem createTemplate = menu.findItem(R.id.create_template_menu_item);
+
+        createTemplate.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Navigation.findNavController(root).navigate(R.id.templateFragment);
+                return true;
             }
         });
     }
@@ -179,6 +220,8 @@ public class HomeFragment extends Fragment implements TemplatesListAdapter.OnIte
         mostDoneRecycleView = root.findViewById(R.id.most_done_recycle_view_home);
         mostRecentRecycleView = root.findViewById(R.id.most_recent_recycle_view_home);
         categoriesRecycleView = root.findViewById(R.id.categories_recycle_view_home);
+        noResutsMostDone = root.findViewById(R.id.no_results_most_used_home);
+        noResutsMostRecent = root.findViewById(R.id.no_results_most_recent_home);
         mostDoneList = new ArrayList<>();
         mostRecentList = new ArrayList<>();
         listOfListTemplatesList = new ArrayList<>();
