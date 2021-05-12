@@ -1,6 +1,5 @@
 package es.ucm.fdi.tieryourlikes.ui.creations.view_pages;
 
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -13,7 +12,6 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,12 +24,10 @@ import es.ucm.fdi.tieryourlikes.App;
 import es.ucm.fdi.tieryourlikes.AppConstants;
 import es.ucm.fdi.tieryourlikes.R;
 import es.ucm.fdi.tieryourlikes.model.ApiResponse;
-import es.ucm.fdi.tieryourlikes.model.Category;
 import es.ucm.fdi.tieryourlikes.model.ResponseStatus;
 import es.ucm.fdi.tieryourlikes.model.Template;
 import es.ucm.fdi.tieryourlikes.ui.creations.CreationsViewModel;
 import es.ucm.fdi.tieryourlikes.ui.creations.adapters.TiersListAdapter;
-import es.ucm.fdi.tieryourlikes.ui.home.adapters.TemplatesListAdapter;
 
 public class MyTiersFragment extends Fragment implements TiersListAdapter.OnItemClickListener {
 
@@ -61,7 +57,7 @@ public class MyTiersFragment extends Fragment implements TiersListAdapter.OnItem
         tiersView();
         observers();
 
-        mViewModel.getUserTiers(page, count, username);
+        mViewModel.getTemplatesUsedByUser(page, count, username);
 
         return root;
     }

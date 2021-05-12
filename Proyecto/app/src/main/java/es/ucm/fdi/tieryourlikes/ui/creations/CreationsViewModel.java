@@ -4,12 +4,10 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import es.ucm.fdi.tieryourlikes.model.ApiResponse;
 import es.ucm.fdi.tieryourlikes.model.Template;
-import es.ucm.fdi.tieryourlikes.repositories.CategoriesRepository;
 import es.ucm.fdi.tieryourlikes.repositories.TemplateRepository;
 import es.ucm.fdi.tieryourlikes.rxjava_utils.GeneralSubscriber;
 
@@ -26,10 +24,10 @@ public class CreationsViewModel extends ViewModel {
         mlvListTemplates = new MutableLiveData<>();
     }
 
-    public void getUserTiers(int page, int count, String username) {
+    public void getTemplatesUsedByUser(int page, int count, String username) {
         GeneralSubscriber<List<Template>> generalSubscriber = new GeneralSubscriber<List<Template>>();
         generalSubscriber.setMutableLiveDataToModify(mlvListTiers);
-        generalSubscriber.setObservable(templateRepository.getUserTiers(page, count, username));
+        generalSubscriber.setObservable(templateRepository.getTemplatesUsedByUser(page, count, username));
         generalSubscriber.subscribe();
     }
 

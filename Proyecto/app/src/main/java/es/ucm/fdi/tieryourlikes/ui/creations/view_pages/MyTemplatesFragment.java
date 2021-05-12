@@ -57,7 +57,7 @@ public class MyTemplatesFragment extends Fragment implements TiersListAdapter.On
         templatesView();
         observers();
 
-        mViewModel.getUserTiers(page, count, username);
+        mViewModel.getUserTemplates(page, count, username);
 
         return root;
     }
