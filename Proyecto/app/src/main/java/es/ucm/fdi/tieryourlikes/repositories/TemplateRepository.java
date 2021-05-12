@@ -135,6 +135,43 @@ public class TemplateRepository {
         return new CallObservableCreator<>(Template.class).getList(simpleRequest, request);
     }
 
+    public Observable<ApiResponse<List<Template>>> getUserTiers(int page, int count, String username) {
+        String postBodyString = ""; //Metodo GET, no es necesairo un Body
+
+        String route = "/listTemplates/";
+
+        String finalURL = route + "?";
+        Uri builtURI = Uri.parse(finalURL).buildUpon()
+                .appendQueryParameter(AppConstants.DB_PAGE, String.valueOf(page))
+                .appendQueryParameter(AppConstants.DB_LIMIT, String.valueOf(count))
+                .appendQueryParameter(AppConstants.DB_CREATOR_USERNAME_KEY, username) //cambiar a username
+                .build();
+
+        SimpleRequest simpleRequest = new SimpleRequest();
+        Request request = simpleRequest.buildRequest(postBodyString,
+                AppConstants.METHOD_GET, builtURI.toString());
+
+        return new CallObservableCreator<>(Template.class).getList(simpleRequest, request);
+    }
+
+    public Observable<ApiResponse<List<Template>>> getUserTemplates(int page, int count, String username) {
+        String postBodyString = ""; //Metodo GET, no es necesairo un Body
+
+        String route = "/listTemplates/";
+
+        String finalURL = route + "?";
+        Uri builtURI = Uri.parse(finalURL).buildUpon()
+                .appendQueryParameter(AppConstants.DB_PAGE, String.valueOf(page))
+                .appendQueryParameter(AppConstants.DB_LIMIT, String.valueOf(count))
+                .appendQueryParameter(AppConstants.DB_CREATOR_USERNAME_KEY, username) //cambiar a username
+                .build();
+
+        SimpleRequest simpleRequest = new SimpleRequest();
+        Request request = simpleRequest.buildRequest(postBodyString,
+                AppConstants.METHOD_GET, builtURI.toString());
+
+        return new CallObservableCreator<>(Template.class).getList(simpleRequest, request);
+
     public Observable<ApiResponse<JsonObject>> deleteTemplate(String id) {
         String postBodyString = bodyDeleteTemplate(id); //Metodo GET, no es necesairo un Body
 
@@ -150,5 +187,6 @@ public class TemplateRepository {
                 AppConstants.METHOD_DELETE, route);
 
         return new CallObservableCreator<>(JsonObject.class).getJson(simpleRequest, request);
+
     }
 }
