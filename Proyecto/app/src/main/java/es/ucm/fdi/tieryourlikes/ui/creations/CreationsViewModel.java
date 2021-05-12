@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import java.util.List;
+import java.util.Map;
 
 import es.ucm.fdi.tieryourlikes.model.ApiResponse;
 import es.ucm.fdi.tieryourlikes.model.Template;
@@ -31,10 +32,10 @@ public class CreationsViewModel extends ViewModel {
         generalSubscriber.subscribe();
     }
 
-    public void getUserTemplates(int page, int count, String username) {
+    public void getUserTemplates(int page, int count, Map<String, String> filter) {
         GeneralSubscriber<List<Template>> generalSubscriber = new GeneralSubscriber<List<Template>>();
         generalSubscriber.setMutableLiveDataToModify(mlvListTemplates);
-        generalSubscriber.setObservable(templateRepository.getUserTemplates(page, count, username));
+        generalSubscriber.setObservable(templateRepository.listTemplates(page, count, filter));
         generalSubscriber.subscribe();
     }
 

@@ -264,18 +264,21 @@ public class TierFragment extends Fragment {
             public boolean onMenuItemClick(MenuItem item) {
                 recyclerView.setDrawingCacheEnabled(true);
                 Bitmap tierBitmap = recyclerView.getDrawingCache();
+                //Guarda el tier como una imagen en el movil
                 App.getInstance().saveTierImage(TierFragment.this.getContext(), tierBitmap);
 
-                mViewModel.uploadTier(tier);
+                if(App.getInstance().isLogged())
+                    mViewModel.uploadTier(tier);
+                else{
+                    Toast.makeText(getContext(), getString(R.string.no_logged_upload_tier_msg), Toast.LENGTH_SHORT);
+                }
 
                 return true;
             }
         });
 
         MenuItem deleteTierItem = menu.findItem(R.id.delete_tier_item);
-        Log.d("TIER FRAGMENT", app.getUser().toString());
-        Log.d("TIER FRAGMENT 2", app.isAdmin() + "");
-        //TODO hay algo que no va bien en las sesiones
+
         if(app.isAdmin()){
             deleteTierItem.setVisible(true);
         }else{

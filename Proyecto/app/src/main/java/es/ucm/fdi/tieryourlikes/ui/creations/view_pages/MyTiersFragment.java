@@ -15,10 +15,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import es.ucm.fdi.tieryourlikes.App;
 import es.ucm.fdi.tieryourlikes.AppConstants;
@@ -50,6 +53,12 @@ public class MyTiersFragment extends Fragment implements TiersListAdapter.OnItem
 
         root =  inflater.inflate(R.layout.my_tiers_fragment, container, false);
         mViewModel = new ViewModelProvider(this).get(CreationsViewModel.class);
+
+        if(!App.getInstance().isLogged()){
+            TextView textView = root.findViewById(R.id.tvNoRegisteredMsg);
+            textView.setVisibility(View.VISIBLE);
+            return root;
+        }
 
         String username = App.getInstance().getUsername();
         rvTiers = root.findViewById(R.id.my_tiers_recycle_view);

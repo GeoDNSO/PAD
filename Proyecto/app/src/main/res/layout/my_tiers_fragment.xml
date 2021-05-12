@@ -31,7 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="20dp"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
@@ -53,6 +53,15 @@
                     android:textSize="25sp"
                     android:textStyle="bold" />
             </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tvNoRegisteredMsg"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/creations_no_registered_msg"
+                android:textSize="28dp"
+                android:visibility="gone"
+                android:textAlignment="center"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/my_tiers_recycle_view"

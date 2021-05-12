@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 import es.ucm.fdi.tieryourlikes.App;
 import es.ucm.fdi.tieryourlikes.AppConstants;
@@ -153,7 +154,8 @@ public class HomeFragment extends Fragment implements TemplatesListAdapter.OnIte
                 dynamicObserver(pairList);
 
                 for(Pair<MutableLiveData<ApiResponse<List<Template>>>, Category> p: pairList) {
-                    mViewModel.getListTemplatesCategory(page,count, p.second.getName(), p.first);
+                    Map<String, String> filter = Collections.singletonMap(AppConstants.DB_CATEGORY_KEY, p.second.getName());
+                    mViewModel.getListTemplatesCategory(page,count, filter, p.first);
                 }
 
             }

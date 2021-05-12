@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import es.ucm.fdi.tieryourlikes.model.ApiResponse;
 import es.ucm.fdi.tieryourlikes.model.Category;
@@ -61,21 +62,21 @@ public class HomeViewModel extends ViewModel {
     public void getListTemplates(int page, int count) {
         GeneralSubscriber<List<Template>> generalSubscriber = new GeneralSubscriber<List<Template>>();
         generalSubscriber.setMutableLiveDataToModify(mlvListTemplateMostRecentResponse);
-        generalSubscriber.setObservable(templateRepository.listTemplates(page, count, ""));
+        generalSubscriber.setObservable(templateRepository.listTemplates(page, count, null));
         generalSubscriber.subscribe();
     }
 
-    public void getListTemplatesCategory(int page, int count, String category) {
+    public void getListTemplatesCategory(int page, int count, Map<String, String> filter) {
         GeneralSubscriber<List<Template>> generalSubscriber = new GeneralSubscriber<List<Template>>();
         generalSubscriber.setMutableLiveDataToModify(mlvListTemplateCategoriesResponse);
-        generalSubscriber.setObservable(templateRepository.getListTemplatesCategory(page, count, category));
+        generalSubscriber.setObservable(templateRepository.listTemplates(page, count, filter));
         generalSubscriber.subscribe();
     }
 
-    public void getListTemplatesCategory(int page, int count, String category, MutableLiveData<ApiResponse<List<Template>>> mlv) {
+    public void getListTemplatesCategory(int page, int count, Map<String, String> filter, MutableLiveData<ApiResponse<List<Template>>> mlv) {
         GeneralSubscriber<List<Template>> generalSubscriber = new GeneralSubscriber<List<Template>>();
         generalSubscriber.setMutableLiveDataToModify(mlv);
-        generalSubscriber.setObservable(templateRepository.getListTemplatesCategory(page, count, category));
+        generalSubscriber.setObservable(templateRepository.listTemplates(page, count, filter));
         generalSubscriber.subscribe();
     }
 

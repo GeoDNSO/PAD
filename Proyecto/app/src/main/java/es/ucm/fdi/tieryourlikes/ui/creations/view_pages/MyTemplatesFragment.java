@@ -15,10 +15,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import es.ucm.fdi.tieryourlikes.App;
 import es.ucm.fdi.tieryourlikes.AppConstants;
@@ -51,13 +55,20 @@ public class MyTemplatesFragment extends Fragment implements TiersListAdapter.On
         root = inflater.inflate(R.layout.my_templates_fragment, container, false);
         mViewModel = new ViewModelProvider(this).get(CreationsViewModel.class);
 
+        if(!App.getInstance().isLogged()){
+            TextView textView = root.findViewById(R.id.tvNoRegisteredMsg);
+            textView.setVisibility(View.VISIBLE);
+            return root;
+        }
+
         String username = App.getInstance().getUsername();
         rvTemplates = root.findViewById(R.id.my_templates_recycle_view);
 
         templatesView();
         observers();
 
-        mViewModel.getUserTemplates(page, count, username);
+        Map<String, String> filter = Collections.singletonMap(AppConstants.DB_CREATOR_USERNAME_KEY, username);
+        mViewModel.getUserTemplates(page, count, filter);
 
         return root;
     }

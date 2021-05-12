@@ -10,7 +10,9 @@ import com.google.gson.JsonObject;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import es.ucm.fdi.tieryourlikes.AppConstants;
 import es.ucm.fdi.tieryourlikes.model.ApiResponse;
@@ -26,19 +28,13 @@ import okhttp3.Request;
 
 public class TemplateRepository {
 
-    public Observable<ApiResponse<List<Template>>> listTemplates(int page, int quantity, String filter) {
+    public Observable<ApiResponse<List<Template>>> listTemplates(int page, int quantity, Map<String, String> filters) {
 
         String postBodyString = ""; //Metodo GET, no es necesairo un Body
 
-        String route = "/listTemplates/";
+        Uri builtURI = listTemplatesUriFromFilters(page, quantity, filters);
 
-        String finalURL = route + "?";
-        Uri builtURI = Uri.parse(finalURL).buildUpon()
-                .appendQueryParameter(AppConstants.DB_PAGE, String.valueOf(page))
-                .appendQueryParameter(AppConstants.DB_LIMIT, String.valueOf(quantity))
-                .build();
-
-        Log.d("REPO", builtURI.toString());
+        Log.d("REPO_FILTER", builtURI.toString());
 
         SimpleRequest simpleRequest = new SimpleRequest();
         Request request = simpleRequest.buildRequest(postBodyString,
@@ -47,18 +43,17 @@ public class TemplateRepository {
         return new CallObservableCreator<>(Template.class).getList(simpleRequest, request);
     }
 
-    public Observable<ApiResponse<List<Template>>> getListTemplatesCategory(int page, int count, String category) {
+    public Observable<ApiResponse<List<Template>>> getTemplatesUsedByUser(int page, int count, String username) {
         String postBodyString = ""; //Metodo GET, no es necesairo un Body
 
-        String route = "/listTemplates/";
+        String route = "/templatesUsedBy/";
 
         String finalURL = route + "?";
         Uri builtURI = Uri.parse(finalURL).buildUpon()
                 .appendQueryParameter(AppConstants.DB_PAGE, String.valueOf(page))
                 .appendQueryParameter(AppConstants.DB_LIMIT, String.valueOf(count))
-                .appendQueryParameter(AppConstants.DB_CATEGORY_KEY, category)
+                .appendQueryParameter(AppConstants.DB_CREATOR_USERNAME_KEY, username) //cambiar a username
                 .build();
-
 
         SimpleRequest simpleRequest = new SimpleRequest();
         Request request = simpleRequest.buildRequest(postBodyString,
@@ -104,46 +99,12 @@ public class TemplateRepository {
         return new CallObservableCreator<>(Template.class).getList(simpleRequest, request);
     }
 
-    public Observable<ApiResponse<List<Template>>> getTemplatesUsedByUser(int page, int count, String username) {
-        String postBodyString = ""; //Metodo GET, no es necesairo un Body
-
-        String route = "/templatesUsedBy/";
-
-        String finalURL = route + "?";
-        Uri builtURI = Uri.parse(finalURL).buildUpon()
-                .appendQueryParameter(AppConstants.DB_PAGE, String.valueOf(page))
-                .appendQueryParameter(AppConstants.DB_LIMIT, String.valueOf(count))
-                .appendQueryParameter(AppConstants.DB_CREATOR_USERNAME_KEY, username) //cambiar a username
-                .build();
-
-        SimpleRequest simpleRequest = new SimpleRequest();
-        Request request = simpleRequest.buildRequest(postBodyString,
-                AppConstants.METHOD_GET, builtURI.toString());
-
-        return new CallObservableCreator<>(Template.class).getList(simpleRequest, request);
-    }
-
-    public Observable<ApiResponse<List<Template>>> getUserTemplates(int page, int count, String username) {
-        String postBodyString = ""; //Metodo GET, no es necesairo un Body
-
-        String route = "/listTemplates/";
-
-        String finalURL = route + "?";
-        Uri builtURI = Uri.parse(finalURL).buildUpon()
-                .appendQueryParameter(AppConstants.DB_PAGE, String.valueOf(page))
-                .appendQueryParameter(AppConstants.DB_LIMIT, String.valueOf(count))
-                .appendQueryParameter(AppConstants.DB_CREATOR_USERNAME_KEY, username) //cambiar a username
-                .build();
-
-        SimpleRequest simpleRequest = new SimpleRequest();
-        Request request = simpleRequest.buildRequest(postBodyString,
-                AppConstants.METHOD_GET, builtURI.toString());
-
-        return new CallObservableCreator<>(Template.class).getList(simpleRequest, request);
-    }
-
     public Observable<ApiResponse<JsonObject>> deleteTemplate (String id){
-        String postBodyString = bodyDeleteTemplate(id);
+
+        Map<String, String> postData = new HashMap<>();
+        postData.put(AppConstants.DB_ID_KEY, id);
+
+        String postBodyString = new JSONObject(postData).toString();
 
         String route = "/deleteTemplate/";
 
@@ -156,34 +117,19 @@ public class TemplateRepository {
     }
 
     //HELPERS
-    //@TODO FALTA AÑADIR EL FILTER y no añadirlo si esta vacio --> Crear en helper
-    private String createBodyString(int page, int quantity, String filter){
+    private Uri listTemplatesUriFromFilters(int page, int quantity, Map<String, String> filters){
 
-        JSONObject bodyString = new JSONObject();
+        String route = "/listTemplates/";
+        String finalURL = route + "?";
+        Uri.Builder uriBuilder = Uri.parse(finalURL).buildUpon();
 
-        try {
-            bodyString.put("page", page);
-            bodyString.put("quantity", quantity);
-            //bodyString.put("filter", filter);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        uriBuilder.appendQueryParameter(AppConstants.DB_PAGE, String.valueOf(page))
+                .appendQueryParameter(AppConstants.DB_LIMIT, String.valueOf(quantity));
 
-        return bodyString.toString();
-    }
+        if(filters != null)
+            filters.forEach(uriBuilder::appendQueryParameter);
 
-    private String bodyDeleteTemplate(String id){
-
-        JSONObject bodyString = new JSONObject();
-
-        try {
-            bodyString.put("_id", id);
-            //bodyString.put("filter", filter);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        return bodyString.toString();
+        return uriBuilder.build();
     }
 
 }

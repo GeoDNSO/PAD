@@ -5,7 +5,9 @@ import android.util.Log;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import es.ucm.fdi.tieryourlikes.model.ApiResponse;
 import es.ucm.fdi.tieryourlikes.model.ResponseStatus;
@@ -62,7 +64,7 @@ public class TrialViewModel extends ViewModel {
     }
     */
 
-    public void listTemplates(int page, int limit, String filter) {
+    public void listTemplates(int page, int limit, Map<String, String> filter) {
 
         Disposable dis = templateRepository.listTemplates(page, limit, filter)
                 .subscribeOn(Schedulers.io())

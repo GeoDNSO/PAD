@@ -144,7 +144,7 @@ public class TrialFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //Ejemplo llamada al viewmodel que llamará a la API
-                mViewModel.listTemplates(1, 5, "");
+                mViewModel.listTemplates(1, 5, null);
 
 
                 //Ejemplo de Serializar un template a JSON
