@@ -155,9 +155,13 @@
     <string name="choose_color">Elige un color</string>
     <string name="color_select_ok">Confirmar</string>
     <string name="color_select_cancel">Cancelar</string>
+
+    <string name="label_tier_row_text">Etiqueta</string>
+
     <string name="delete_tier">Borrar template</string>
     <string name="error_delete_template_message">Error al borrar el template de la Base de Datos</string>
     <string name="success_delete_template">Se ha borrado correctamente el template</string>
     <string name="no_results">Sin Resultados</string>
+
 
 </resources>

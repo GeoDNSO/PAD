@@ -2,8 +2,11 @@ package es.ucm.fdi.tieryourlikes;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import es.ucm.fdi.tieryourlikes.model.User;
+
+import static android.content.ContentValues.TAG;
 
 public class SessionManager {
 
@@ -17,6 +20,7 @@ public class SessionManager {
         this.context = context;
         this.prefs = context.getSharedPreferences(SHARED_PRIVATE_FILE, Context.MODE_PRIVATE);
         this.editor = prefs.edit();
+        setSessionUserData();
     }
 
     public void setContext(Context context){
@@ -31,13 +35,18 @@ public class SessionManager {
         this.editor.commit();
     }
 
+    public void logout() {
+        this.editor.clear();
+        this.editor.commit();
+    }
+
     public String getUsername() {
         String username = prefs.getString(AppConstants.USERNAME,"");
         return username;
     }
 
     public boolean isAdmin(){
-        return (this.sessionUser.getRol().equals(AppConstants.ADMIN_USER));
+        return (this.sessionUser != null && this.sessionUser.getRol().equals(AppConstants.ADMIN_USER));
     }
 
     public String getEmail() {

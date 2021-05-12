@@ -1,7 +1,7 @@
-package es.ucm.fdi.tieryourlikes.ui.template;
+package es.ucm.fdi.tieryourlikes.ui.tier;
 
 import android.app.Activity;
-import android.util.Log;
+import android.content.res.TypedArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,42 +10,54 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.flexbox.FlexboxLayout;
-
+import java.util.ArrayList;
 import java.util.List;
 
 import es.ucm.fdi.tieryourlikes.R;
 import es.ucm.fdi.tieryourlikes.model.TierRow;
-import es.ucm.fdi.tieryourlikes.ui.template.listeners.TierRowDragListener;
+import es.ucm.fdi.tieryourlikes.ui.tier.listeners.TierRowDragListener;
+import es.ucm.fdi.tieryourlikes.utilities.AppUtils;
 import es.ucm.fdi.tieryourlikes.utilities.CustomColorPicker;
 import es.ucm.fdi.tieryourlikes.utilities.CustomFlexboxLayout;
 import petrov.kristiyan.colorpicker.ColorPicker;
 
-public class TemplateAdapter extends RecyclerView.Adapter<TemplateAdapter.ViewHolder> {
+public class TierAdapter extends RecyclerView.Adapter<TierAdapter.ViewHolder> {
 
     private Activity activity;
     private List<TierRow> list;
 
-    public TemplateAdapter(Activity activity, List<TierRow> list){
+    private List<Integer> colors;
+
+    public TierAdapter(Activity activity, List<TierRow> list){
         this.activity = activity;
         this.list = list;
+        TypedArray typedArray = activity.getResources().obtainTypedArray(R.array.default_colors);
+        colors = new ArrayList<>();
+        for (int i = 0; i < typedArray.length(); i++) {
+            colors.add(typedArray.getColor(i, 0));
+        }
     }
 
     @NonNull
     @Override
-    public TemplateAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public TierAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.tier_row, parent, false);
 
-        return new TemplateAdapter.ViewHolder(view);
+        return new TierAdapter.ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull TemplateAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull TierAdapter.ViewHolder holder, int position) {
         TierRow tierRow = list.get(position);
         holder.tvTierRow.setText(tierRow.getRowName());
         holder.flexboxLayout.setTierRow(tierRow);
         holder.tierRow = tierRow;
+
+        int index = position % colors.size();
+        int color = colors.get(index);
+        holder.tvTierRow.setBackgroundColor(color);
+        holder.tvTierRow.setTextColor(AppUtils.contrastColor(color, activity));
     }
 
     @Override
@@ -69,7 +81,8 @@ public class TemplateAdapter extends RecyclerView.Adapter<TemplateAdapter.ViewHo
             tvTierRow.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    ColorPicker colorPicker = CustomColorPicker.getTierColorPicker(activity, tvTierRow, tierRow);
+                    //ColorPicker colorPicker = AppUtils.getTierColorPicker(activity, tvTierRow, tierRow);
+                    CustomColorPicker colorPicker = AppUtils.getCustomTierColorPicker(activity, tvTierRow, tierRow);
                     colorPicker.show();
 
                     return false;
