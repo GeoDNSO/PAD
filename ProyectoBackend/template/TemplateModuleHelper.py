@@ -83,8 +83,11 @@ def tierListFromCursor(cursor):
 #Manejo de ficheros y directorios
 
 def deleteDirectory(templateID):
-    folderPath = os.path.dirname(os.path.join(app.root_path , app.config['UPLOAD_FOLDER'], templateID, ""))
-    shutil.rmtree(folderPath)
+    try:
+        folderPath = os.path.dirname(os.path.join(app.root_path , app.config['UPLOAD_FOLDER'], templateID, ""))
+        shutil.rmtree(folderPath)
+    except FileNotFoundError as e:
+        print("El directorio a borrar no existia")
 
 #Modificar diccionario con las URLs correctas
 def convertB64Images(templateDict):
