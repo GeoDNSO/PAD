@@ -155,5 +155,7 @@
     <string name="choose_color">Elige un color</string>
     <string name="color_select_ok">Confirmar</string>
     <string name="color_select_cancel">Cancelar</string>
+    <string name="tiers_completed">Tiers Completados</string>
+    <string name="templates_created">Plantillas Creadas</string>
 
 </resources>
