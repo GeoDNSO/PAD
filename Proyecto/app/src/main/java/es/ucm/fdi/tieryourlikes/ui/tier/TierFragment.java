@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -28,19 +29,25 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
 import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import es.ucm.fdi.tieryourlikes.App;
+import es.ucm.fdi.tieryourlikes.AppConstants;
 import es.ucm.fdi.tieryourlikes.R;
 import es.ucm.fdi.tieryourlikes.model.ApiResponse;
 import es.ucm.fdi.tieryourlikes.model.ResponseStatus;
 import es.ucm.fdi.tieryourlikes.model.Template;
 import es.ucm.fdi.tieryourlikes.model.Tier;
 import es.ucm.fdi.tieryourlikes.model.TierRow;
+import es.ucm.fdi.tieryourlikes.networking.SimpleRequest;
 import es.ucm.fdi.tieryourlikes.ui.tier.listeners.TierElementTouchListener;
 import es.ucm.fdi.tieryourlikes.ui.tier.listeners.TierRowDragListener;
 import es.ucm.fdi.tieryourlikes.utilities.CustomFlexboxLayout;
@@ -71,20 +78,19 @@ public class TierFragment extends Fragment {
         initUI();
         observers();
 
-        //TODO manejar template que se recibe
         template = (Template) getArguments().getParcelable(AppConstants.BUNDLE_TEMPLATE);
-        Log.d("TIER FRAGMENT BUNDLE", template.toString());
 
-        /*defaultTierAndTemplate();//Crear template y tier de ejemplo
+        //defaultTierAndTemplate();//Crear template y tier de ejemplo
+        buildTierFromTemplate();
         fillContainer();
-
 
         templateAdapter = new TierAdapter(getActivity(), tier.getTierRows());
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(templateAdapter);
 
-        butonPruebConfig();*/
+        //Boton para probar la representacion interna del tier
+        butonPruebConfig();
 
 
         return root;
@@ -159,10 +165,11 @@ public class TierFragment extends Fragment {
             imageView.setScaleType(ImageView.ScaleType.FIT_XY);
 
             Glide.with(root)
-                    .load(images)
+                    .load(SimpleRequest.getImageDirectory() + images)
                     .placeholder(R.drawable.ic_launcher_foreground)
                     .apply(new RequestOptions().override(size))
                     .error(R.drawable.ic_baseline_error_24)
+                    .listener(new CustomRequestListener(root, size, images, imageView))
                     .into(imageView);
 
 
@@ -174,6 +181,49 @@ public class TierFragment extends Fragment {
         }
     }
 
+    //Apaño para que glide cargue correctamente las imagenes
+    class CustomRequestListener implements RequestListener<Drawable> {
+        private int tries = 0;
+        private static final int MAX_TRIES = 1000;
+
+        private View root;
+        private int size;
+        private String image_url;
+        private ImageView imageView;
+
+        public CustomRequestListener(View root, int size, String image_url, ImageView imageView) {
+            this.root = root;
+            this.size = size;
+            this.image_url = image_url;
+            this.imageView = imageView;
+        }
+
+        @Override
+        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+            if(tries < MAX_TRIES){
+                Glide.with(root)
+                        .load(SimpleRequest.getImageDirectory() + image_url)
+                        .placeholder(R.drawable.ic_launcher_foreground)
+                        .apply(new RequestOptions().override(size))
+                        .error(R.drawable.ic_baseline_error_24)
+                        //.listener(this)
+                        .into(imageView);
+            }
+            tries++;
+            return false;
+        }
+
+        @Override
+        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+            return false;
+        }
+    }
+
+    private void buildTierFromTemplate(){
+        this.tier = new Tier("-1", template.getId(), App.getInstance().getUsername(),
+                new ArrayList<>(template.getContainer()), TierRow.getListFromString(template.getTierRows())
+                , "");
+    }
 
     private void defaultTierAndTemplate(){
         //Crear template

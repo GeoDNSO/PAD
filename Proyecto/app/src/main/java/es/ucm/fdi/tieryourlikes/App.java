@@ -94,7 +94,4 @@ public class App {
 
     public User getUser() { return sessionManager.getUser(); }
 
-    public boolean isAdmin() {
-        return this.sessionManager.isAdmin();
-    }
 }

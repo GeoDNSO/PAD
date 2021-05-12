@@ -140,6 +140,8 @@ public class TemplateFragment extends Fragment {
         categoriesSpinner = root.findViewById(R.id.template_category_spinner);
         categoriesSpinner.setTitle(getString(R.string.select_category));
         categoriesSpinner.setPositiveButton(getString(R.string.category_select_ok));
+
+        bitmapList = new ArrayList<>();
     }
 
     private void listeners(){
@@ -315,7 +317,7 @@ public class TemplateFragment extends Fragment {
 
     private void createTemplate(){
         containerList = new ArrayList<>();
-        if(bitmapList.size() > 0) {
+        if(bitmapList != null && bitmapList.size() > 0) {
             for (int i = 0; i < bitmapList.size(); ++i) {
                 containerList.add(MediaManager.bitmapToBase64(bitmapList.get(i)));
             }
@@ -327,7 +329,7 @@ public class TemplateFragment extends Fragment {
         for (int i = 0; i < countView; ++i) {
             EditText editText = template_linearLayout.getChildAt(i).findViewById(R.id.editText_row);
             String text = editText.getText().toString();
-            if(!text.equals("") || !text.equals(null)) {
+            if(!text.equals("") && text != null) {
                 rowStringList.add(text);
             }else{
                text =  editText.getHint().toString();

@@ -35,11 +35,6 @@ public class SessionManager {
         this.editor.commit();
     }
 
-    public void logout() {
-        this.editor.clear();
-        this.editor.commit();
-    }
-
     public String getUsername() {
         String username = prefs.getString(AppConstants.USERNAME,"");
         return username;

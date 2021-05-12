@@ -68,7 +68,7 @@ public class Template implements Parcelable {
         this.container = container;
     }
 
-    public List<String> getTier_rows() {
+    public List<String> getTierRows() {
         return tier_rows;
     }
 

@@ -29,7 +29,7 @@ public class TemplateSerializer implements JsonSerializer<Template> {
         for(String s : src.getContainer()){
             container.add(s);
         }
-        for(String s : src.getTier_rows()){
+        for(String s : src.getTierRows()){
             tier_rows.add(s);
         }
 
