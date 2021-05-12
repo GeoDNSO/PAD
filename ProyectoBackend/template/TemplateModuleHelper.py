@@ -109,6 +109,7 @@ def convertB64Images(templateDict):
     templateContainerImages = templateDict[constants.DB_CONTAINER_KEY]
     i = 0
     for i in range(len(templateContainerImages)):
+        print(templateContainerImages)
         #fileName = str(i) + str(uuid.uuid4()) + ".png/"
         fileName = str(i) + ".png/"
         filePath = os.path.dirname(os.path.join(folderPath, fileName))

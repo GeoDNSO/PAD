@@ -1,6 +1,7 @@
 package es.ucm.fdi.tieryourlikes.ui.home.adapters;
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,10 +12,14 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 
+import es.ucm.fdi.tieryourlikes.AppConstants;
 import es.ucm.fdi.tieryourlikes.R;
 import es.ucm.fdi.tieryourlikes.model.Template;
+import es.ucm.fdi.tieryourlikes.networking.SimpleRequest;
 
 public class TemplatesListAdapter extends RecyclerView.Adapter<TemplatesListAdapter.ViewHolder> {
 
@@ -41,8 +46,8 @@ public class TemplatesListAdapter extends RecyclerView.Adapter<TemplatesListAdap
     public void onBindViewHolder(@NonNull TemplatesListAdapter.ViewHolder holder, int position) {
         Template template = list.get(position);
         holder.templateName.setText(template.getTitle());
-        holder.imageTemplate.setImageResource(R.drawable.ic_baseline_save_24);
-        //Glide.with(activity).load(template.getCover_image()).into(holder.imageTemplate);
+        //holder.imageTemplate.setImageResource(R.drawable.ic_baseline_save_24);
+        Glide.with(activity).load(SimpleRequest.getImageDirectory() + template.getCover()).into(holder.imageTemplate);
     }
 
     @Override

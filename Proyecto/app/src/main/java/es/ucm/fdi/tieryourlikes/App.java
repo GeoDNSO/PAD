@@ -46,6 +46,11 @@ public class App {
         return sessionManager.isLogged();
     }
 
+    public boolean isAdmin() {
+        return sessionManager.isAdmin();
+    }
+
+
     public void setMenu(Menu menu) {
     }
 

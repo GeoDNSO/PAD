@@ -1,8 +1,5 @@
 package es.ucm.fdi.tieryourlikes.model.serializers;
 
-import android.util.Log;
-
-import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -23,7 +20,7 @@ public class TemplateSerializer implements JsonSerializer<Template> {
         result.add(AppConstants.DB_TITLE_KEY, new JsonPrimitive(src.getTitle()));
         result.add(AppConstants.DB_CATEGORY_KEY, new JsonPrimitive(src.getCategory()));
         result.add(AppConstants.DB_CREATOR_USERNAME_KEY, new JsonPrimitive(src.getCreator_username()));
-        result.add(AppConstants.DB_COVER_IMAGE_KEY, new JsonPrimitive(src.getCover_image()));
+        result.add(AppConstants.DB_COVER_IMAGE_KEY, new JsonPrimitive(src.getCover()));
         result.add(AppConstants.DB_CREATION_TIME, new JsonPrimitive(src.getCreationTime()));
 
         JsonArray container = new JsonArray();

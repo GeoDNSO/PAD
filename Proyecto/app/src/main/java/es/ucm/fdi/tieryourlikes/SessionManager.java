@@ -27,6 +27,12 @@ public class SessionManager {
         this.context = context;
         this.prefs = context.getSharedPreferences(SHARED_PRIVATE_FILE, Context.MODE_PRIVATE);
         this.editor = prefs.edit();
+        setSessionUserData();
+    }
+
+    public void logout() {
+        this.editor.clear();
+        this.editor.commit();
     }
 
     public void logout() {

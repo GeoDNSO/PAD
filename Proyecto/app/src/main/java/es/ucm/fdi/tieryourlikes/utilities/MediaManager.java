@@ -132,8 +132,9 @@ public class MediaManager {
     }
 
     public static String bitmapToBase64(Bitmap bitmap) {
+        Bitmap bitmapConvert = Bitmap.createScaledBitmap(bitmap, 200, 200, true);
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 90, byteArrayOutputStream);
+        bitmapConvert.compress(Bitmap.CompressFormat.PNG, 90, byteArrayOutputStream);
         byte[] byteArray = byteArrayOutputStream.toByteArray();
         return Base64.encodeToString(byteArray, Base64.DEFAULT);
     }

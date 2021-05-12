@@ -51,7 +51,8 @@ def deleteTemplate():
 @templateModule.route('/createTemplate/', methods=['POST'])
 def createTemplate():
     json_data = request.get_json()
-    
+    with open('output.txt', 'w+') as file:  # Use file to refer to the file object
+        file.write(str(json_data))
     template = Template(json=json_data)
     template.creation_time = time_now_str()
 

@@ -11,6 +11,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -28,6 +29,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,10 +72,10 @@ public class TierFragment extends Fragment {
         observers();
 
         //TODO manejar template que se recibe
-        //template = (Template) getArguments().getParcelable(AppConstants.BUNDLE_TEMPLATE);
-        //Log.d("TIER FRAGMENT BUNDLE", template.toString());
+        template = (Template) getArguments().getParcelable(AppConstants.BUNDLE_TEMPLATE);
+        Log.d("TIER FRAGMENT BUNDLE", template.toString());
 
-        defaultTierAndTemplate();//Crear template y tier de ejemplo
+        /*defaultTierAndTemplate();//Crear template y tier de ejemplo
         fillContainer();
 
 
@@ -82,7 +84,7 @@ public class TierFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(templateAdapter);
 
-        butonPruebConfig();
+        butonPruebConfig();*/
 
 
         return root;
@@ -98,6 +100,18 @@ public class TierFragment extends Fragment {
                     return;
                 }
                 Toast.makeText(context, context.getString(R.string.ok_upload_tier_message), Toast.LENGTH_LONG).show();
+            }
+        });
+
+        mViewModel.getMlvDeleteResponse().observe(getViewLifecycleOwner(), new Observer<ApiResponse<JsonObject>>() {
+            @Override
+            public void onChanged(ApiResponse<JsonObject> jsonObjectApiResponse) {
+                if(jsonObjectApiResponse.getResponseStatus() == ResponseStatus.ERROR){
+                    Toast.makeText(getContext(), getString(R.string.error_delete_template_message), Toast.LENGTH_LONG).show();
+                    return;
+                }
+                Toast.makeText(getContext(), getString(R.string.success_delete_template), Toast.LENGTH_LONG).show();
+                Navigation.findNavController(root).navigate(R.id.homeFragment);
             }
         });
     }
@@ -192,6 +206,7 @@ public class TierFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.tier_fragment_menu, menu);
 
+        App app = App.getInstance(getContext());
         MenuItem saveTierItem = menu.findItem(R.id.save_tier_item);
 
         saveTierItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
@@ -203,6 +218,24 @@ public class TierFragment extends Fragment {
 
                 mViewModel.uploadTier(tier);
 
+                return true;
+            }
+        });
+
+        MenuItem deleteTierItem = menu.findItem(R.id.delete_tier_item);
+        Log.d("TIER FRAGMENT", app.getUser().toString());
+        Log.d("TIER FRAGMENT 2", app.isAdmin() + "");
+        //TODO hay algo que no va bien en las sesiones
+        if(app.isAdmin()){
+            deleteTierItem.setVisible(true);
+        }else{
+            deleteTierItem.setVisible(false);
+        }
+
+        deleteTierItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                mViewModel.deleteTemplate(template.getId());
                 return true;
             }
         });
