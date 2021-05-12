@@ -33,7 +33,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
@@ -64,6 +63,7 @@ public class TemplateFragment extends Fragment {
     private Button add_cover_button;
     private Button add_images_button;
     private Button add_label_button;
+    private Button create_template;
     private ImageView imageView;
     private LinearLayout linearLayout;
     private LinearLayout template_linearLayout;
@@ -73,15 +73,14 @@ public class TemplateFragment extends Fragment {
 
     private Bitmap bitmap;
     private List<Bitmap> bitmapList;
-    private List<String> imageString;
-    private List<String> rowString;
+    private List<String> containerList;
+    private List<String> rowStringList;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.template_fragment, container, false);
         mViewModel = new ViewModelProvider(this).get(TemplateViewModel.class);
-        setHasOptionsMenu(true);
 
         init();
         listeners();
@@ -133,6 +132,7 @@ public class TemplateFragment extends Fragment {
         template_linearLayout = root.findViewById(R.id.template_expandable_list_view);
         linearLayout = root.findViewById(R.id.template_linearLayout);
         imageView = root.findViewById(R.id.template_imageView_cover_photo);
+        create_template = root.findViewById(R.id.create_template_button);
 
         countView = 0;
         nextTierRow = 'A';
@@ -140,6 +140,8 @@ public class TemplateFragment extends Fragment {
         categoriesSpinner = root.findViewById(R.id.template_category_spinner);
         categoriesSpinner.setTitle(getString(R.string.select_category));
         categoriesSpinner.setPositiveButton(getString(R.string.category_select_ok));
+
+        bitmapList = new ArrayList<>();
     }
 
     private void listeners(){
@@ -188,6 +190,13 @@ public class TemplateFragment extends Fragment {
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 Toast.makeText(getActivity(), getString(R.string.select_category_message), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        create_template.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createTemplate();
             }
         });
     }
@@ -272,24 +281,14 @@ public class TemplateFragment extends Fragment {
         }
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.create_template_menu, menu);
-        MenuItem add_template = menu.findItem(R.id.add_template_menu_item);
-        add_template.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                createTemplate();
-                return true;
-            }
-        });
-    }
-
     public void showImages(){
         LayoutInflater layoutInflater = LayoutInflater.from(getContext());
         for (int i = 0; i < bitmapList.size(); ++i){
             View view = layoutInflater.inflate(R.layout.image_item_fragment, linearLayout, false);
             ImageView imageView = view.findViewById(R.id.imageView_template_item);
+            imageView.setMaxHeight(200);
+            imageView.setMaxWidth(200);
+            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
             imageView.setImageBitmap(bitmapList.get(i));
             imageView.setPadding(10,0,10,0);
             linearLayout.addView(view);
@@ -298,6 +297,8 @@ public class TemplateFragment extends Fragment {
 
     public void showImage(){
         imageView.setImageBitmap(bitmap);
+        imageView.setMaxWidth(200);
+        imageView.setMaxHeight(200);
     }
 
     public void removeImages(){
@@ -315,24 +316,24 @@ public class TemplateFragment extends Fragment {
     }
 
     private void createTemplate(){
-        imageString = new ArrayList<>();
-        if(bitmapList.size() > 0) {
+        containerList = new ArrayList<>();
+        if(bitmapList != null && bitmapList.size() > 0) {
             for (int i = 0; i < bitmapList.size(); ++i) {
-                imageString.add(MediaManager.bitmapToBase64(bitmapList.get(i)));
+                containerList.add(MediaManager.bitmapToBase64(bitmapList.get(i)));
             }
         }
 
         String image = (bitmap != null) ? MediaManager.bitmapToBase64(bitmap) : "";
 
-        rowString = new ArrayList<>();
+        rowStringList = new ArrayList<>();
         for (int i = 0; i < countView; ++i) {
             EditText editText = template_linearLayout.getChildAt(i).findViewById(R.id.editText_row);
             String text = editText.getText().toString();
-            if(!text.equals("") || !text.equals(null)) {
-                rowString.add(text);
+            if(!text.equals("") && text != null) {
+                rowStringList.add(text);
             }else{
                text =  editText.getHint().toString();
-               rowString.add(text);
+               rowStringList.add(text);
             }
         }
         String template_name = et_template_name.getText().toString();
@@ -342,11 +343,11 @@ public class TemplateFragment extends Fragment {
         String final_category = template_category.toLowerCase();
         Log.d("TAG_CAT", "El item seleccionado fue " + final_category);
 
-        if (template_name.isEmpty() || final_category.isEmpty() || imageString.size() == 0 || image == "" || rowString.size() == 0) {
+        if (template_name.isEmpty() || final_category.isEmpty() || containerList.size() == 0 || image == "" || rowStringList.size() == 0) {
             Toast.makeText(getActivity(), getString(R.string.empty_fields), Toast.LENGTH_SHORT).show();
         }
         else{
-            Template template = new Template(template_name, final_category, "Jin", image, imageString, rowString);
+            Template template = new Template("-1", template_name, final_category, "Jin", containerList, rowStringList, image, " ");
             mViewModel.createTemplate(template);
         }
     }

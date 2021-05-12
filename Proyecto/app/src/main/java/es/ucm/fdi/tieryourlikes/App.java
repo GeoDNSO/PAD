@@ -35,8 +35,6 @@ public class App {
     public static App getInstance(Context ctx) {
         if (app == null)
             app = new App(ctx);
-        app.context = ctx;
-        app.sessionManager.setContext(ctx);
         return app;
     }
 
@@ -47,6 +45,11 @@ public class App {
     public boolean isLogged() {
         return sessionManager.isLogged();
     }
+
+    public boolean isAdmin() {
+        return sessionManager.isAdmin();
+    }
+
 
     public void setMenu(Menu menu) {
     }
@@ -90,4 +93,5 @@ public class App {
     }
 
     public User getUser() { return sessionManager.getUser(); }
+
 }

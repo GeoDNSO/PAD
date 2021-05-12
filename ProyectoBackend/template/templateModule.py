@@ -51,7 +51,8 @@ def deleteTemplate():
 @templateModule.route('/createTemplate/', methods=['POST'])
 def createTemplate():
     json_data = request.get_json()
-    
+    with open('output.txt', 'w+') as file:  # Use file to refer to the file object
+        file.write(str(json_data))
     template = Template(json=json_data)
     template.creation_time = time_now_str()
 
@@ -100,7 +101,6 @@ def getTemplate(id):
 
 @templateModule.route('/listTemplates/', methods=['GET'])
 def listTemplates():
-
     try:
         templateList = TemplateModuleHelper.getTemplates(request.args)        
        
@@ -119,9 +119,25 @@ def listTemplates():
 
 @templateModule.route('/listPopularTemplates/', methods=['GET'])
 def listPopularTemplates():
-    
     try:
         templateList = TemplateModuleHelper.getPopularTemplates(request.args)
+
+        response = jsonify({
+            "elements": len(templateList),
+            "list": templateList})
+        response.status_code = 200 # OK
+
+        return response
+    except errors.PyMongoError as e:
+        print("Error PyMongo: ", repr(e))
+        response = jsonify({"error": "Error al buscar la lista de templates"})
+        response.status_code = 400
+        return response
+
+@templateModule.route('/templatesUsedBy/', methods=['GET'])
+def templatesUsedBy():
+    try:
+        templateList = TemplateModuleHelper.getTemplatesUsedBy(request.args)
 
         response = jsonify({
             "elements": len(templateList),

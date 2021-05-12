@@ -6,11 +6,13 @@ import androidx.lifecycle.ViewModelProvider;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -27,7 +29,12 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
+import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,9 +47,9 @@ import es.ucm.fdi.tieryourlikes.model.ResponseStatus;
 import es.ucm.fdi.tieryourlikes.model.Template;
 import es.ucm.fdi.tieryourlikes.model.Tier;
 import es.ucm.fdi.tieryourlikes.model.TierRow;
-import es.ucm.fdi.tieryourlikes.ui.template.TemplateAdapter;
-import es.ucm.fdi.tieryourlikes.ui.template.listeners.TierElementTouchListener;
-import es.ucm.fdi.tieryourlikes.ui.template.listeners.TierRowDragListener;
+import es.ucm.fdi.tieryourlikes.networking.SimpleRequest;
+import es.ucm.fdi.tieryourlikes.ui.tier.listeners.TierElementTouchListener;
+import es.ucm.fdi.tieryourlikes.ui.tier.listeners.TierRowDragListener;
 import es.ucm.fdi.tieryourlikes.utilities.CustomFlexboxLayout;
 
 public class TierFragment extends Fragment {
@@ -55,7 +62,7 @@ public class TierFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private CustomFlexboxLayout flexboxContainer;
-    private TemplateAdapter templateAdapter;
+    private TierAdapter templateAdapter;
 
     public static TierFragment newInstance() {
         return new TierFragment();
@@ -71,19 +78,18 @@ public class TierFragment extends Fragment {
         initUI();
         observers();
 
-        //TODO manejar template que se recibe
-        //template = (Template) getArguments().getParcelable(AppConstants.BUNDLE_TEMPLATE);
-        //Log.d("TIER FRAGMENT BUNDLE", template.toString());
+        template = (Template) getArguments().getParcelable(AppConstants.BUNDLE_TEMPLATE);
 
-        defaultTierAndTemplate();//Crear template y tier de ejemplo
+        //defaultTierAndTemplate();//Crear template y tier de ejemplo
+        buildTierFromTemplate();
         fillContainer();
 
-
-        templateAdapter = new TemplateAdapter(getActivity(), tier.getTierRows());
+        templateAdapter = new TierAdapter(getActivity(), tier.getTierRows());
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(templateAdapter);
 
+        //Boton para probar la representacion interna del tier
         butonPruebConfig();
 
 
@@ -100,6 +106,18 @@ public class TierFragment extends Fragment {
                     return;
                 }
                 Toast.makeText(context, context.getString(R.string.ok_upload_tier_message), Toast.LENGTH_LONG).show();
+            }
+        });
+
+        mViewModel.getMlvDeleteResponse().observe(getViewLifecycleOwner(), new Observer<ApiResponse<JsonObject>>() {
+            @Override
+            public void onChanged(ApiResponse<JsonObject> jsonObjectApiResponse) {
+                if(jsonObjectApiResponse.getResponseStatus() == ResponseStatus.ERROR){
+                    Toast.makeText(getContext(), getString(R.string.error_delete_template_message), Toast.LENGTH_LONG).show();
+                    return;
+                }
+                Toast.makeText(getContext(), getString(R.string.success_delete_template), Toast.LENGTH_LONG).show();
+                Navigation.findNavController(root).navigate(R.id.homeFragment);
             }
         });
     }
@@ -147,10 +165,11 @@ public class TierFragment extends Fragment {
             imageView.setScaleType(ImageView.ScaleType.FIT_XY);
 
             Glide.with(root)
-                    .load(images)
+                    .load(SimpleRequest.getImageDirectory() + images)
                     .placeholder(R.drawable.ic_launcher_foreground)
                     .apply(new RequestOptions().override(size))
                     .error(R.drawable.ic_baseline_error_24)
+                    .listener(new CustomRequestListener(root, size, images, imageView))
                     .into(imageView);
 
 
@@ -162,6 +181,49 @@ public class TierFragment extends Fragment {
         }
     }
 
+    //Apaño para que glide cargue correctamente las imagenes
+    class CustomRequestListener implements RequestListener<Drawable> {
+        private int tries = 0;
+        private static final int MAX_TRIES = 1000;
+
+        private View root;
+        private int size;
+        private String image_url;
+        private ImageView imageView;
+
+        public CustomRequestListener(View root, int size, String image_url, ImageView imageView) {
+            this.root = root;
+            this.size = size;
+            this.image_url = image_url;
+            this.imageView = imageView;
+        }
+
+        @Override
+        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+            if(tries < MAX_TRIES){
+                Glide.with(root)
+                        .load(SimpleRequest.getImageDirectory() + image_url)
+                        .placeholder(R.drawable.ic_launcher_foreground)
+                        .apply(new RequestOptions().override(size))
+                        .error(R.drawable.ic_baseline_error_24)
+                        //.listener(this)
+                        .into(imageView);
+            }
+            tries++;
+            return false;
+        }
+
+        @Override
+        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+            return false;
+        }
+    }
+
+    private void buildTierFromTemplate(){
+        this.tier = new Tier("-1", template.getId(), App.getInstance().getUsername(),
+                new ArrayList<>(template.getContainer()), TierRow.getListFromString(template.getTierRows())
+                , "");
+    }
 
     private void defaultTierAndTemplate(){
         //Crear template
@@ -194,6 +256,7 @@ public class TierFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.tier_fragment_menu, menu);
 
+        App app = App.getInstance(getContext());
         MenuItem saveTierItem = menu.findItem(R.id.save_tier_item);
 
         saveTierItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
@@ -205,6 +268,24 @@ public class TierFragment extends Fragment {
 
                 mViewModel.uploadTier(tier);
 
+                return true;
+            }
+        });
+
+        MenuItem deleteTierItem = menu.findItem(R.id.delete_tier_item);
+        Log.d("TIER FRAGMENT", app.getUser().toString());
+        Log.d("TIER FRAGMENT 2", app.isAdmin() + "");
+        //TODO hay algo que no va bien en las sesiones
+        if(app.isAdmin()){
+            deleteTierItem.setVisible(true);
+        }else{
+            deleteTierItem.setVisible(false);
+        }
+
+        deleteTierItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                mViewModel.deleteTemplate(template.getId());
                 return true;
             }
         });

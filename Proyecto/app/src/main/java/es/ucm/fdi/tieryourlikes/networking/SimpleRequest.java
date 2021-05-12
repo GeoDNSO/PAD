@@ -38,6 +38,8 @@ public class SimpleRequest {
     private static final int TTL_SECONDS = 18;
     private static final int TTL_MSECONDS = 3000;
     private static final String SERVER_URL = DIR_PROTOCOL + "://" + IP_ADDRESS + ":" + PORT;
+    private static final String DIRECTORY = "_templateImages";
+    private static final String IMAGE_DIRECTORY = SERVER_URL + "/" + DIRECTORY;
 
     private volatile boolean finished;
     private volatile String response;
@@ -49,6 +51,10 @@ public class SimpleRequest {
 
     public static String getServerUrl() {
         return SERVER_URL;
+    }
+
+    public static String getImageDirectory() {
+        return IMAGE_DIRECTORY;
     }
 
     public String getResponse(){

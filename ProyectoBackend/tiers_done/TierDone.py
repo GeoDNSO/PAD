@@ -20,7 +20,7 @@ class TierDone:
         self.creator_username = json[c.DB_CREATOR_USERNAME_KEY]
         self.container = json[c.DB_CONTAINER_KEY]
         self.tier_rows = json[c.DB_TIER_ROWS_KEY]
-        self.creation_time = json[c.DB_CREATION_TIME]
+        self.creation_time = json[c.DB_CREATION_TIME] if c.DB_CREATION_TIME in json else time_now_str
 
     def to_dict(self):
         return {

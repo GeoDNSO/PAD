@@ -1,11 +1,9 @@
-package es.ucm.fdi.tieryourlikes.ui.template.listeners;
+package es.ucm.fdi.tieryourlikes.ui.tier.listeners;
 
 import android.util.Log;
 import android.view.DragEvent;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.google.android.flexbox.FlexboxLayout;
 
 import es.ucm.fdi.tieryourlikes.R;
 import es.ucm.fdi.tieryourlikes.utilities.CustomFlexboxLayout;

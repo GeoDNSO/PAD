@@ -61,6 +61,15 @@
                     android:text="@string/most_done"/>
             </RelativeLayout>
 
+            <TextView
+                android:id="@+id/no_results_most_used_home"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:textSize="30sp"
+                android:text="@string/no_results"
+                android:visibility="gone"/>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/most_done_recycle_view_home"
                 android:layout_width="match_parent"
@@ -94,6 +103,15 @@
                     android:textSize="20sp"
                     android:text="@string/most_recent"/>
             </RelativeLayout>
+
+            <TextView
+                android:id="@+id/no_results_most_recent_home"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:textSize="30sp"
+                android:text="@string/no_results"
+                android:visibility="gone"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/most_recent_recycle_view_home"

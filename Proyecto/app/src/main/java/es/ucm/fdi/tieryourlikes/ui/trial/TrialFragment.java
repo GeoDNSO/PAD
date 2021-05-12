@@ -23,6 +23,7 @@ import com.google.gson.GsonBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
+import es.ucm.fdi.tieryourlikes.App;
 import es.ucm.fdi.tieryourlikes.R;
 import es.ucm.fdi.tieryourlikes.model.ApiResponse;
 import es.ucm.fdi.tieryourlikes.model.ResponseStatus;
@@ -32,6 +33,8 @@ import es.ucm.fdi.tieryourlikes.model.TierRow;
 import es.ucm.fdi.tieryourlikes.model.serializers.TemplateSerializer;
 import es.ucm.fdi.tieryourlikes.model.serializers.TierSerializer;
 import es.ucm.fdi.tieryourlikes.ui.home.HomeViewModel;
+
+import static android.content.ContentValues.TAG;
 
 public class TrialFragment extends Fragment {
 
@@ -62,6 +65,13 @@ public class TrialFragment extends Fragment {
                 Navigation.findNavController(root).navigate(R.id.templateFragment);
             }
         });
+
+        if(App.getInstance().isAdmin())
+            Log.d(TAG, "onCreateView: "+ "Es admin");
+        else
+            Log.d(TAG, "onCreateView: "+ "No Es admin");
+
+        Log.d(TAG, "onCreateView: " + App.getInstance().getUser().toString());
 
         prueba();
 

@@ -18,6 +18,12 @@ import os, errno
 import uuid
 import shutil
 
+import sys
+p = os.path.abspath('..')
+if p not in sys.path:
+    sys.path.append(p)
+from tiers_done.TierDone import TierDone
+
 #Consultas
 
 #returns templates order by creation date desc
@@ -25,8 +31,6 @@ def getTemplates(args):
 
     page, limit = getPageAndLimit(args)
     custom_args = getCustomArgs(args).to_dict()
-    
-    print(custom_args)
 
     cursor = mongo.db.templates.find(custom_args).sort( [['_id', -1]] ).skip((page-1)*limit).limit(limit)
     return templateUtils.listFromCursor(cursor)
@@ -54,12 +58,36 @@ def getPopularTemplates(args):
 
     return templateUtils.listFromCursor(cursor)
 
+def getTemplatesUsedBy(args):
+    page, limit = getPageAndLimit(args)
+    custom_args = getCustomArgs(args).to_dict()
+
+    cursor = mongo.db.tiers_done.find(custom_args)
+    tierList = tierListFromCursor(cursor)
+
+    templatesID = [ObjectId(tier[constants.DB_TEMPLATE_ID]) for tier in tierList] #Do something
+    print(templatesID)
+    in_param = {constants.DB_ID_KEY: {"$in": templatesID}}
+    cursor = mongo.db.templates.find(in_param).skip((page-1)*limit).limit(limit)
+
+    return templateUtils.listFromCursor(cursor)
+
+#Para getTemplatesUsedBy
+def tierListFromCursor(cursor):
+    tiersDoneList = []
+    for item in cursor:
+        template = TierDone(json=item)
+        tiersDoneList.append(template.to_dict())
+    return tiersDoneList
 
 #Manejo de ficheros y directorios
 
 def deleteDirectory(templateID):
-    folderPath = os.path.dirname(os.path.join(app.root_path , app.config['UPLOAD_FOLDER'], templateID, ""))
-    shutil.rmtree(folderPath)
+    try:
+        folderPath = os.path.dirname(os.path.join(app.root_path , app.config['UPLOAD_FOLDER'], templateID, ""))
+        shutil.rmtree(folderPath)
+    except FileNotFoundError as e:
+        print("El directorio a borrar no existia")
 
 #Modificar diccionario con las URLs correctas
 def convertB64Images(templateDict):
@@ -81,6 +109,7 @@ def convertB64Images(templateDict):
     templateContainerImages = templateDict[constants.DB_CONTAINER_KEY]
     i = 0
     for i in range(len(templateContainerImages)):
+        print(templateContainerImages)
         #fileName = str(i) + str(uuid.uuid4()) + ".png/"
         fileName = str(i) + ".png/"
         filePath = os.path.dirname(os.path.join(folderPath, fileName))

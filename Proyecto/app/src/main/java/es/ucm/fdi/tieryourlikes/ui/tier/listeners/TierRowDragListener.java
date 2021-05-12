@@ -1,18 +1,11 @@
-package es.ucm.fdi.tieryourlikes.ui.template.listeners;
+package es.ucm.fdi.tieryourlikes.ui.tier.listeners;
 
-import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.DragEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.core.content.res.ResourcesCompat;
-
-import com.google.android.flexbox.FlexboxLayout;
-
 import es.ucm.fdi.tieryourlikes.R;
-import es.ucm.fdi.tieryourlikes.utilities.AppDrawable;
 import es.ucm.fdi.tieryourlikes.utilities.CustomFlexboxLayout;
 
 public class TierRowDragListener implements View.OnDragListener {
