@@ -103,6 +103,7 @@ public class LoginFragment extends Fragment {
                 }
                 //bien --> coger datos del usuario y pasarselo a la app para que cree sesion y redirigir a pagina principal
                 User user = userApiResponse.getObject();
+                Log.d("LoginFragment", user.toString());
                 App.getInstance(getContext()).setUserSession(user);
                 Navigation.findNavController(root).navigate(R.id.homeFragment);
             }
