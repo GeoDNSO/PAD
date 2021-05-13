@@ -164,13 +164,17 @@ public class TierFragment extends Fragment {
             imageView.setLayoutParams(parms);
             imageView.setScaleType(ImageView.ScaleType.FIT_XY);
 
-            Glide.with(root)
-                    .load(SimpleRequest.getImageDirectory() + images)
-                    .placeholder(R.drawable.ic_launcher_foreground)
-                    .apply(new RequestOptions().override(size))
-                    .error(R.drawable.ic_baseline_error_24)
-                    .listener(new CustomRequestListener(root, size, images, imageView))
-                    .into(imageView);
+            try{
+                Glide.with(root)
+                        .load(SimpleRequest.getImageDirectory() + images)
+                        .placeholder(R.drawable.ic_launcher_foreground)
+                        .apply(new RequestOptions().override(size))
+                        .error(R.drawable.ic_baseline_error_24)
+                        .listener(new CustomRequestListener(root, size, images, imageView))
+                        .into(imageView);
+
+            }catch (Exception exception){
+            }
 
 
             imageView.setOnTouchListener(new TierElementTouchListener(images));
@@ -201,13 +205,18 @@ public class TierFragment extends Fragment {
         @Override
         public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
             if(tries < MAX_TRIES){
-                Glide.with(root)
-                        .load(SimpleRequest.getImageDirectory() + image_url)
-                        .placeholder(R.drawable.ic_launcher_foreground)
-                        .apply(new RequestOptions().override(size))
-                        .error(R.drawable.ic_baseline_error_24)
-                        //.listener(this)
-                        .into(imageView);
+                try{
+                    Glide.with(root)
+                            .load(SimpleRequest.getImageDirectory() + image_url)
+                            .placeholder(R.drawable.ic_launcher_foreground)
+                            .apply(new RequestOptions().override(size))
+                            .error(R.drawable.ic_baseline_error_24)
+                            //.listener(this)
+                            .into(imageView);
+                }catch (Exception exception){
+
+                }
+
             }
             tries++;
             return false;
