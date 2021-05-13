@@ -70,5 +70,4 @@
         android:fitsSystemWindows="true"
         />
 
-
 </androidx.drawerlayout.widget.DrawerLayout>
