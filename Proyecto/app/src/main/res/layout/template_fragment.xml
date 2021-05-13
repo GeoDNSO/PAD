@@ -4,12 +4,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fillViewport="true"
     tools:context=".ui.template.TemplateFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/textView"
@@ -52,25 +52,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/template_editText_name" />
 
-        <!--
-        <EditText
-            android:id="@+id/template_editText_category"
-            android:layout_width="match_parent"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:textAllCaps="false"
-            android:paddingStart="10dp"
-            android:textSize="20sp"
-            android:background="@drawable/edit_text_css"
-            android:layout_marginTop="10dp"
-            android:hint="@string/template_name_category"
-            android:layout_height="50dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/template_textView_category"
-            android:autofillHints=""
-            android:inputType="textPersonName" />
-        -->
 
         <com.toptoche.searchablespinnerlibrary.SearchableSpinner
             android:id="@+id/template_category_spinner"
@@ -134,7 +115,7 @@
         <HorizontalScrollView
             android:id="@+id/template_scrollView_images_photo"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
             android:layout_marginEnd="15dp"
             android:layout_marginTop="16dp"
@@ -173,12 +154,12 @@
             app:layout_constraintTop_toBottomOf="@+id/template_button_images_photo">
 
             <TextView
-                    android:id="@+id/template_textView_row_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:textSize="24sp"
-                    android:text="@string/template_row_label" />
+                android:id="@+id/template_textView_row_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:textSize="24sp"
+                android:text="@string/template_row_label" />
 
             <Button
                 android:id="@+id/template_button_add_label"
@@ -213,5 +194,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/template_expandable_list_view"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </androidx.core.widget.NestedScrollView>

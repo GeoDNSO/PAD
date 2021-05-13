@@ -33,7 +33,7 @@
             android:id="@+id/app_host_fragment"
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
-            android:layout_height="599dp"
+            android:layout_height="wrap_content"
             app:defaultNavHost="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -69,6 +69,5 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         />
-
 
 </androidx.drawerlayout.widget.DrawerLayout>

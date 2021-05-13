@@ -20,7 +20,6 @@
             android:layout_height="match_parent"
             android:orientation="horizontal"
             android:background="@drawable/ripple_effect"
-            android:clickable="true"
             android:focusable="true"
             android:textAlignment="center">
 

@@ -13,6 +13,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.HttpException;
 
 import java.util.List;
 
@@ -47,7 +48,12 @@ public class TemplatesListAdapter extends RecyclerView.Adapter<TemplatesListAdap
         Template template = list.get(position);
         holder.templateName.setText(template.getTitle());
         //holder.imageTemplate.setImageResource(R.drawable.ic_baseline_save_24);
-        Glide.with(activity).load(SimpleRequest.getImageDirectory() + template.getCover()).into(holder.imageTemplate);
+        try{
+            Glide.with(activity).load(SimpleRequest.getImageDirectory() + template.getCover()).into(holder.imageTemplate);
+        }catch (Exception exception){
+
+        }
+
     }
 
     @Override

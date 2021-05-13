@@ -29,7 +29,6 @@ public class MainActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavView; //Menu inferior de la aplicacion
     private DrawerLayout drawerLayout; // Layout que se muestra al pinchar en el menu de 3 rayas de arriba a la izquierda
     private NavigationView drawerNavigationView; //Menu de 3 rayas de arriba a la izquierda
-    //private NavigationView rightSideNavView; //Se usará para un buscador???
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,11 +46,9 @@ public class MainActivity extends AppCompatActivity {
         app.setMainActivity(this);
     }
 
-
     private void setGlobalVariables() {
         AppDrawable.setResources(getResources());
     }
-
 
     public void initializeUI(){
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -74,7 +71,6 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(bottomNavView, appNavController);
         NavigationUI.setupWithNavController(drawerNavigationView, appNavController);
         NavigationUI.setupActionBarWithNavController(this, appNavController, drawerLayout);
-
 
         appNavControllerDestinationListener();
     }
@@ -129,14 +125,12 @@ public class MainActivity extends AppCompatActivity {
         if(app.isLogged()){
             drawerNavigationView.getMenu().clear();
             drawerNavigationView.inflateMenu(R.menu.drawer_login_navigation_menu);
-        } else
-        {
+        } else {
             drawerNavigationView.getMenu().clear();
             drawerNavigationView.inflateMenu(R.menu.drawer_logout_navigation_menu);
         }
         app.setMenu(drawerNavigationView.getMenu());
     }
-
 
     //Para la flecha de arriba
     @Override
