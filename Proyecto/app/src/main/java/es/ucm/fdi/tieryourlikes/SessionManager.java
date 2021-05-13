@@ -33,6 +33,7 @@ public class SessionManager {
     public void logout() {
         this.editor.clear();
         this.editor.commit();
+        setSessionUserData();
     }
 
     public String getUsername() {

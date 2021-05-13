@@ -27,7 +27,7 @@ def login():
     try:
         userToReturnJSON = mongo.db.users.find_one({constants.DB_USERNAME_KEY: givenUser.username})
         userToReturn = User(json=userToReturnJSON)
-
+        
         if(check_password_hash(userToReturn.password, givenUser.password) == False):
             response = jsonify({
                 "error": "Creadenciales incorrectas",

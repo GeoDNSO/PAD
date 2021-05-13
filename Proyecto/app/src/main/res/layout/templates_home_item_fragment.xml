@@ -18,6 +18,11 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+<<<<<<< HEAD
+=======
+            android:background="@drawable/ripple_effect"
+            android:focusable="true"
+>>>>>>> 373957ae44f3f10847a05dfd7091ed263dffa491
             android:orientation="vertical">
 
             <ImageView
