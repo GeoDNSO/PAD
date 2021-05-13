@@ -63,7 +63,7 @@ public class HomeFragment extends Fragment implements TemplatesListAdapter.OnIte
     private TextView noResutsMostDone;
     private TextView noResutsMostRecent;
 
-    private int page = 1, count = 3;
+    private int page = 1, count = 10;
 
     public static HomeFragment newInstance() {
         return new HomeFragment();

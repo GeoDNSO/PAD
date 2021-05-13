@@ -79,7 +79,6 @@ public class SessionManager {
         String creation_time = prefs.getString(AppConstants.DB_CREATION_TIME, "");
         String rol = prefs.getString(AppConstants.DB_ROL, "");
         this.sessionUser = new User(username, password, email, iconTag, creation_time, rol);
-        Log.d("SessionManager", this.sessionUser.toString());
     }
 
     public User getUser(){

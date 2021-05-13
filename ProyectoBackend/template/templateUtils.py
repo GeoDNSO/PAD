@@ -5,6 +5,8 @@ from .Template import Template
 
 import constants
 
+from bson.objectid import ObjectId
+
 from pprint import pprint
 
 #Return args without page and limit to make a custom search
@@ -12,7 +14,8 @@ from pprint import pprint
 def tierListInfoFromCursor(cursor):
     tierInfo = []
     for item in cursor:
-        tierInfo.append(item[constants.DB_ID_KEY])
+        finalItem = ObjectId(item[constants.DB_ID_KEY])
+        tierInfo.append(finalItem)
     return tierInfo
 
 def listFromCursor(cursor):
