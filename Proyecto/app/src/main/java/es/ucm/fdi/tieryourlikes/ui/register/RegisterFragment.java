@@ -112,7 +112,7 @@ public class RegisterFragment extends Fragment {
                     inputPassword2.setText("");
                     layoutPassword.setError(getString(R.string.password_not_equal_2));
                     layoutPassword2.setError(getString(R.string.password_not_equal_2));
-                    Toast.makeText(getActivity(), "ERROR: Las contraseñas no coinciden" , Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), getString(R.string.password_not_equal_2) , Toast.LENGTH_SHORT).show();
                 }
             }
         });

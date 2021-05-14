@@ -149,7 +149,7 @@ public class AppUtils {
     //Apaño para que glide cargue correctamente las imagenes
     static class CustomRequestListener implements RequestListener<Drawable> {
         private int tries = 0;
-        private static final int MAX_TRIES = 100000;
+        private static final int MAX_TRIES = 100;
 
         private View root;
         private int size;
