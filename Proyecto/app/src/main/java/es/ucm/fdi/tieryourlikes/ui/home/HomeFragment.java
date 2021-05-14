@@ -167,6 +167,13 @@ public class HomeFragment extends Fragment implements TemplatesListAdapter.OnIte
 
         MenuItem createTemplate = menu.findItem(R.id.create_template_menu_item);
 
+        if(App.getInstance(getContext()).isLogged()){
+            createTemplate.setVisible(true);
+        }
+        else{
+            createTemplate.setVisible(false);
+        }
+
         createTemplate.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
