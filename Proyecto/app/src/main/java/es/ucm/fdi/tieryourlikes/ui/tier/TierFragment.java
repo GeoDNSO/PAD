@@ -78,10 +78,9 @@ public class TierFragment extends Fragment {
 
         loadTierIfUserUsedIt();//Revisar en BD si existe el tier --> si no existe _id = -1
 
-
-        buttonPruebConfig(); //Boton para probar la representacion interna del tier
-        //Button button = root.findViewById(R.id.tierPrueba);
-        //button.setVisibility(View.GONE);
+        //buttonPruebConfig(); //Boton para probar la representacion interna del tier
+        Button button = root.findViewById(R.id.tierPrueba);
+        button.setVisibility(View.GONE);
 
         return root;
     }
@@ -105,14 +104,14 @@ public class TierFragment extends Fragment {
                     Tier tierResponse = tierApiResponse.getObject();
                     if(!tierResponse.getId().equals("-1")){
                         tier = tierResponse;
-                        fillLayoutWithTier();
+                        fillContainerWith(tier.getContainer());
                         Toast.makeText(context, context.getString(R.string.ok_saved_tier_message), Toast.LENGTH_LONG).show();
                     }
                 }
 
                 if(tier == null){
                     buildTierFromTemplate();
-                    fillContainer();
+                    fillContainerWith(template.getContainer());
                 }
 
                 tierAdapter = new TierAdapter(getActivity(), root, tier.getTierRows());
@@ -146,24 +145,11 @@ public class TierFragment extends Fragment {
         });
     }
 
-    //if tier null...
-    private void fillLayoutWithTier() {
+    private void fillContainerWith(List<String> imageList) {
         flexboxContainer.setOnDragListener(new TierRowDragListener());
-        List<String> list = this.tier.getContainer();
-        flexboxContainer.setTierRow(new TierRow("Container","#000000", list));
-        for(String image : list){
+        flexboxContainer.setTierRow(new TierRow("Container","#000000", imageList));
+        for(String image : imageList){
             ImageView imageView = AppUtils.loadTierImageViewFromAPI(image, getActivity(), root);
-            flexboxContainer.addView(imageView);
-        }
-    }
-    private void fillContainer(){
-        //Preparar y configurar el contenedor desde el que se van a mover las imagenes
-        flexboxContainer.setOnDragListener(new TierRowDragListener());
-        List<String> list = this.template.getContainer();
-        flexboxContainer.setTierRow(new TierRow("Container","#806BE4", list));
-        for(String image : list){
-            ImageView imageView = AppUtils.loadTierImageViewFromAPI(image, getActivity(), root);
-
             flexboxContainer.addView(imageView);
         }
     }

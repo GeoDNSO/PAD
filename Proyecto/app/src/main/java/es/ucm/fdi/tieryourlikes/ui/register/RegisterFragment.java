@@ -63,6 +63,14 @@ public class RegisterFragment extends Fragment {
         root = inflater.inflate(R.layout.register_fragment, container, false);
         mViewModel = new ViewModelProvider(this).get(RegisterViewModel.class);
 
+        initUI();
+        listeners();
+        observers();
+
+        return root;
+    }
+
+    private void initUI() {
         tvLogeate = root.findViewById(R.id.textViewLoginAqui);
         layoutNombre = root.findViewById(R.id.textInputLayoutNombreRegistro);
         inputNombre = root.findViewById(R.id.editTextNombreRegistro);
@@ -76,9 +84,10 @@ public class RegisterFragment extends Fragment {
         inputPassword = root.findViewById(R.id.editTextPasswordRegistro);
         layoutPassword2 = root.findViewById(R.id.textInputLayoutPassword2Registro);
         inputPassword2 = root.findViewById(R.id.editTextPassword2Registro);
-
         registerButton = root.findViewById(R.id.buttonRegistro);
+    }
 
+    private void listeners() {
         tvLogeate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,7 +104,7 @@ public class RegisterFragment extends Fragment {
                     User user = createUser(inputUsername.getText().toString(),
                             inputPassword.getText().toString(),
                             inputEmail.getText().toString(),
-                            "res/drawable/ic_icons8_user_male.xml");
+                            "ic_icons8_user_male.xml");
                     mViewModel.userRegister(user);
                 }
                 else {
@@ -107,9 +116,6 @@ public class RegisterFragment extends Fragment {
                 }
             }
         });
-
-        observers();
-        return root;
     }
 
     private User createUser(String username, String pass, String email, String iconURL){
@@ -125,7 +131,7 @@ public class RegisterFragment extends Fragment {
                     return;
                 }
                 //bien --> enviarle a la pestaña de login o se puede tambien iniciar sesion directamente
-                User user = userApiResponse.getObject();
+                //User user = userApiResponse.getObject();
                 //App.getInstance(getContext()).setUserSession(user);
                 Navigation.findNavController(root).navigate(R.id.loginFragment);
             }

@@ -18,7 +18,6 @@ public class RegisterViewModel extends ViewModel {
     }
 
     public void userRegister (User user){
-
         GeneralSubscriber<User> generalSubscriber = new GeneralSubscriber<User>();
         generalSubscriber.setMutableLiveDataToModify(APIresponseRegister);
         generalSubscriber.setObservable(userRepository.userRegister(user));

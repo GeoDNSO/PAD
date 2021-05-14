@@ -48,13 +48,12 @@ def login():
 @userModule.route('/registerUser/', methods=['POST'])
 def registerUser():
     json_data = request.get_json()
-    username = json_data[constants.DB_USERNAME_KEY]
-    password = json_data[constants.DB_PASSWORD_KEY]
-    email = json_data[constants.DB_EMAIL_KEY]
 
+    password = json_data[constants.DB_PASSWORD_KEY]
     hashed_password = generate_password_hash(password)
 
-    user = User(username, hashed_password, email)
+    user = User(json=json_data)
+    user.password = hashed_password
     user.creation_time = time_now_str()
     user.rol = constants.NORMAL_USER
 
