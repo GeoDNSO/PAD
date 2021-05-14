@@ -23,6 +23,7 @@ from pprint import pprint
 import yaml
 from util.utilities import getCustomArgs, getPageAndLimit, time_now_str
 import os
+import io
 
 categoriesModule = Blueprint("categoriesModule", __name__)
 

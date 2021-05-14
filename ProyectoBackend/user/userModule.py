@@ -56,6 +56,7 @@ def registerUser():
 
     user = User(username, hashed_password, email)
     user.creation_time = time_now_str()
+    user.rol = constants.NORMAL_USER
 
     try:
         id = mongo.db.users.insert_one(user.to_dict()).inserted_id

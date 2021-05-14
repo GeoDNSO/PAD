@@ -6,7 +6,7 @@ import constants
 #time_string = time.strftime("%m/%d/%Y, %H:%M:%S", named_tuple)
 
 def time_now_str():
-    time_string = datetime.datetime.utcnow().strftime("%m/%d/%Y,%H:%M:%S,UTC+00")
+    time_string = datetime.datetime.utcnow().strftime("%d/%m/%Y,%H:%M:%S,UTC+00")
     return time_string
 
 def getCustomArgs(args):
