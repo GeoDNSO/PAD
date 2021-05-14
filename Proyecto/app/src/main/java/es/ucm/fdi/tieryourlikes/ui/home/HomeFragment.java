@@ -89,14 +89,6 @@ public class HomeFragment extends Fragment implements TemplatesListAdapter.OnIte
         mViewModel.getListTemplates(page, count);
         mViewModel.getMostPopularCategories(page, count);
 
-        Button button = root.findViewById(R.id.button_trial);
-        button.setOnClickListener(new View.OnClickListener() {
-              @Override
-              public void onClick(View v) {
-                    Navigation.findNavController(root).navigate(R.id.trialFragment);
-              }
-          });
-
         return root;
     }
 
