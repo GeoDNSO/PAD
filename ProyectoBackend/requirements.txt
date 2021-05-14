@@ -11,3 +11,4 @@ python-dotenv==0.17.0
 python-dotenv-run==0.1.4
 Werkzeug==1.0.1
 wincertstore==0.2
+PyYAML==5.3.1
