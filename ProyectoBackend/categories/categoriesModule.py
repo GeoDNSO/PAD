@@ -39,7 +39,6 @@ def uploadCategoriesToDatabase():
 
             response = jsonify({
                 constants.DB_RESULT: "Categories uploaded to database successfully",
-                constants.DB_CATEGORIES_LIST: categoriesList
             })
             response.status_code = 200 # OK
 
