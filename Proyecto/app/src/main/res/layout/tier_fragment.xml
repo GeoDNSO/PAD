@@ -20,13 +20,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:minHeight="@dimen/tier_row_images"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@color/blackTierBackground"
+            android:padding="2dp">
 
             <es.ucm.fdi.tieryourlikes.utilities.CustomFlexboxLayout
                 android:id="@+id/tierFlexContainer"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/blue"
+                android:background="@drawable/tier_row_normal_background"
                 app:flexWrap="wrap">
 
                 <ImageView

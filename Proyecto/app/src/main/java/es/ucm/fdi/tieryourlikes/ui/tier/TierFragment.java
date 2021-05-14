@@ -1,5 +1,7 @@
 package es.ucm.fdi.tieryourlikes.ui.tier;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -80,7 +82,10 @@ public class TierFragment extends Fragment {
 
         template = (Template) getArguments().getParcelable(AppConstants.BUNDLE_TEMPLATE);
 
-        //defaultTierAndTemplate();//Crear template y tier de ejemplo
+        AppCompatActivity appCompatActivity = (AppCompatActivity) getActivity();
+        ActionBar actionBar = appCompatActivity.getSupportActionBar();
+        actionBar.setTitle(template.getTitle());
+
         buildTierFromTemplate();
         fillContainer();
 
@@ -90,8 +95,9 @@ public class TierFragment extends Fragment {
         recyclerView.setAdapter(templateAdapter);
 
         //Boton para probar la representacion interna del tier
-        butonPruebConfig();
-
+        //buttonPruebConfig();
+        Button button = root.findViewById(R.id.tierPrueba);
+        button.setVisibility(View.GONE);
 
         return root;
     }
@@ -122,16 +128,17 @@ public class TierFragment extends Fragment {
         });
     }
 
-    private void butonPruebConfig() {
+    //Función para revisar la representación del tier
+    private void buttonPruebConfig() {
         Button button = root.findViewById(R.id.tierPrueba);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 flexboxContainer.getTierRow();
 
-                Log.d("BUTON_TIER_RESULT", flexboxContainer.getTierRow().toString());
+                Log.d("BUTTON_TIER_RESULT", flexboxContainer.getTierRow().toString());
                 for(TierRow tierRow : tier.getTierRows())
-                    Log.d("BUTON_TIER_RESULT", tierRow.toString());
+                    Log.d("BUTTON_TIER_RESULT", tierRow.toString());
             }
         });
     }
@@ -233,33 +240,6 @@ public class TierFragment extends Fragment {
                 new ArrayList<>(template.getContainer()), TierRow.getListFromString(template.getTierRows())
                 , "");
     }
-
-    private void defaultTierAndTemplate(){
-        //Crear template
-        List<String> container = new ArrayList<>();
-        container.add("https://static.wixstatic.com/media/a7dee3_4c558736f7b243329c59427d855d278c~mv2.jpg/v1/fill/w_1000,h_1000,al_c,q_90/a7dee3_4c558736f7b243329c59427d855d278c~mv2.jpg");
-        container.add("https://www.eluniversal.com.mx/sites/default/files/2016/09/07/manzana.jpg");
-        container.add("https://naranjasvitaminadas.com/wp-content/uploads/2018/10/naranja-valenciana-vitaminada.png");
-        container.add("https://e00-expansion.uecdn.es/assets/multimedia/imagenes/2019/06/27/15616371314021.jpg");
-        container.add("https://mk0lanoticiapwmx1x6a.kinstacdn.com/wp-content/uploads/2020/08/5-razones-para-comer-sandia-todos-los-dias.jpg");
-
-        String image = "asdad";
-
-        List<String> tierRowsString = new ArrayList<>();
-        tierRowsString.add("A");
-        tierRowsString.add("B");
-        tierRowsString.add("C");
-
-        //Glide.with(getActivity()).load("https://picsum.photos/200")
-        Template template = new Template("Frutas", "Frutas", "frutero", image,
-                container, tierRowsString);
-
-        this.template = template;
-
-        Tier tier = new Tier("3w4rw345", "w45645", "user2", container, TierRow.getListFromString(tierRowsString), "");
-        this.tier = tier;
-    }
-
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {

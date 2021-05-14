@@ -31,7 +31,7 @@ categoriesModule = Blueprint("categoriesModule", __name__)
 def uploadCategoriesToDatabase():
     file = os.path.dirname(os.path.join(app.root_path , "categories", constants.CATEGORIES_YAML_FILE, ""))
     try:
-        with open(file, 'r') as stream:
+        with open(file, 'r',  encoding="utf-8") as stream:
             out = yaml.load(stream, yaml.FullLoader)
             categoriesList = [Category("-1",name, time_now_str()).to_dict(False) for name in out['Categories']]
             mongo.db.categories.insert_many(categoriesList)

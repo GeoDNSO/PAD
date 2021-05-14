@@ -42,6 +42,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import es.ucm.fdi.tieryourlikes.App;
 import es.ucm.fdi.tieryourlikes.AppConstants;
 import es.ucm.fdi.tieryourlikes.R;
 import es.ucm.fdi.tieryourlikes.model.ApiResponse;
@@ -99,7 +100,7 @@ public class TemplateFragment extends Fragment {
                     Toast.makeText(getActivity(), "Hubo un error:" + listApiResponse.getError(), Toast.LENGTH_SHORT).show();
                     return;
                 }
-                Toast.makeText(getActivity(), "Se ha creado el template", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), getString(R.string.template_created), Toast.LENGTH_SHORT).show();
                 Navigation.findNavController(root).navigate(R.id.homeFragment);
             }
         });
@@ -329,7 +330,7 @@ public class TemplateFragment extends Fragment {
         for (int i = 0; i < countView; ++i) {
             EditText editText = template_linearLayout.getChildAt(i).findViewById(R.id.editText_row);
             String text = editText.getText().toString();
-            if(!text.equals("") && text != null) {
+            if(text != null && !text.equals("")) {
                 rowStringList.add(text);
             }else{
                text =  editText.getHint().toString();
@@ -338,16 +339,17 @@ public class TemplateFragment extends Fragment {
         }
         String template_name = et_template_name.getText().toString();
 
-        //String template_category = et_template_category.getText().toString();
         String template_category = (String) categoriesSpinner.getSelectedItem();
-        String final_category = template_category.toLowerCase();
-        Log.d("TAG_CAT", "El item seleccionado fue " + final_category);
+        if (template_category == null) {
+            Toast.makeText(getActivity(), getString(R.string.empty_fields), Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-        if (template_name.isEmpty() || final_category.isEmpty() || containerList.size() == 0 || image == "" || rowStringList.size() == 0) {
+        if (template_name.isEmpty() || template_category.isEmpty() || containerList.size() == 0 || image == "" || rowStringList.size() == 0) {
             Toast.makeText(getActivity(), getString(R.string.empty_fields), Toast.LENGTH_SHORT).show();
         }
         else{
-            Template template = new Template("-1", template_name, final_category, "Jin", containerList, rowStringList, image, " ");
+            Template template = new Template("-1", template_name, template_category, App.getInstance().getUsername(), containerList, rowStringList, image, "");
             mViewModel.createTemplate(template);
         }
     }

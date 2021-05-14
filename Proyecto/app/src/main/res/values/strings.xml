@@ -166,6 +166,13 @@
     <string name="no_results">Sin Resultados</string>
     <string name="no_logged_upload_tier_msg">No estas logueado, el tier no se guardará en el servidor</string>
     <string name="creations_no_registered_msg">¿No estás registrado? Registrate para poder guardar todos los tiers que realices</string>
+    <string name="home">Inicio</string>
+    <string name="register">Registro</string>
+    <string name="create_template">Crear Plantilla</string>
+    <string name="profile">Perfil</string>
+    <string name="creations">Creaciones</string>
+    <string name="tier">Tier</string>
+    <string name="template_created">Se ha creado el template</string>
 
 
 </resources>
