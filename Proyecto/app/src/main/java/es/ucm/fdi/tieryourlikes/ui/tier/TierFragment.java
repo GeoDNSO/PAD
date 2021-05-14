@@ -5,10 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -27,19 +25,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.RequestOptions;
-import com.bumptech.glide.request.target.Target;
 import com.google.gson.JsonObject;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import es.ucm.fdi.tieryourlikes.App;
 import es.ucm.fdi.tieryourlikes.AppConstants;
@@ -49,9 +41,8 @@ import es.ucm.fdi.tieryourlikes.model.ResponseStatus;
 import es.ucm.fdi.tieryourlikes.model.Template;
 import es.ucm.fdi.tieryourlikes.model.Tier;
 import es.ucm.fdi.tieryourlikes.model.TierRow;
-import es.ucm.fdi.tieryourlikes.networking.SimpleRequest;
-import es.ucm.fdi.tieryourlikes.ui.tier.listeners.TierElementTouchListener;
 import es.ucm.fdi.tieryourlikes.ui.tier.listeners.TierRowDragListener;
+import es.ucm.fdi.tieryourlikes.utilities.AppUtils;
 import es.ucm.fdi.tieryourlikes.utilities.CustomFlexboxLayout;
 
 public class TierFragment extends Fragment {
@@ -64,7 +55,7 @@ public class TierFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private CustomFlexboxLayout flexboxContainer;
-    private TierAdapter templateAdapter;
+    private TierAdapter tierAdapter;
 
     public static TierFragment newInstance() {
         return new TierFragment();
@@ -75,34 +66,61 @@ public class TierFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         root =  inflater.inflate(R.layout.tier_fragment, container, false);
         mViewModel = new ViewModelProvider(this).get(TierViewModel.class);
-
-        setHasOptionsMenu(true);
-        initUI();
-        observers();
-
         template = (Template) getArguments().getParcelable(AppConstants.BUNDLE_TEMPLATE);
 
         AppCompatActivity appCompatActivity = (AppCompatActivity) getActivity();
         ActionBar actionBar = appCompatActivity.getSupportActionBar();
         actionBar.setTitle(template.getTitle());
+        setHasOptionsMenu(true);
 
-        buildTierFromTemplate();
-        fillContainer();
+        initUI();
+        observers();
 
-        templateAdapter = new TierAdapter(getActivity(), tier.getTierRows());
+        loadTierIfUserUsedIt();//Revisar en BD si existe el tier --> si no existe _id = -1
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setAdapter(templateAdapter);
 
-        //Boton para probar la representacion interna del tier
-        //buttonPruebConfig();
-        Button button = root.findViewById(R.id.tierPrueba);
-        button.setVisibility(View.GONE);
+        buttonPruebConfig(); //Boton para probar la representacion interna del tier
+        //Button button = root.findViewById(R.id.tierPrueba);
+        //button.setVisibility(View.GONE);
 
         return root;
     }
 
+    private void loadTierIfUserUsedIt() {
+        Map<String, String> filters = new HashMap<>();
+        filters.put(AppConstants.DB_CREATOR_USERNAME_KEY, App.getInstance().getUsername());
+        filters.put(AppConstants.DB_TEMPLATE_ID, template.getId());
+        mViewModel.getTier(filters);
+    }
+
     private void observers() {
+        mViewModel.getMlvTierSavedResponse().observe(getViewLifecycleOwner(), new Observer<ApiResponse<Tier>>() {
+            @Override
+            public void onChanged(ApiResponse<Tier> tierApiResponse) {
+                Context context = TierFragment.this.getContext();
+                if(tierApiResponse.getResponseStatus() == ResponseStatus.ERROR){
+                    Toast.makeText(context, context.getString(R.string.error_getting_saved_tier_message), Toast.LENGTH_LONG).show();
+                }
+                else{
+                    Tier tierResponse = tierApiResponse.getObject();
+                    if(!tierResponse.getId().equals("-1")){
+                        tier = tierResponse;
+                        fillLayoutWithTier();
+                        Toast.makeText(context, context.getString(R.string.ok_saved_tier_message), Toast.LENGTH_LONG).show();
+                    }
+                }
+
+                if(tier == null){
+                    buildTierFromTemplate();
+                    fillContainer();
+                }
+
+                tierAdapter = new TierAdapter(getActivity(), root, tier.getTierRows());
+                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                recyclerView.setAdapter(tierAdapter);
+            }
+        });
+
         mViewModel.getMlvTierResponse().observe(getViewLifecycleOwner(), new Observer<ApiResponse<Tier>>() {
             @Override
             public void onChanged(ApiResponse<Tier> tierApiResponse) {
@@ -128,19 +146,26 @@ public class TierFragment extends Fragment {
         });
     }
 
-    //Función para revisar la representación del tier
-    private void buttonPruebConfig() {
-        Button button = root.findViewById(R.id.tierPrueba);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                flexboxContainer.getTierRow();
+    //if tier null...
+    private void fillLayoutWithTier() {
+        flexboxContainer.setOnDragListener(new TierRowDragListener());
+        List<String> list = this.tier.getContainer();
+        flexboxContainer.setTierRow(new TierRow("Container","#000000", list));
+        for(String image : list){
+            ImageView imageView = AppUtils.loadTierImageViewFromAPI(image, getActivity(), root);
+            flexboxContainer.addView(imageView);
+        }
+    }
+    private void fillContainer(){
+        //Preparar y configurar el contenedor desde el que se van a mover las imagenes
+        flexboxContainer.setOnDragListener(new TierRowDragListener());
+        List<String> list = this.template.getContainer();
+        flexboxContainer.setTierRow(new TierRow("Container","#806BE4", list));
+        for(String image : list){
+            ImageView imageView = AppUtils.loadTierImageViewFromAPI(image, getActivity(), root);
 
-                Log.d("BUTTON_TIER_RESULT", flexboxContainer.getTierRow().toString());
-                for(TierRow tierRow : tier.getTierRows())
-                    Log.d("BUTTON_TIER_RESULT", tierRow.toString());
-            }
-        });
+            flexboxContainer.addView(imageView);
+        }
     }
 
     private void initUI() {
@@ -155,89 +180,11 @@ public class TierFragment extends Fragment {
         // TODO: Use the ViewModel
     }
 
-    @SuppressLint("ClickableViewAccessibility")
-    private void fillContainer(){
-        //Preparar y configurar el contenedor desde el que se van a mover las imagenes
-        flexboxContainer.setOnDragListener(new TierRowDragListener());
-        List<String> list = this.template.getContainer();
-        flexboxContainer.setTierRow(new TierRow("Container","#806BE4", list));
-        for(String images : list){
-            ImageView imageView = new ImageView(getContext());
 
-            int size = getResources().getDimensionPixelSize(R.dimen.tier_row_images);
-
-            //Configuración  necesario para que tenga el tamaño fijo definido en R.dimen.tier_row_images
-            LinearLayout.LayoutParams parms = new LinearLayout.LayoutParams(size,size);
-            imageView.setLayoutParams(parms);
-            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-
-            try{
-                Glide.with(root)
-                        .load(SimpleRequest.getImageDirectory() + images)
-                        .placeholder(R.drawable.ic_launcher_foreground)
-                        .apply(new RequestOptions().override(size))
-                        .error(R.drawable.ic_baseline_error_24)
-                        .listener(new CustomRequestListener(root, size, images, imageView))
-                        .into(imageView);
-
-            }catch (Exception exception){
-            }
-
-
-            imageView.setOnTouchListener(new TierElementTouchListener(images));
-            //imageView.setOnDragListener(new TierElementDragListener());
-            imageView.bringToFront();
-
-            flexboxContainer.addView(imageView);
-        }
-    }
-
-    //Apaño para que glide cargue correctamente las imagenes
-    class CustomRequestListener implements RequestListener<Drawable> {
-        private int tries = 0;
-        private static final int MAX_TRIES = 1000;
-
-        private View root;
-        private int size;
-        private String image_url;
-        private ImageView imageView;
-
-        public CustomRequestListener(View root, int size, String image_url, ImageView imageView) {
-            this.root = root;
-            this.size = size;
-            this.image_url = image_url;
-            this.imageView = imageView;
-        }
-
-        @Override
-        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-            if(tries < MAX_TRIES){
-                try{
-                    Glide.with(root)
-                            .load(SimpleRequest.getImageDirectory() + image_url)
-                            .placeholder(R.drawable.ic_launcher_foreground)
-                            .apply(new RequestOptions().override(size))
-                            .error(R.drawable.ic_baseline_error_24)
-                            //.listener(this)
-                            .into(imageView);
-                }catch (Exception exception){
-
-                }
-
-            }
-            tries++;
-            return false;
-        }
-
-        @Override
-        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-            return false;
-        }
-    }
 
     private void buildTierFromTemplate(){
         this.tier = new Tier("-1", template.getId(), App.getInstance().getUsername(),
-                new ArrayList<>(template.getContainer()), TierRow.getListFromString(template.getTierRows())
+                template.getContainer(), TierRow.getListFromString(template.getTierRows())
                 , "");
     }
 
@@ -283,4 +230,20 @@ public class TierFragment extends Fragment {
         });
 
     }
+
+    //Función para revisar la representación del tier
+    private void buttonPruebConfig() {
+        Button button = root.findViewById(R.id.tierPrueba);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                flexboxContainer.getTierRow();
+
+                Log.d("BUTTON_TIER_RESULT", flexboxContainer.getTierRow().toString());
+                for(TierRow tierRow : tier.getTierRows())
+                    Log.d("BUTTON_TIER_RESULT", tierRow.toString());
+            }
+        });
+    }
+
 }
