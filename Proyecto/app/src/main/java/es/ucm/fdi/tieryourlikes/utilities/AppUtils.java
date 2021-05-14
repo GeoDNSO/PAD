@@ -146,10 +146,10 @@ public class AppUtils {
         return imageView;
     }
 
-    //Apaño para que glide cargue correctamente las imagenes
+    //Apaño para que glide cargue correctamente las imagenes --> No termina de funcionar del todo bien
     static class CustomRequestListener implements RequestListener<Drawable> {
         private int tries = 0;
-        private static final int MAX_TRIES = 100;
+        private static final int MAX_TRIES = 250;
 
         private View root;
         private int size;
