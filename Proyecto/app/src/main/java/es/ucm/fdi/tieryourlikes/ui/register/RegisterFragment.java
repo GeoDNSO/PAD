@@ -95,7 +95,7 @@ public class RegisterFragment extends Fragment {
                     User user = createUser(inputUsername.getText().toString(),
                             inputPassword.getText().toString(),
                             inputEmail.getText().toString(),
-                            "res/drawable/ic_icons8_user_male.xml");
+                            "ic_icons8_user_male");
                     mViewModel.userRegister(user);
                 }
                 else {
