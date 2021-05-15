@@ -43,7 +43,7 @@ public class MyTemplatesFragment extends Fragment implements TiersListAdapter.On
     private List<Template> templates = new ArrayList<>();
 
     private TiersListAdapter templatesListAdapter;
-    private int page = 1, count = 3;
+    private int page = 1, count = 10;
 
     public static MyTemplatesFragment newInstance() {
         return new MyTemplatesFragment();

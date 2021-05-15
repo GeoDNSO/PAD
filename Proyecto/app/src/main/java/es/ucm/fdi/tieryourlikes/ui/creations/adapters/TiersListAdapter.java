@@ -11,10 +11,13 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 
 import es.ucm.fdi.tieryourlikes.R;
 import es.ucm.fdi.tieryourlikes.model.Template;
+import es.ucm.fdi.tieryourlikes.networking.SimpleRequest;
 
 public class TiersListAdapter extends RecyclerView.Adapter<TiersListAdapter.ViewHolder> {
 
@@ -41,8 +44,13 @@ public class TiersListAdapter extends RecyclerView.Adapter<TiersListAdapter.View
     public void onBindViewHolder(@NonNull TiersListAdapter.ViewHolder holder, int position) {
         Template template = list.get(position);
         holder.templateName.setText(template.getTitle());
-        holder.imageTemplate.setImageResource(R.drawable.ic_baseline_save_24);
+        //holder.imageTemplate.setImageResource(R.drawable.ic_baseline_save_24);
         //Glide.with(activity).load(template.getCover_image()).into(holder.imageTemplate);
+        try{
+            Glide.with(activity).load(SimpleRequest.getImageDirectory() + template.getCover()).into(holder.imageTemplate);
+        }catch (Exception exception){
+
+        }
     }
 
     @Override
