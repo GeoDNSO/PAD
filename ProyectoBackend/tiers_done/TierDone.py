@@ -3,7 +3,7 @@ from bson.objectid import ObjectId
 from util.utilities import time_now_str
 
 class TierDone:
-    def __init__(self,tierdone_id=-1, template_id=-1, creator_username="", container=[], tier_rows={},creation_time="", json=None):
+    def __init__(self,tierdone_id=-1, template_id=-1, creator_username="", container=[], tier_rows=[],creation_time="", json=None):
         if(json is None):
             self.tierdone_id = tierdone_id
             self.template_id = template_id

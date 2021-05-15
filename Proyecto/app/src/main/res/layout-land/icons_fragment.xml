@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ConstraintLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/icons_fragment_drawable"
+    android:paddingBottom="80dp"
+    tools:context=".ui.profile.ProfileFragment">
+
+        <TextView
+            android:id="@+id/tvIconsTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="177dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="177dp"
+            android:text="@string/icons_title"
+            android:textAlignment="center"
+            android:layout_gravity="center"
+            android:textColor="@color/followers"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.503"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginTop="12dp"
+            android:background="#c0c0c0"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvIconsTitle" />
+
+        <ImageView
+            android:id="@+id/icon00"
+            android:layout_width="70dp"
+            android:layout_height="71dp"
+            android:layout_marginStart="180dp"
+            android:layout_marginTop="100dp"
+            android:contentDescription="@string/icons_icon00"
+            android:tag="@drawable/ic_icons8_walter_white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_icons8_walter_white" />
+
+        <ImageView
+            android:id="@+id/icon01"
+            android:layout_width="70dp"
+            android:layout_height="71dp"
+            android:layout_marginStart="22dp"
+            android:layout_marginTop="40dp"
+            android:contentDescription="@string/icons_icon01"
+            android:tag="@drawable/ic_icons8_super_mario"
+            app:layout_constraintStart_toEndOf="@+id/icon00"
+            app:layout_constraintTop_toBottomOf="@+id/tvIconsTitle"
+            app:srcCompat="@drawable/ic_icons8_super_mario" />
+
+        <ImageView
+            android:id="@+id/icon02"
+            android:layout_width="70dp"
+            android:layout_height="71dp"
+            android:layout_marginStart="22dp"
+            android:layout_marginTop="40dp"
+            android:contentDescription="@string/icons_icon02"
+            android:tag="@drawable/ic_icons8_spider_man_head"
+            app:layout_constraintStart_toEndOf="@+id/icon01"
+            app:layout_constraintTop_toBottomOf="@+id/tvIconsTitle"
+            app:srcCompat="@drawable/ic_icons8_spider_man_head" />
+
+        <ImageView
+            android:id="@+id/icon03"
+            android:layout_width="70dp"
+            android:layout_height="71dp"
+            android:layout_marginStart="22dp"
+            android:layout_marginTop="102dp"
+            android:layout_marginEnd="200dp"
+            android:contentDescription="@string/icons_icon03"
+            android:tag="@drawable/ic_icons8_fortnite_llama"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/icon02"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_icons8_fortnite_llama" />
+
+        <ImageView
+            android:id="@+id/icon04"
+            android:layout_width="70dp"
+            android:layout_height="71dp"
+            android:layout_marginStart="180dp"
+            android:layout_marginTop="40dp"
+            android:contentDescription="@string/icons_icon04"
+            android:tag="@drawable/ic_icons8_iron_man"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/icon00"
+            app:srcCompat="@drawable/ic_icons8_iron_man" />
+
+        <ImageView
+            android:id="@+id/icon05"
+            android:layout_width="70dp"
+            android:layout_height="71dp"
+            android:layout_marginStart="22dp"
+            android:layout_marginTop="40dp"
+            android:tag="@drawable/ic_icons8_avatar"
+            app:layout_constraintStart_toEndOf="@+id/icon04"
+            app:layout_constraintTop_toBottomOf="@+id/icon01"
+            app:srcCompat="@drawable/ic_icons8_avatar"
+            android:contentDescription="@string/icons_icon05" />
+
+        <ImageView
+            android:id="@+id/icon06"
+            android:layout_width="70dp"
+            android:layout_height="71dp"
+            android:layout_marginStart="22dp"
+            android:layout_marginTop="41dp"
+            android:contentDescription="@string/icons_icon06"
+            android:tag="@drawable/ic_icons8_user_male"
+            app:layout_constraintStart_toEndOf="@+id/icon05"
+            app:layout_constraintTop_toBottomOf="@+id/icon02"
+            app:srcCompat="@drawable/ic_icons8_user_male" />
+
+        <ImageView
+            android:id="@+id/icon07"
+            android:layout_width="70dp"
+            android:layout_height="71dp"
+            android:layout_marginStart="22dp"
+            android:layout_marginTop="40dp"
+            android:tag="@drawable/ic_icons8_house_stark"
+            app:layout_constraintStart_toEndOf="@+id/icon06"
+            app:layout_constraintTop_toBottomOf="@+id/icon03"
+            app:srcCompat="@drawable/ic_icons8_house_stark"
+            android:contentDescription="@string/icons_icon07" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

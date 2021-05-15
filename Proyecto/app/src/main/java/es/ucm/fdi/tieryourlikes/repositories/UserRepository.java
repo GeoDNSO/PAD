@@ -2,6 +2,7 @@ package es.ucm.fdi.tieryourlikes.repositories;
 
 import android.net.Uri;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -18,6 +19,8 @@ import es.ucm.fdi.tieryourlikes.rxjava_utils.CallObservableCreator;
 import io.reactivex.Observable;
 
 import okhttp3.Request;
+
+import static android.content.ContentValues.TAG;
 
 public class UserRepository {
 

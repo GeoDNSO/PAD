@@ -23,26 +23,29 @@ tiersDoneModule = Blueprint("tiersDoneModule", __name__)
 @tiersDoneModule.route('/createTierDone/', methods=['POST'])
 def createTierDone():
     json_data = request.get_json()
-    
+
     tierDone = TierDone(json=json_data)
     tierDone.creation_time = time_now_str()
+    tierDoneDict = tierDone.to_dict()
+    tierDoneDict.pop(constants.DB_ID_KEY)#Para no usar un ID incorrecto creado por defecto
 
     try:
-        tierDoneDict = tierDone.to_dict()
-        tierDoneDict.pop(constants.DB_ID_KEY)#Para no usar un ID incorrecto creado por defecto
+        set = {"$set": tierDoneDict}
+        filter = {constants.DB_TEMPLATE_ID: json_data[constants.DB_TEMPLATE_ID], 
+                constants.DB_CREATOR_USERNAME_KEY: json_data[constants.DB_CREATOR_USERNAME_KEY]}
 
-        id = mongo.db.tiers_done.insert_one(tierDoneDict).inserted_id
+        mongo.db.tiers_done.update_one(filter, set, upsert=True) #Crear o actualizar el tier si ya existia
+        tierDoneJSON = mongo.db.tiers_done.find_one(filter) #Pedir el tier para devolverlo a la aplicacion
 
-        
-        tierDoneDict[constants.DB_ID_KEY] = str(id) #Devolvemos el id correcto
-       
+        tierDoneDict = TierDone(json=tierDoneJSON).to_dict()
+
         response = jsonify(tierDoneDict)
         response.status_code = 200 # OK
 
         return response
     except errors.PyMongoError as e:
         print("Error PyMongo: ", repr(e))
-        response = jsonify({"error": "Error al crear un tier"})
+        response = jsonify({"error": "Error al crear/actualizar un tier"})
         response.status_code = 400
         return response
 
@@ -61,6 +64,32 @@ def getTierDone(id):
     except errors.PyMongoError as e:
         print("Error PyMongo: ", repr(e))
         response = jsonify({"error": "Error al buscar el template"})
+        response.status_code = 400
+        return response
+
+@tiersDoneModule.route('/getTierDone/', methods=['GET'])
+def getTierDoneBy():
+    args = request.args.to_dict()
+    print(args)
+    filter = {
+        constants.DB_CREATOR_USERNAME_KEY: args[constants.DB_CREATOR_USERNAME_KEY], 
+        constants.DB_TEMPLATE_ID: args[constants.DB_TEMPLATE_ID]
+    }
+    print("AHora filtro...")
+    print(filter)
+    
+    try:
+        tierDoneJSON = mongo.db.tiers_done.find_one(filter)
+        tierDone = TierDone(json=tierDoneJSON)
+        print(tierDone.to_dict())
+       
+        response = jsonify(tierDone.to_dict())
+        response.status_code = 200 # OK
+
+        return response
+    except errors.PyMongoError as e:
+        print("Error PyMongo: ", repr(e))
+        response = jsonify({"error": "Error al buscar el tier"})
         response.status_code = 400
         return response
 
