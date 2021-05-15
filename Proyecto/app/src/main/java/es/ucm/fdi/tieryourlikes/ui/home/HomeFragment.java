@@ -238,7 +238,7 @@ public class HomeFragment extends Fragment implements TemplatesListAdapter.OnIte
     @Override
     public void onItemClickListener(int position, List<Template> list) {
         String templateName = list.get(position).getTitle();
-        Toast.makeText(getContext(), templateName, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getContext(), templateName, Toast.LENGTH_SHORT).show();
 
         Template template = list.get(position);
 

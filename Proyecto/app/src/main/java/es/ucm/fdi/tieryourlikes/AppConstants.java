@@ -61,4 +61,5 @@ public class AppConstants {
     public static final String BUNDLE_TEMPLATE = "TEMPLATE_BUNDLE";
 
 
+    public static final String APP_LANG = "APP_LANG";
 }
