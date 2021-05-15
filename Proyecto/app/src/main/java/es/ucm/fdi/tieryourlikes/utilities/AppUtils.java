@@ -132,8 +132,8 @@ public class AppUtils {
                     .load(SimpleRequest.getImageDirectory() + url)
                     .placeholder(R.drawable.ic_launcher_foreground)
                     .apply(new RequestOptions().override(size))
-                    .error(R.drawable.ic_baseline_error_24)
-                    .listener(new CustomRequestListener(root, size, url, imageView))
+                    //.error(R.drawable.ic_baseline_error_24)
+                    //.listener(new CustomRequestListener(root, size, url, imageView))
                     .into(imageView);
 
         }catch (Exception exception){

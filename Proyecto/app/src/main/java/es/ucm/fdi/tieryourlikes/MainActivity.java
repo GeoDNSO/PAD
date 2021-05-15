@@ -21,6 +21,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
 import es.ucm.fdi.tieryourlikes.utilities.AppDrawable;
+import es.ucm.fdi.tieryourlikes.utilities.AppLanguages;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -34,13 +35,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.Theme_TierYourLikes);
         super.onCreate(savedInstanceState);
+        new AppLanguages(this);
+        App app = App.getInstance(this); //Para la carga del lenguaje a traves del sessionManager
+        app.loadLocale();
+
+
         setContentView(R.layout.activity_main);
 
         initializeUI();
-
         setGlobalVariables();
 
-        App app = App.getInstance(this);
         app.setMenu(drawerNavigationView.getMenu());
         app.setBottomNavigationView(bottomNavView);
         app.setMainActivity(this);

@@ -35,7 +35,7 @@ public class SimpleRequest {
     private static final String DIR_PROTOCOL = "http";
     private static final String IP_ADDRESS = "10.0.2.2";
     private static final int PORT = 5000;
-    private static final int TTL_SECONDS = 18;
+    private static final int TTL_SECONDS = 40;
     private static final int TTL_MSECONDS = 3000;
     private static final String SERVER_URL = DIR_PROTOCOL + "://" + IP_ADDRESS + ":" + PORT;
     private static final String DIRECTORY = "_templateImages";

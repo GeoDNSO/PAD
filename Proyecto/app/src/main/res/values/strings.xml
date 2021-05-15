@@ -135,14 +135,14 @@
     <string name="most_recent">Más recientes</string>
 
     <string name="icons_title">Elige tu Avatar</string>
-    <string name="icons_icon00">Breaking Bad</string>
-    <string name="icons_icon01">Super Mario</string>
-    <string name="icons_icon02">Spiderman</string>
-    <string name="icons_icon03">Fortnite</string>
-    <string name="icons_icon04">Iron Man</string>
-    <string name="icons_icon05">Avatar</string>
-    <string name="icons_icon06">Default Icon</string>
-    <string name="icons_icon07">House Stark</string>
+    <string name="icons_icon00" translatable="false">Breaking Bad</string>
+    <string name="icons_icon01" translatable="false">Super Mario</string>
+    <string name="icons_icon02" translatable="false">Spiderman</string>
+    <string name="icons_icon03" translatable="false">Fortnite</string>
+    <string name="icons_icon04" translatable="false">Iron Man</string>
+    <string name="icons_icon05" translatable="false">Avatar</string>
+    <string name="icons_icon06" translatable="false">Default Icon</string>
+    <string name="icons_icon07" translatable="false">House Stark</string>
 
     <string name="select_images">Seleccionar Imágenes</string>
     <string name="select_image">Seleccionar Imagen</string>
@@ -175,6 +175,10 @@
     <string name="template_created">Se ha creado el template</string>
     <string name="error_getting_saved_tier_message">Error al buscar tier</string>
     <string name="ok_saved_tier_message">Tier guardado cargado con éxito</string>
+    <string name="choose_lang">Elige un lenguaje</string>
+    <string name="spanish">Español</string>
+    <string name="english">Inglés</string>
+    <string name="french">Francés</string>
 
 
 </resources>

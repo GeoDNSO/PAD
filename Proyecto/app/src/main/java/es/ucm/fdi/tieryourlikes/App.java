@@ -29,7 +29,7 @@ public class App {
 
     private App(Context context) {
         this.context = context;
-        sessionManager = new SessionManager(context);
+        this.sessionManager = new SessionManager(context);
     }
 
     public static App getInstance(Context ctx) {
@@ -94,4 +94,11 @@ public class App {
 
     public User getUser() { return sessionManager.getUser(); }
 
+    public void setLocale(String langTag) {
+        sessionManager.setLocale(langTag);
+    }
+
+    public void loadLocale() {
+        sessionManager.loadLocale();
+    }
 }
