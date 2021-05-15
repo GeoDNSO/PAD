@@ -5,7 +5,7 @@ import java.util.List;
 
 public class TierRow {
 
-    public static final String DEFAULT_COLOR = "#87AAEC";
+    public static final String DEFAULT_COLOR = "NO_COLOR";
     private String row_name;
     private String color;
     private List<String> image_urls;
@@ -21,6 +21,10 @@ public class TierRow {
         for(String title : tierListString)
             tierRowList.add(new TierRow(title, DEFAULT_COLOR, new ArrayList<>()));
         return tierRowList;
+    }
+
+    public boolean hasDefaultColor(){
+        return this.color.equals(DEFAULT_COLOR);
     }
 
     public String getRowName() {
