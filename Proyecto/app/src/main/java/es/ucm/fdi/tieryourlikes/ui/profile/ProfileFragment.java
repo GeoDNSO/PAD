@@ -9,6 +9,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +30,7 @@ import es.ucm.fdi.tieryourlikes.R;
 import es.ucm.fdi.tieryourlikes.model.ApiResponse;
 import es.ucm.fdi.tieryourlikes.model.ResponseStatus;
 import es.ucm.fdi.tieryourlikes.model.User;
+import es.ucm.fdi.tieryourlikes.model.serializers.UserSerializer;
 import es.ucm.fdi.tieryourlikes.ui.iconDialog.IconDialog;
 import es.ucm.fdi.tieryourlikes.utilities.AppUtils;
 
@@ -65,8 +70,8 @@ public class ProfileFragment extends Fragment implements IconDialog.IconDialogOb
 
         String username = App.getInstance().getUsername();
         String email = App.getInstance().getEmail();
-
         String iconURL = App.getInstance().getUser().getIcon();
+
         iconID = getActivity().getResources().getIdentifier(iconURL, "drawable", getActivity().getPackageName());
         ivIcon.setImageResource(iconID);
 
