@@ -41,7 +41,7 @@ public class MyTiersFragment extends Fragment implements TiersListAdapter.OnItem
     private List<Template> tiers = new ArrayList<>();
 
     private TiersListAdapter templatesListAdapter;
-    private int page = 1, count = 3;
+    private int page = 1, count = 10;
 
     public static MyTiersFragment newInstance() {
         return new MyTiersFragment();
