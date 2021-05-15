@@ -20,7 +20,6 @@ import android.view.View;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
-import es.ucm.fdi.tieryourlikes.utilities.AppDrawable;
 import es.ucm.fdi.tieryourlikes.utilities.AppLanguages;
 
 public class MainActivity extends AppCompatActivity {
@@ -43,15 +42,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         initializeUI();
-        setGlobalVariables();
 
         app.setMenu(drawerNavigationView.getMenu());
         app.setBottomNavigationView(bottomNavView);
         app.setMainActivity(this);
-    }
-
-    private void setGlobalVariables() {
-        AppDrawable.setResources(getResources());
     }
 
     public void initializeUI(){
