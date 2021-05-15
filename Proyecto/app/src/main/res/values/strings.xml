@@ -173,6 +173,8 @@
     <string name="creations">Creaciones</string>
     <string name="tier">Tier</string>
     <string name="template_created">Se ha creado el template</string>
+    <string name="error_getting_saved_tier_message">Error al buscar tier</string>
+    <string name="ok_saved_tier_message">Tier guardado cargado con éxito</string>
 
 
 </resources>

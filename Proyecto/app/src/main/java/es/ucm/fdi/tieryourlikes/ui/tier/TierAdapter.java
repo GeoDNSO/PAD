@@ -5,16 +5,21 @@ import android.content.res.TypedArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import es.ucm.fdi.tieryourlikes.R;
 import es.ucm.fdi.tieryourlikes.model.TierRow;
+import es.ucm.fdi.tieryourlikes.networking.SimpleRequest;
 import es.ucm.fdi.tieryourlikes.ui.tier.listeners.TierRowDragListener;
 import es.ucm.fdi.tieryourlikes.utilities.AppUtils;
 import es.ucm.fdi.tieryourlikes.utilities.CustomColorPicker;
@@ -25,11 +30,13 @@ public class TierAdapter extends RecyclerView.Adapter<TierAdapter.ViewHolder> {
 
     private Activity activity;
     private List<TierRow> list;
+    private View root;
 
     private List<Integer> colors;
 
-    public TierAdapter(Activity activity, List<TierRow> list){
+    public TierAdapter(Activity activity, View root, List<TierRow> list){
         this.activity = activity;
+        this.root = root;
         this.list = list;
         TypedArray typedArray = activity.getResources().obtainTypedArray(R.array.default_colors);
         colors = new ArrayList<>();
@@ -54,10 +61,21 @@ public class TierAdapter extends RecyclerView.Adapter<TierAdapter.ViewHolder> {
         holder.flexboxLayout.setTierRow(tierRow);
         holder.tierRow = tierRow;
 
+
         int index = position % colors.size();
         int color = colors.get(index);
+        if(!tierRow.hasDefaultColor())
+            color = Integer.valueOf(tierRow.getColor());
+
         holder.tvTierRow.setBackgroundColor(color);
         holder.tvTierRow.setTextColor(AppUtils.contrastColor(color, activity));
+        tierRow.setColor(Integer.toString(color));
+
+        List<String> row_images = tierRow.getImageUrls();
+        for(String image : row_images){
+            ImageView imageView = AppUtils.loadTierImageViewFromAPI(image, activity, root);
+            holder.flexboxLayout.addView(imageView);
+        }
     }
 
     @Override

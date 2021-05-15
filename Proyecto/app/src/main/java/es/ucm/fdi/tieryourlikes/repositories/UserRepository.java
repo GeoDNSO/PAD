@@ -20,6 +20,8 @@ import io.reactivex.Observable;
 
 import okhttp3.Request;
 
+import static android.content.ContentValues.TAG;
+
 public class UserRepository {
 
     public Observable<ApiResponse<User>> userLogin(User user) {

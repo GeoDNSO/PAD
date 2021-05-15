@@ -19,7 +19,8 @@
         android:usesCleartextTraffic="true">
 
         <activity android:name=".MainActivity"
-            android:theme="@style/SplashTheme">
+            android:theme="@style/SplashTheme"
+            android:configChanges="screenLayout|orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

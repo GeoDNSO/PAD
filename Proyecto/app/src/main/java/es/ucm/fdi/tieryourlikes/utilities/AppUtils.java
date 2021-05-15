@@ -1,19 +1,35 @@
 package es.ucm.fdi.tieryourlikes.utilities;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
+
 import es.ucm.fdi.tieryourlikes.R;
 import es.ucm.fdi.tieryourlikes.model.TierRow;
+import es.ucm.fdi.tieryourlikes.networking.SimpleRequest;
+import es.ucm.fdi.tieryourlikes.ui.tier.TierFragment;
+import es.ucm.fdi.tieryourlikes.ui.tier.listeners.TierElementTouchListener;
 import petrov.kristiyan.colorpicker.ColorPicker;
 
 import static android.content.ContentValues.TAG;
@@ -100,6 +116,80 @@ public class AppUtils {
     }
 
 
+    @SuppressLint("ClickableViewAccessibility")
+    public static ImageView loadTierImageViewFromAPI(String url, Activity activity, View root){
+        ImageView imageView = new ImageView(activity);
+
+        int size = activity.getResources().getDimensionPixelSize(R.dimen.tier_row_images);
+
+        //Configuración  necesario para que tenga el tamaño fijo definido en R.dimen.tier_row_images
+        LinearLayout.LayoutParams parms = new LinearLayout.LayoutParams(size,size);
+        imageView.setLayoutParams(parms);
+        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+
+        try{
+            Glide.with(activity)
+                    .load(SimpleRequest.getImageDirectory() + url)
+                    .placeholder(R.drawable.ic_launcher_foreground)
+                    .apply(new RequestOptions().override(size))
+                    .error(R.drawable.ic_baseline_error_24)
+                    .listener(new CustomRequestListener(root, size, url, imageView))
+                    .into(imageView);
+
+        }catch (Exception exception){
+        }
+
+        imageView.setOnTouchListener(new TierElementTouchListener(url));
+        //imageView.setOnDragListener(new TierElementDragListener());
+        imageView.bringToFront();
+
+        return imageView;
+    }
+
+    //Apaño para que glide cargue correctamente las imagenes --> No termina de funcionar del todo bien
+    static class CustomRequestListener implements RequestListener<Drawable> {
+        private int tries = 0;
+        private static final int MAX_TRIES = 250;
+
+        private View root;
+        private int size;
+        private String image_url;
+        private ImageView imageView;
+
+        public CustomRequestListener(View root, int size, String image_url, ImageView imageView) {
+            this.root = root;
+            this.size = size;
+            this.image_url = image_url;
+            this.imageView = imageView;
+        }
+
+        @Override
+        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+            if(tries < MAX_TRIES){
+                try{
+                    Glide.with(root)
+                            .load(SimpleRequest.getImageDirectory() + image_url)
+                            .placeholder(R.drawable.ic_launcher_foreground)
+                            .apply(new RequestOptions().override(size))
+                            .error(R.drawable.ic_baseline_error_24)
+                            //.listener(this)
+                            .into(imageView);
+                }catch (Exception exception){
+
+                }
+
+            }
+            tries++;
+            return false;
+        }
+
+        @Override
+        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+            return false;
+        }
+    }
+
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static int contrastColor(Color color, Activity activity) {
         int d = 0;
@@ -129,7 +219,6 @@ public class AppUtils {
 
         return (d==0) ? activity.getColor(R.color.black) : activity.getColor(R.color.white);
     }
-
 
     public static void sleep(long milis){
         try {
