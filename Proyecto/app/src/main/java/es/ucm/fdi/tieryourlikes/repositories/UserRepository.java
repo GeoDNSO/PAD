@@ -45,12 +45,11 @@ public class UserRepository {
     public Observable<ApiResponse<User>> userRegister(User user) {
 
         Gson gson = new GsonBuilder()
-                .registerTypeAdapter(User.class, new UserSerializer()) //MIrar clase TemplateSerializer que es quien lo convierte a JSON
+                .registerTypeAdapter(User.class, new UserSerializer())
                 .setPrettyPrinting()
                 .create();
 
         String postBodyString = gson.toJson(user);
-
         String route = "/registerUser/";
 
         SimpleRequest simpleRequest = new SimpleRequest();

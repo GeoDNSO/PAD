@@ -119,10 +119,6 @@ public class RegisterFragment extends Fragment {
         });
     }
 
-    private User createUser(String username, String pass, String email, String iconURL){
-        return new User(username, pass, email, iconURL, "", AppConstants.NORMAL_USER);
-    }
-
     private void observers(){
         mViewModel.getAPIresponseRegister().observe(getViewLifecycleOwner(), new Observer<ApiResponse<User>>() {
             @Override
@@ -131,7 +127,6 @@ public class RegisterFragment extends Fragment {
                     Toast.makeText(getActivity(), "Hubo un error:" + userApiResponse.getError(), Toast.LENGTH_SHORT).show();
                     return;
                 }
-                //bien --> enviarle a la pestaña de login o se puede tambien iniciar sesion directamente
                 //User user = userApiResponse.getObject();
                 //App.getInstance(getContext()).setUserSession(user);
                 Navigation.findNavController(root).navigate(R.id.loginFragment);
@@ -139,6 +134,9 @@ public class RegisterFragment extends Fragment {
         });
     }
 
+    private User createUser(String username, String pass, String email, String iconURL){
+        return new User(username, pass, email, iconURL, "", AppConstants.NORMAL_USER);
+    }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
