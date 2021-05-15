@@ -9,11 +9,11 @@ public class User {
     private String creation_time;
     private String rol;
 
-    public User(String username, String password, String email, String iconURL, String creation_time, String rol) {
+    public User(String username, String password, String email, String icon, String creation_time, String rol) {
         this.username = username;
         this.password = password;
         this.email = email;
-        this.icon = iconURL;
+        this.icon = icon;
         this.creation_time = creation_time;
         this.rol = rol;
     }
